@@ -17,11 +17,19 @@ import {
   accuracyPercent,
   generateProblem,
 } from '@/lib/game'
+
+/**
+ * Tope absoluto de duración real de la partida, sin importar cuánto tiempo
+ * de bonificación se haya acumulado. Sin esto, alguien muy rápido y preciso
+ * puede sumar más tiempo del que gasta y la partida nunca termina sola.
+ */
+const MAX_SESSION_MS = 2 * 60 * 1000
 import {
   calcularPuntaje,
   formatearDetalle,
   guardarRecord,
   obtenerRecords,
+  registrarError,
   type GameRecord,
 } from '@/lib/records'
 import { cn } from '@/lib/utils'
@@ -55,6 +63,7 @@ export function ReflexMultiply() {
   const totalAnswerMs = useRef(0)
   const answersTimed = useRef(0)
   const playing = useRef(false)
+  const sessionStart = useRef(0)
 
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => inputRef.current?.focus())
@@ -71,6 +80,7 @@ export function ReflexMultiply() {
     totalAnswerMs.current = 0
     answersTimed.current = 0
     playing.current = true
+    sessionStart.current = performance.now()
     setRemaining(START_TIME_MS)
     setSolved(0)
     setAttempts(0)
@@ -94,7 +104,8 @@ export function ReflexMultiply() {
       last = now
       setRemaining(clock.current)
 
-      if (clock.current <= 0) {
+      const sesionAgotada = now - sessionStart.current >= MAX_SESSION_MS
+      if (clock.current <= 0 || sesionAgotada) {
         playing.current = false
         setStatus('over')
         return
@@ -139,6 +150,7 @@ export function ReflexMultiply() {
           setFire(false)
         }
       } else {
+        registrarError(problem.a, problem.b, problem.answer, raw)
         applyDelta(-WRONG_PENALTY_MS)
         setFastStreak(0)
         setFire(false)

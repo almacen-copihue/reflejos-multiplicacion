@@ -42,3 +42,14 @@ export function formatearDetalle(
 ): string {
   return `${solved} correctas · ${accuracy}% precisión · fuego x${fireCount}`
 }
+
+/**
+ * Registra un fallo puntual (qué operación era y qué se contestó) para poder
+ * revisar después en la planilla qué tablas cuestan más. No afecta el juego
+ * en curso: se dispara en segundo plano y los errores de red se ignoran.
+ */
+export function registrarError(a: number, b: number, esperado: number, respuesta: string) {
+  const operacion = `${a}×${b}`
+  const detalle = `esperado ${esperado}, respondió "${respuesta || '(vacío)'}"`
+  fetchGames('guardarError', { juego: NOMBRE_JUEGO, operacion, detalle }).catch(() => {})
+}
