@@ -1,0 +1,3370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">🖼️ Flyer · Copihue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#2e7d32;--pd:#1b5e20;--pl:#4caf50;--sec:#ff6f00;
+  --bg:#f4faf4;--bg2:#eaf3ea;--sur:#fff;
+  --bdr:#d0e8d0;--bdr2:#e8f3e8;
+  --txt:#172517;--tm:#4a6a4a;--ts:#8aaa8a;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--disp:'Syne',sans-serif;
+  --r:12px;--rs:8px;
+  --sh:0 2px 10px rgba(46,125,50,.10);--sh-lg:0 6px 28px rgba(46,125,50,.16);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);display:flex;flex-direction:column;
+  background-image:radial-gradient(ellipse at 0 0,rgba(46,125,50,.08) 0,transparent 50%),
+  radial-gradient(ellipse at 100% 100%,rgba(255,111,0,.05) 0,transparent 50%);}
+
+/* HEADER */
+header{background:linear-gradient(135deg,var(--pd),var(--p));color:#fff;padding:0 18px;height:54px;
+  flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 14px rgba(27,94,32,.35);z-index:10;}
+.h-brand{display:flex;align-items:center;gap:10px;}
+.h-icon{width:30px;height:30px;background:rgba(255,255,255,.15);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.h-title{font-family:var(--disp);font-size:.95rem;font-weight:800;letter-spacing:-.02em;}
+.h-sub{font-size:.62rem;opacity:.6;}
+.h-right{display:flex;align-items:center;gap:7px;}
+.h-badge{font-family:var(--mono);font-size:.6rem;background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:2px 8px;color:rgba(255,255,255,.85);}
+.h-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;
+  border-radius:var(--rs);padding:5px 10px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.h-btn:hover{background:rgba(255,255,255,.25);}
+
+/* MAIN */
+.main{display:flex;flex:1;overflow:hidden;}
+
+/* CTRL */
+.ctrl{width:272px;min-width:220px;flex-shrink:0;background:var(--sur);
+  border-right:1px solid var(--bdr);overflow-y:auto;padding:11px;
+  display:flex;flex-direction:column;gap:9px;}
+.ctrl::-webkit-scrollbar{width:4px;}
+.ctrl::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px;}
+
+/* DIAG */
+.diag{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rs);padding:9px 11px;}
+.diag-t{font-family:var(--disp);font-size:.66rem;font-weight:700;color:var(--tm);
+  margin-bottom:5px;display:flex;align-items:center;gap:5px;}
+.dr{display:flex;align-items:center;gap:6px;font-size:.67rem;color:var(--tm);padding:2px 0;}
+.dd{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#ccc;}
+.dd.ok{background:var(--pl);}
+.dd.warn{background:#ff9800;}
+.dd.off{background:#ef5350;}
+.dcnt{font-family:var(--mono);font-size:.62rem;margin-left:auto;
+  background:var(--sur);border-radius:3px;padding:1px 5px;color:var(--ts);}
+
+/* SECTION LABEL */
+.slbl{font-family:var(--disp);font-size:.6rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ts);margin-bottom:4px;
+  display:flex;align-items:center;gap:5px;}
+.slbl::after{content:'';flex:1;height:1px;background:var(--bdr);}
+.slbl-toggle{cursor:pointer;user-select:none;}
+.slbl-toggle .chev{display:inline-block;transition:transform .15s;font-size:.75rem;}
+.slbl-toggle .chev.abierto{transform:rotate(90deg);}
+.ia-crit.act{background:var(--p) !important;color:#fff !important;border-color:var(--p) !important;}
+
+/* MODO BUTTONS */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.mb{padding:7px 4px;border-radius:var(--rs);border:1.5px solid var(--bdr);
+  background:var(--bg2);color:var(--tm);font-family:var(--disp);
+  font-size:.64rem;font-weight:700;cursor:pointer;text-align:center;
+  transition:all .15s;line-height:1.25;position:relative;}
+.mb .em{font-size:1rem;display:block;margin-bottom:1px;}
+.mb:hover{border-color:var(--pl);color:var(--p);}
+.mb.act{background:var(--p);border-color:var(--pd);color:#fff;box-shadow:0 3px 8px rgba(46,125,50,.3);}
+.mb-sinoferta{background:#fdf3e7;border-color:#f0c896;color:#8a5a10;}
+.mb-normal{background:#eef3fb;border-color:#a9c4e8;color:#1d4d8a;}
+.mb-cotizacion{background:#fdeef5;border-color:#e8a9c8;color:#8a1d55;}
+.mb.full{grid-column:span 2;}
+.mb .cnt{position:absolute;top:3px;right:3px;background:var(--sec);color:#fff;
+  border-radius:9px;font-size:.5rem;padding:1px 4px;font-family:var(--mono);display:none;}
+.mb.hp .cnt{display:block;}
+
+/* CFG */
+.cr{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.cr label{font-size:.69rem;color:var(--tm);flex:1;}
+.cr select,.cr input[type=number]{background:var(--bg);border:1.5px solid var(--bdr);
+  color:var(--txt);border-radius:var(--rs);padding:4px 6px;font-size:.69rem;
+  font-family:var(--sans);outline:none;transition:border-color .15s;flex:1;max-width:130px;}
+.cr select:focus,.cr input:focus{border-color:var(--p);}
+
+/* CANDIDATOS */
+.pl{display:flex;flex-direction:column;gap:3px;max-height:240px;overflow-y:auto;}
+.pl::-webkit-scrollbar{width:3px;}
+.pl::-webkit-scrollbar-thumb{background:var(--bdr);}
+.pi{display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:var(--rs);
+  padding:5px 6px;border:1.5px solid var(--bdr);cursor:pointer;transition:all .13s;}
+.pi:hover{border-color:var(--pl);}
+.pi.sel{border-color:var(--p);background:rgba(46,125,50,.06);}
+/* Thumbnail pequeño — solo previsualización */
+.pi-img{width:30px;height:30px;object-fit:contain;border-radius:4px;
+  background:var(--bg2);flex-shrink:0;image-rendering:auto;}
+.pi-info{flex:1;min-width:0;}
+.pi-nom{font-size:.64rem;font-weight:700;color:var(--txt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pi-pr{font-size:.58rem;color:var(--ts);}
+.pi-chk{width:16px;height:16px;border-radius:50%;border:2px solid var(--bdr);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.5rem;transition:all .13s;}
+.pi.sel .pi-chk{border-color:var(--p);background:var(--p);color:#fff;}
+
+/* WARN */
+.warn{background:#fff3e0;border:1px solid #ffcc80;border-radius:var(--rs);
+  padding:6px 9px;font-size:.66rem;color:#e65100;}
+
+/* BUTTONS */
+.bg{width:100%;padding:9px;border:none;border-radius:var(--rs);cursor:pointer;
+  font-family:var(--disp);font-size:.8rem;font-weight:800;letter-spacing:.04em;transition:all .15s;}
+.bg.pri{background:var(--p);color:#fff;}
+.bg.pri:hover:not(:disabled){background:var(--pd);transform:translateY(-1px);box-shadow:0 4px 10px rgba(46,125,50,.4);}
+.bg.pri:disabled{background:var(--ts);cursor:not-allowed;transform:none;}
+.bg.sec{background:var(--bg2);color:var(--tm);border:1.5px solid var(--bdr);
+  font-family:var(--sans);font-size:.7rem;font-weight:600;}
+.bg.sec:hover{border-color:var(--pl);}
+.bg:disabled{opacity:.4;cursor:not-allowed;}
+
+.info-loc{font-size:.6rem;color:var(--ts);text-align:center;line-height:1.7;
+  padding-top:5px;border-top:1px dashed var(--bdr);}
+.info-loc strong{color:var(--tm);}
+
+/* PREVIEW */
+.prev{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:14px;overflow-y:auto;background:var(--bg);gap:10px;min-width:0;}
+.prev::-webkit-scrollbar{width:5px;}
+.prev::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px;}
+.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1;gap:10px;color:var(--ts);}
+.ph-icon{font-size:3rem;opacity:.3;}
+.ph p{font-size:.78rem;}
+
+/* Canvas preview — mostrado al 50% para no ocupar toda la pantalla */
+#cv{
+  border-radius:var(--r);box-shadow:var(--sh-lg);
+  max-width:100%;display:none;
+  border:1px solid var(--bdr);
+  /* se setea width/height via JS */
+}
+
+.btn-row{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;}
+.ba{padding:8px 15px;border-radius:var(--rs);border:none;font-weight:700;font-size:.76rem;
+  cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;}
+.ba-wa{background:#25D366;color:#fff;}
+.ba-wa:hover{background:#1EB857;}
+.ba-dl{background:var(--sec);color:#fff;}
+.ba-dl:hover{background:#e65100;}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(244,250,244,.87);z-index:500;
+  flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+.overlay.on{display:flex;}
+.spin{width:32px;height:32px;border:3px solid var(--bdr);border-top-color:var(--p);
+  border-radius:50%;animation:rot .7s linear infinite;}
+@keyframes rot{to{transform:rotate(360deg)}}
+.spin-lbl{font-family:var(--disp);font-size:.76rem;color:var(--tm);font-weight:700;}
+
+/* MODAL — ÚLTIMO FILTRO ANTES DE GENERAR */
+.rev-ov{display:none;position:fixed;inset:0;background:rgba(23,37,23,.55);z-index:600;
+  align-items:center;justify-content:center;padding:16px;}
+.rev-ov.on{display:flex;}
+.rev-card{background:var(--sur);border-radius:var(--r);box-shadow:var(--sh-lg);
+  width:100%;max-width:400px;max-height:86vh;display:flex;flex-direction:column;overflow:hidden;}
+.rev-hdr{padding:14px 16px 10px;border-bottom:1px solid var(--bdr);}
+.rev-title{font-family:var(--disp);font-weight:800;font-size:.9rem;color:var(--txt);}
+.rev-sub{font-size:.68rem;color:var(--tm);margin-top:3px;}
+.rev-list{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:4px;}
+.rev-list::-webkit-scrollbar{width:3px;}
+.rev-list::-webkit-scrollbar-thumb{background:var(--bdr);}
+.rev-item{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:var(--rs);
+  padding:6px 8px;border:1.5px solid var(--bdr);cursor:pointer;transition:all .13s;}
+.rev-item.off{opacity:.4;}
+.rev-item .pi-img{width:26px;height:26px;}
+.rev-item .pi-nom{font-size:.66rem;font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rev-item .pi-chk{width:16px;height:16px;border-radius:50%;border:2px solid var(--bdr);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.5rem;transition:all .13s;}
+.rev-actions{padding:10px 12px;border-top:1px solid var(--bdr);display:flex;gap:7px;}
+
+/* PÍLDORAS DE % — oferta manual */
+.pct-row{display:flex;flex-wrap:wrap;gap:4px;}
+.pct-btn{height:24px;padding:0 9px;border-radius:12px;border:1.5px solid var(--bdr);
+  background:var(--bg);color:var(--tm);font-size:.62rem;font-weight:700;cursor:pointer;transition:all .13s;}
+.pct-btn.active{background:#c0392b;border-color:#a02020;color:#fff;}
+.pct-btn.off{color:#888;}
+.pct-btn.off.active{background:#7a7a7a;border-color:#5a5a5a;}
+.op-item{display:flex;flex-direction:column;gap:5px;background:var(--bg);border-radius:var(--rs);
+  padding:6px 8px;border:1.5px solid var(--bdr);}
+.op-item.off{opacity:.55;}
+.op-item-hdr{display:flex;align-items:center;gap:8px;}
+.op-item-hdr .pi-img{width:26px;height:26px;}
+.op-item-hdr .pi-nom{font-size:.66rem;font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
+
+/* NAVEGADOR DE PÁGINAS DEL FLYER */
+.pag-nav{align-items:center;gap:12px;justify-content:center;}
+.pag-btn{width:auto;padding:6px 14px;}
+.pag-lbl{font-family:var(--disp);font-weight:700;font-size:.75rem;color:var(--tm);min-width:90px;text-align:center;}
+
+@media(max-width:640px){
+  html,body{overflow:auto;} .main{flex-direction:column;overflow:visible;}
+  .ctrl{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--bdr);}
+}
+
+/* FILTER CHIPS */
+.fchip{padding:2px 7px;border-radius:20px;border:1.5px solid var(--bdr);background:var(--bg2);
+  font-size:.58rem;font-weight:700;font-family:var(--mono);cursor:pointer;
+  color:var(--tm);transition:all .12s;white-space:nowrap;line-height:1.6;}
+.fchip:hover{border-color:var(--p);color:var(--p);}
+.fchip.on{color:#fff;}
+
+/* LOG LINES */
+.ll{display:flex;align-items:baseline;gap:5px;padding:1px 0;line-height:1.4;}
+.ll-ico{flex-shrink:0;font-size:.75rem;}
+.ll-txt{flex:1;word-break:break-word;}
+.ll-tag{font-size:.55rem;padding:1px 4px;border-radius:3px;font-weight:700;flex-shrink:0;
+  font-family:var(--mono);}
+.ll-ok{background:#e8f5e9;color:#2e7d32;}
+.ll-off{background:#ffebee;color:#c62828;}
+.ll-warn{background:#fff3e0;color:#e65100;}
+.ll-info{background:#e3f2fd;color:#1565c0;}
+.ll-sep{height:1px;background:var(--bdr2);margin:2px 0;}
+
+/* ── EDITOR DE PRECIO POR PRODUCTO ── */
+.editor-precio{
+  background:var(--bg2);border:1.5px solid var(--bdr);border-radius:var(--rs);
+  padding:10px 11px;margin-top:-2px;display:none;flex-direction:column;gap:7px;
+  border-top:none;border-radius:0 0 var(--rs) var(--rs);
+}
+.editor-precio.open{display:flex;}
+.ep-title{font-family:var(--disp);font-size:.66rem;font-weight:700;color:var(--tm);
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:1px;}
+.ep-close{background:none;border:none;cursor:pointer;font-size:.9rem;color:var(--ts);padding:0;}
+.ep-close:hover{color:var(--txt);}
+.presets{display:flex;flex-wrap:wrap;gap:3px;}
+.pst{padding:3px 7px;border-radius:20px;border:1.5px solid var(--bdr);background:var(--sur);
+  font-size:.6rem;font-weight:700;font-family:var(--mono);cursor:pointer;
+  color:var(--tm);transition:all .12s;white-space:nowrap;}
+.pst:hover{border-color:var(--p);color:var(--p);}
+.pst.act{background:var(--p);border-color:var(--pd);color:#fff;}
+.ep-row{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ep-field{display:flex;flex-direction:column;gap:2px;}
+.ep-field label{font-size:.58rem;font-weight:700;color:var(--ts);text-transform:uppercase;letter-spacing:.06em;}
+.ep-input{font-family:var(--mono);font-size:.75rem;border:1.5px solid var(--bdr);border-radius:6px;
+  padding:4px 7px;background:var(--sur);color:var(--txt);outline:none;width:100%;transition:border-color .15s;}
+.ep-input:focus{border-color:var(--p);}
+.ep-hint{font-size:.56rem;color:var(--ts);}
+.ep-apply{width:100%;padding:7px;border:none;border-radius:6px;
+  background:var(--p);color:#fff;font-family:var(--disp);font-size:.72rem;font-weight:800;
+  cursor:pointer;transition:all .15s;}
+.ep-apply:hover{background:var(--pd);}
+.ep-reset{background:none;border:none;font-size:.6rem;color:var(--ts);cursor:pointer;
+  text-decoration:underline;text-align:center;display:block;width:100%;margin-top:-2px;}
+.ep-reset:hover{color:var(--sec);}
+/* Indicador de override en lista */
+.pi.edited{border-color:#ff9800;background:rgba(255,152,0,.05);}
+.pi.edited .pi-nom::after{content:' ✏';font-size:.55rem;color:#ff9800;}
+/* Colores oficiales de oferta en la lista */
+.pi.ot-rel  {border-left:4px solid #FFF200;background:rgba(255,242,0,.05);}
+.pi.ot-des  {border-left:4px solid #FF7A00;background:rgba(255,122,0,.05);}
+.pi.ot-esp  {border-left:4px solid #00E5FF;background:rgba(0,229,255,.05);}
+.pi.ot-pro  {border-left:4px solid #B000FF;background:rgba(176,0,255,.05);}
+.pi.ot-cerv {border-left:4px solid #FFF200;background:rgba(255,242,0,.05);}
+/* Badge en lista */
+.pi-badge{font-size:.56rem;font-weight:800;padding:2px 5px;border-radius:4px;
+  white-space:nowrap;font-family:var(--mono);flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="ov"><div class="spin"></div><div class="spin-lbl" id="ov-lbl">Cargando...</div></div>
+
+<div class="rev-ov" id="opOv">
+  <div class="rev-card">
+    <div class="rev-hdr">
+      <div class="rev-title">🏷️ Oferta manual (productos sin oferta automática)</div>
+      <div class="warn" style="margin-top:6px;font-size:.62rem;">⚠️ Esto escribe directamente en la planilla — seguí solo si sabés lo que estás haciendo.</div>
+      <div class="rev-sub" id="opSub">—</div>
+      <input type="text" id="opTexto" maxlength="40" placeholder="Ej: Liquidación de invierno"
+        style="width:100%;margin-top:8px;padding:7px 9px;border-radius:8px;border:1.5px solid var(--bdr);font-size:.72rem;font-family:var(--sans);outline:none;">
+      <div style="margin-top:8px;">
+        <div style="font-size:.62rem;color:var(--ts);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Aplicar este % a todos</div>
+        <div class="pct-row" id="opBulkRow"></div>
+      </div>
+    </div>
+    <div class="rev-list" id="opList"></div>
+    <div class="rev-actions" style="flex-wrap:wrap;">
+      <button class="bg sec" onclick="cerrarOfertaManual()">Cancelar</button>
+      <button class="bg sec" onclick="guardarPlantillaOP()" style="color:#1d4d8a;border-color:#a9c4e8;background:#eef3fb;">💾 Guardar plantilla</button>
+      <button class="bg sec" onclick="$('opCargarFile').click()" style="color:#1d4d8a;border-color:#a9c4e8;background:#eef3fb;">📂 Cargar plantilla</button>
+      <input type="file" id="opCargarFile" accept="application/json" style="display:none;" onchange="cargarPlantillaOP(this.files[0])">
+      <button class="bg pri" id="opBtnOk" onclick="aplicarOfertaManual()" style="background:#c0392b;">✓ Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<div class="rev-ov" id="revOv">
+  <div class="rev-card">
+    <div class="rev-hdr">
+      <div class="rev-title">🔍 Último filtro antes de generar</div>
+      <div class="rev-sub" id="revSub">—</div>
+      <div class="warn" id="revHuecos" style="display:none;margin-top:6px;font-size:.65rem;"></div>
+    </div>
+    <div class="rev-list" id="revList"></div>
+    <div class="rev-actions">
+      <button class="bg sec" onclick="cerrarRevision()">Cancelar</button>
+      <button class="bg pri" id="revBtnOk" onclick="confirmarRevision()">✓ Generar</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="h-brand">
+    <div class="h-icon">🖼</div>
+    <div>
+      <div class="h-title">Copihue Flyer <span style="font-family:var(--mono);font-size:.6rem;font-weight:400;opacity:.7;background:rgba(255,255,255,.15);border-radius:4px;padding:1px 6px;margin-left:4px;vertical-align:middle" id="badgeVer">v5.35</span></div>
+      <div class="h-sub">Generador para redes sociales</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <span class="h-badge" id="badgeEmp">Almacén Copihue</span>
+    <button class="h-btn" onclick="recargar()">↺ Recargar</button>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="ctrl">
+
+    <!-- DIAGNÓSTICO + LOG -->
+    <div class="diag">
+      <div class="diag-t" onclick="toggleLog()" style="cursor:pointer;user-select:none">
+        📡 Ofertas de hoy
+        <span id="logToggleIco" style="margin-left:auto;font-size:.7rem;opacity:.5">▼ log</span>
+      </div>
+      <div id="diagRows"><div class="dr"><div class="dd"></div><span>Esperando datos...</span></div></div>
+      <div id="logPanel" style="display:none;margin-top:8px;border-top:1px dashed var(--bdr);padding-top:7px;">
+        <div style="font-size:.6rem;font-weight:700;color:var(--ts);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;">
+          Log de lectura — config_sistema
+        </div>
+        <div id="logLines" style="font-family:var(--mono);font-size:.6rem;color:var(--tm);
+          display:flex;flex-direction:column;gap:2px;max-height:220px;overflow-y:auto;"></div>
+      </div>
+    </div>
+
+    <!-- MODO -->
+    <div>
+      <div class="slbl">Tipo de oferta</div>
+      <div class="mg">
+        <button class="mb" data-modo="relampago" onclick="setModo('relampago',this)"><span class="em">⚡</span>Relámpago<span class="cnt" id="cnt-relampago"></span></button>
+        <button class="mb" data-modo="destacadas"   onclick="setModo('destacadas',this)"><span class="em">🔥</span>Destacadas<span class="cnt" id="cnt-destacadas"></span></button>
+        <button class="mb" data-modo="especiales"   onclick="setModo('especiales',this)"><span class="em">⭐</span>Especiales<span class="cnt" id="cnt-especiales"></span></button>
+        <button class="mb" data-modo="ultimas"      onclick="setModo('ultimas',this)"><span class="em">🎯</span>Últimas<span class="cnt" id="cnt-ultimas"></span></button>
+        <button class="mb" data-modo="promos"       onclick="setModo('promos',this)"><span class="em">🏷️</span>Promos<span class="cnt" id="cnt-promos"></span></button>
+        <button class="mb" data-modo="combo"        onclick="setModo('combo',this)"><span class="em">🎯</span>Combo<span class="cnt" id="cnt-combo"></span></button>
+        <button class="mb" data-modo="cervecero"    onclick="setModo('cervecero',this)"><span class="em">🍺</span>Cervecero<span class="cnt" id="cnt-cervecero"></span></button>
+        <button class="mb" data-modo="multicompra"  onclick="setModo('multicompra',this)"><span class="em">📦</span>Multicompra<span class="cnt" id="cnt-multicompra"></span></button>
+        <button class="mb full" data-modo="manual"  onclick="setModo('manual',this)"><span class="em">✏️</span>Selección manual (todas las ofertas)<span class="cnt" id="cnt-manual"></span></button>
+        <button class="mb full mb-sinoferta" data-modo="sinoferta" onclick="setModo('sinoferta',this)"><span class="em">🏷️</span>Sin ofertas - Crear manualmente<span class="cnt" id="cnt-sinoferta"></span></button>
+        <button class="mb full mb-normal" data-modo="normal" onclick="setModo('normal',this)"><span class="em">🧾</span>Grilla Normal (catálogo)<span class="cnt" id="cnt-normal"></span></button>
+        <button class="mb full mb-cotizacion" data-modo="cotizacion" onclick="setModo('cotizacion',this)"><span class="em">🔍</span>Cotización rápida (buscador)</button>
+      </div>
+    </div>
+
+    <!-- BÚSQUEDA — COTIZACIÓN RÁPIDA (debajo del botón, se muestra solo en ese modo) -->
+    <div id="secCotiz" style="display:none;">
+      <div class="slbl">Cotización rápida — buscar producto</div>
+      <input type="text" id="cotizBuscar" oninput="filtrarCotizacion()" onkeydown="enterBuscarCotizacion(event)"
+        enterkeyhint="search" placeholder="Escribí para buscar (ej: vino malbec)"
+        style="width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--bdr);font-size:.72rem;font-family:var(--sans);outline:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px;">
+        <div style="font-size:.62rem;color:var(--ts);">Buscá, tocá para agregar a la cotización — podés seguir buscando otra cosa sin perder lo ya elegido.</div>
+        <button type="button" id="btnVaciarCotiz" onclick="vaciarCotizacion()"
+          style="flex-shrink:0;white-space:nowrap;font-size:.65rem;font-family:var(--sans);font-weight:600;
+          padding:6px 10px;border-radius:8px;border:1.5px solid #e8a9c8;background:#fff;color:#8a1d55;">
+          🗑️ Vaciar<span id="cnt-sel-cotiz" style="opacity:.7"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- DISEÑO (colapsable — arranca cerrada para priorizar la lista de productos, v5.45) -->
+    <div>
+      <div class="slbl slbl-toggle" onclick="toggleSeccion('secDiseno',this)">Diseño <span class="chev">▸</span></div>
+      <div id="secDiseno" style="display:none;">
+        <div class="cr"><label>Formato</label>
+          <select id="cfgFormato">
+            <option value="grid">🔲 Grid</option>
+            <option value="lista">📋 Lista WA</option>
+            <option value="story">📱 Story 9:16</option>
+            <option value="banner">📺 Banner FB</option>
+          </select>
+        </div>
+        <div class="cr"><label>Estilo</label>
+          <select id="cfgFondo">
+            <option value="copihue">🌿 Copihue</option>
+            <option value="crema">🟤 Clásico</option>
+            <option value="oscuro">⬛ Oscuro</option>
+            <option value="naranja">🔶 Fuego</option>
+          </select>
+        </div>
+        <div class="cr"><label>Máx. productos</label>
+          <input type="number" id="cfgMax" value="50" min="1" style="max-width:56px;">
+        </div>
+        <div class="cr"><label>Grilla por página</label>
+          <select id="cfgGrilla" onchange="actualizarSubRevision()">
+            <option value="1">1x1 (1 producto)</option>
+            <option value="4">2x2 (4 productos)</option>
+            <option value="9">3x3 (9 productos)</option>
+            <option value="12" selected>3x4 (12 productos)</option>
+          </select>
+        </div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--bdr2);font-size:.62rem;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.03em;">
+          Badge de Promo/Combo
+        </div>
+        <div class="cr"><label>Forma</label>
+          <select id="cfgBadgeForma">
+            <option value="rect">▭ Rectangular</option>
+            <option value="circulo">⬤ Círculo</option>
+            <option value="explosivo">💥 Explosivo</option>
+            <option value="ninguno">🚫 Ninguno (oculto)</option>
+          </select>
+        </div>
+        <div class="cr"><label>Color</label>
+          <input type="color" id="cfgBadgeColor" value="#B000FF" style="width:44px;height:26px;padding:1px;border-radius:6px;">
+        </div>
+        <div class="cr"><label>Tamaño</label>
+          <select id="cfgBadgeTam">
+            <option value="sm">Chico</option>
+            <option value="md" selected>Mediano</option>
+            <option value="lg">Grande</option>
+          </select>
+        </div>
+        <div class="cr"><label>Ubicación</label>
+          <select id="cfgBadgePos">
+            <option value="tr" selected>↗ Arriba-derecha</option>
+            <option value="tl">↖ Arriba-izquierda</option>
+            <option value="br">↘ Abajo-derecha</option>
+            <option value="bl">↙ Abajo-izquierda</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXCLUSIONES — aplican a TODOS los modos (colapsable, v5.45) -->
+    <div>
+      <div class="slbl slbl-toggle" onclick="toggleSeccion('secExclusiones',this)">Exclusiones (todos los modos) <span class="chev">▸</span></div>
+      <div id="secExclusiones" style="display:none;">
+        <div class="cr" style="align-items:flex-start;">
+          <label style="display:flex;align-items:center;gap:6px;flex:1;cursor:pointer;font-weight:400;">
+            <input type="checkbox" id="cfgExclMin" onchange="poblarCandidatos()" style="width:14px;height:14px;flex:0;">
+            Excluir menores a $1.500
+          </label>
+        </div>
+        <div class="cr" style="align-items:flex-start;">
+          <label style="display:flex;align-items:center;gap:6px;flex:1;cursor:pointer;font-weight:400;">
+            <input type="checkbox" id="cfgExclElectro" onchange="poblarCandidatos()" style="width:14px;height:14px;flex:0;">
+            Excluir Electrónica y Tecnología
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTROS — Normal / Manual / Sin Oferta (v5.51: antes solo Grilla Normal).
+         "Ordenar por" y "Selección rápida IA" se unificaron en v5.54 — eran
+         casi lo mismo (mismos 3 criterios repetidos en dos controles distintos). -->
+    <div id="secFiltros" style="display:none;">
+      <div class="slbl slbl-toggle" onclick="toggleSeccion('secFiltrosBody',this)">Filtros de selección <span class="chev">▸</span></div>
+      <div id="secFiltrosBody" style="display:none;">
+        <div class="cr" id="filaOrigen"><label>Origen</label>
+          <select id="nrmOrigen" onchange="actualizarFiltroActivo()">
+            <option value="con">Con ofertas (respeta prioridad)</option>
+            <option value="sin">Sin ofertas</option>
+          </select>
+        </div>
+        <div class="cr"><label>Categoría</label>
+          <select id="nrmCategoria" onchange="actualizarFiltroActivo()">
+            <option value="">(Todas)</option>
+          </select>
+        </div>
+        <!-- Select real oculto — el resto del código (aplicarOrdenCategoria,
+             actualizarPoolNormal, seleccionRapidaIA) sigue leyendo su .value
+             tal cual; las 4 tarjetas de abajo son la única forma de tocarlo. -->
+        <select id="nrmOrden" style="display:none;">
+          <option value="vendidos">Más vendidos</option>
+          <option value="stock">Más stock</option>
+          <option value="ganancia">Más ganancia</option>
+          <option value="categoria">Categoría (A-Z)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ORDENAR / SELECCIÓN RÁPIDA — Normal / Manual / Sin Oferta (v5.54, antes
+         "Ordenar por" + "Selección rápida IA" por separado). Elegís el criterio acá
+         (reordena la lista y define qué usan los botones de cantidad), y con
+         25/50/75/100 preseleccionás los top-N — después afinás el tilde a mano. -->
+    <div id="secIA" style="display:none;margin-bottom:8px;">
+      <div class="slbl slbl-toggle" onclick="toggleSeccion('secIABody',this)">Ordenar / selección rápida <span class="chev">▸</span></div>
+      <div id="secIABody" style="display:none;">
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px;">
+          <button type="button" class="ia-crit act" data-crit="vendidos" onclick="elegirCriterioIA('vendidos',this)" style="flex:1;min-width:78px;padding:5px 6px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--card);color:var(--tm);font-size:.64rem;font-weight:700;cursor:pointer;">🔥 Vendidos</button>
+          <button type="button" class="ia-crit" data-crit="ganancia" onclick="elegirCriterioIA('ganancia',this)" style="flex:1;min-width:78px;padding:5px 6px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--card);color:var(--tm);font-size:.64rem;font-weight:700;cursor:pointer;">💰 Ganancia</button>
+          <button type="button" class="ia-crit" data-crit="stock" onclick="elegirCriterioIA('stock',this)" style="flex:1;min-width:78px;padding:5px 6px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--card);color:var(--tm);font-size:.64rem;font-weight:700;cursor:pointer;">📦 Stock</button>
+          <button type="button" class="ia-crit" data-crit="categoria" onclick="elegirCriterioIA('categoria',this)" style="flex:1;min-width:78px;padding:5px 6px;border-radius:var(--rs);border:1.5px solid var(--bdr);background:var(--card);color:var(--tm);font-size:.64rem;font-weight:700;cursor:pointer;">🔤 A-Z</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;">
+          <button type="button" onclick="seleccionRapidaIA(25)"  style="flex:1;min-width:56px;padding:5px 4px;border-radius:var(--rs);border:1.5px solid var(--p);background:var(--card);color:var(--p);font-size:.68rem;font-weight:800;cursor:pointer;">25</button>
+          <button type="button" onclick="seleccionRapidaIA(50)"  style="flex:1;min-width:56px;padding:5px 4px;border-radius:var(--rs);border:1.5px solid var(--p);background:var(--card);color:var(--p);font-size:.68rem;font-weight:800;cursor:pointer;">50</button>
+          <button type="button" onclick="seleccionRapidaIA(75)"  style="flex:1;min-width:56px;padding:5px 4px;border-radius:var(--rs);border:1.5px solid var(--p);background:var(--card);color:var(--p);font-size:.68rem;font-weight:800;cursor:pointer;">75</button>
+          <button type="button" onclick="seleccionRapidaIA(100)" style="flex:1;min-width:56px;padding:5px 4px;border-radius:var(--rs);border:1.5px solid var(--p);background:var(--card);color:var(--p);font-size:.68rem;font-weight:800;cursor:pointer;">100</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CANDIDATOS -->
+    <div id="secProd" style="display:none;">
+      <div class="slbl">Productos <span id="lblCand" style="color:var(--ts);font-weight:400;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:.65rem"></span></div>
+      <!-- FILTROS POR TIPO -->
+      <div id="filtroTipos" style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;"></div>
+      <div id="warnMax" class="warn" style="display:none;margin-bottom:5px;">⚠️ Superaste el "Máx. productos" configurado en Diseño</div>
+      <div class="pl" id="listaCand"></div>
+
+      <!-- EDITOR DE PRECIO MANUAL -->
+      <div class="editor-precio" id="editorPrecio">
+        <div class="ep-title">
+          <span>✏️ <span id="epNomCorto">Producto</span></span>
+          <button class="ep-close" onclick="cerrarEditor()">✕</button>
+        </div>
+        <!-- Presets de tipo de oferta -->
+        <div class="presets" id="epPresets">
+          <button class="pst" data-tipo="2x1"    onclick="aplicarPreset(this,'2x1')">2x1</button>
+          <button class="pst" data-tipo="3x2"    onclick="aplicarPreset(this,'3x2')">3x2</button>
+          <button class="pst" data-tipo="2da50"  onclick="aplicarPreset(this,'2da50')">2da 50%</button>
+          <button class="pst" data-tipo="pct10"  onclick="aplicarPreset(this,'pct10')">-10%</button>
+          <button class="pst" data-tipo="pct15"  onclick="aplicarPreset(this,'pct15')">-15%</button>
+          <button class="pst" data-tipo="pct20"  onclick="aplicarPreset(this,'pct20')">-20%</button>
+          <button class="pst" data-tipo="pct25"  onclick="aplicarPreset(this,'pct25')">-25%</button>
+          <button class="pst" data-tipo="pct30"  onclick="aplicarPreset(this,'pct30')">-30%</button>
+          <button class="pst" data-tipo="pct50"  onclick="aplicarPreset(this,'pct50')">-50%</button>
+          <button class="pst" data-tipo="manual" onclick="aplicarPreset(this,'manual')">Manual $</button>
+        </div>
+        <div class="ep-row">
+          <div class="ep-field">
+            <label>Precio normal $</label>
+            <input class="ep-input" id="epPrecioBase" type="number" placeholder="4000" min="0">
+          </div>
+          <div class="ep-field">
+            <label>Precio oferta $</label>
+            <input class="ep-input" id="epPrecioOfer" type="number" placeholder="2000" min="0">
+            <span class="ep-hint" id="epHint"></span>
+          </div>
+        </div>
+        <div class="ep-field">
+          <label>Etiqueta badge</label>
+          <input class="ep-input" id="epEtiqueta" type="text" placeholder="2da 50%" maxlength="14">
+        </div>
+        <button class="ep-apply" onclick="aplicarOverride()">✓ Aplicar</button>
+        <button class="ep-reset" onclick="quitarOverride()">× Quitar override (volver a automático)</button>
+      </div>
+    </div>
+
+    <button class="bg pri" id="btnGen" onclick="abrirRevision()" disabled>⚡ GENERAR FLYER</button>
+    <button class="bg pri" id="btnOfertaManual" onclick="abrirOfertaManual()" style="display:none;background:#c0392b;">🏷️ Crear oferta con seleccionados</button>
+    <button class="bg sec" onclick="abrirCargaPlantillaOP()" style="color:#1d4d8a;border-color:#a9c4e8;background:#eef3fb;">📂 Cargar plantilla de oferta</button>
+    <button class="bg sec" onclick="recargar()">↺ Recargar datos</button>
+    <button class="bg sec" id="btnResetPersonal" onclick="confirmarResetPersonalizadas()" style="color:#a02020;border-color:#f0b8b8;background:#fdeaea;">🧹 Resetear ofertas personalizadas</button>
+    <button class="bg sec" id="btnResetSimple" onclick="confirmarResetOfertaSimple()" style="color:#a02020;border-color:#f0b8b8;background:#fdeaea;">🧹 Resetear oferta simple</button>
+    <button class="bg sec" onclick="diagnosticoMulticompra()" style="color:#1d4d8a;border-color:#a9c4e8;background:#eef3fb;">🔍 Diagnóstico multicompra</button>
+
+    <div class="info-loc">
+      <strong id="infoNombre">Almacén Copihue</strong><br>
+      <span id="infoDireccion">—</span><br>
+      <span id="infoWeb">—</span>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="prev">
+    <div class="ph" id="ph">
+      <div class="ph-icon">🖼️</div>
+      <p>Elegí tipo de oferta → Generar</p>
+    </div>
+    <canvas id="cv"></canvas>
+    <div class="btn-row pag-nav" id="pagNav" style="display:none;">
+      <button class="bg sec pag-btn" id="pagPrev" onclick="pagAnterior()">◀ Anterior</button>
+      <span class="pag-lbl" id="pagLbl">Página 1 / 1</span>
+      <button class="bg sec pag-btn" id="pagNext" onclick="pagSiguiente()">Siguiente ▶</button>
+    </div>
+    <div class="btn-row" id="botonesAcc" style="display:none;">
+      <button class="ba ba-wa" onclick="compartirWA()">📲 WhatsApp</button>
+      <button class="ba ba-dl" onclick="descargar()">💾 Descargar JPG</button>
+      <button class="ba ba-dl" id="btnDlAll" style="display:none;background:var(--p)" onclick="descargarTodas()">📦 Descargar todas</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+const GAS = 'https://script.google.com/macros/s/AKfycbzWZzDvdGfW8vd2-FpQolT852cdPMeHbfKugn9DBOlju75bE1D0SUNB5EKEDOsI2vP4lA/exec'; // v5.38: alineado con seba21/sendwa — el flyer apuntaba a otro deployment de Apps Script
+const APP_VERSION = 'v5.65';
+
+// Escala del canvas de salida (2 = 2× respecto al tamaño visual = alta calidad)
+// El preview en pantalla se muestra al 50% del tamaño real
+const SCALE_OUT = 2;
+
+// ── FUNCIÓN EXACTA DEL CATÁLOGO ───────────────────────────────────────────────
+function corto(s, maxChars){
+  maxChars = maxChars || 28;
+  // Medidas de peso/volumen se sacan del nombre; la cantidad de paquete
+  // (2U, 4U, 6U, x6, etc.) se conserva SIEMPRE aunque haya que acortar el
+  // resto, porque es lo que distingue variantes del mismo producto — antes
+  // se perdia en silencio al truncar por largo de texto (v5.52).
+  var sinMed = s
+    .replace(/\d+\s*(gr|kg|ml|l|cc)\b/gi,'')
+    .replace(/\b1\s*un?\b/gi,'')
+    .replace(/\s+/g,' ').trim();
+
+  var mSuf = sinMed.match(/\s+((\d+\s*u(n|nid(ades?)?)?)|(x\d+))$/i);
+  var sufijo = mSuf ? mSuf[0].trim() : '';
+  var base = mSuf ? sinMed.slice(0, mSuf.index).trim() : sinMed;
+
+  if(sinMed.length <= maxChars) return sinMed;
+
+  var presupuesto = sufijo ? maxChars - sufijo.length - 1 : maxChars;
+  var words = base.split(' '), out = '';
+  for(var i=0;i<words.length;i++){
+    var candidate = out ? out+' '+words[i] : words[i];
+    if(candidate.length > presupuesto) break;
+    out = candidate;
+  }
+  if(!out) out = base.slice(0, Math.max(presupuesto,1));
+  return sufijo ? (out+' '+sufijo) : out;
+}
+
+function simplificarNombre(nombre) {
+  return nombre
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+function imgSrc(nombre) { return 'imagenes-productos/' + simplificarNombre(nombre) + '.jpg'; }
+
+// ── PALETAS ───────────────────────────────────────────────────────────────────
+const PAL = {
+  copihue:{ bg:'#f4faf4',card:'#fff',card2:'#eaf3ea',ac:'#2e7d32',ac2:'#ff6f00',
+    txt:'#172517',sub:'#4a6a4a',ten:'#8aaa8a',bdr:'#d0e8d0',ln:'#4caf50',btxt:'#fff'},
+  crema:  { bg:'#f5f0e0',card:'#fff',card2:'#ede5cc',ac:'#c62828',ac2:'#1565c0',
+    txt:'#2e1a0e',sub:'#8a6040',ten:'#b0987a',bdr:'#e0d5b0',ln:'#c8b87a',btxt:'#fff'},
+  oscuro: { bg:'#111',card:'#1e1e1e',card2:'#252525',ac:'#4caf50',ac2:'#ff6f00',
+    txt:'#f0f0f0',sub:'#aaa',ten:'#666',bdr:'#333',ln:'#2e7d32',btxt:'#111'},
+  naranja:{ bg:'#fff8f2',card:'#fff',card2:'#fff3e0',ac:'#e65100',ac2:'#2e7d32',
+    txt:'#1a0e00',sub:'#7a4a20',ten:'#c0906a',bdr:'#ffe0cc',ln:'#ff8f00',btxt:'#fff'}
+};
+
+// ── COLORES OFICIALES — Manual Técnico Almacén Copihue ──────────────────────
+const OFERTA_COLORES = {
+  relampago:  { hex:'#FFF200', txt:'#1a1a00', bdr:'#ccbf00' }, // amarillo
+  destacadas: { hex:'#FF7A00', txt:'#ffffff', bdr:'#cc6200' }, // naranja
+  especiales: { hex:'#00E5FF', txt:'#003a40', bdr:'#00b8cc' }, // cyan
+  promos:     { hex:'#B000FF', txt:'#ffffff', bdr:'#8a00cc' }, // violeta
+  combo:      { hex:'#2980b9', txt:'#ffffff', bdr:'#1f6a9c' }, // azul — mismo color que sendwa.html
+  ultimas:    { hex:'#d32f2f', txt:'#ffffff', bdr:'#b71c1c' }, // ROJO urgencia
+  cervecero:  { hex:'#FFF200', txt:'#1a1a00', bdr:'#ccbf00' }, // amarillo
+  multicompra:{ hex:'#9C27B0', txt:'#ffffff', bdr:'#7b1fa2' }, // púrpura — mismo color que sendwa.html
+  combinado:  { hex:'#00FF66', txt:'#003a1a', bdr:'#00cc52' }, // verde ok
+  manual:     { hex:'#00FF66', txt:'#003a1a', bdr:'#00cc52' },
+};
+
+// Tipo de oferta por producto individual (para badge correcto)
+// ORS[rel].tipo = 'nxm'|'pct'|'2da50'
+function getOfertaTipo(p){
+  if(p.mc)        return 'multicompra';
+  if(p.cat==='PROMOS')   return 'promos';
+  if(p.cat==='COMBO'||p.cat==='COMBOS') return 'combo';
+  if(p.cat==='CERVEZAS') return 'cervecero';
+  if(p.rel>0){
+    const o=ORS[String(p.rel)];
+    if(!o) return 'relampago';
+    if(o.tipo==='nxm')   return 'relampago_nxm';
+    if(o.tipo==='2da50') return 'relampago_2da50';
+    if(o.tipo==='pct')   return 'relampago_pct';
+    return 'relampago';
+  }
+  if(p.des>0)   return 'destacadas';
+  if(p.esp===1) return 'especiales';
+  return 'manual';
+}
+
+// Color del badge según tipo exacto de oferta
+function getBadgeColor(p){
+  const tipo = getOfertaTipo(p);
+  if(tipo==='multicompra')return OFERTA_COLORES.multicompra;
+  if(tipo==='promos')   return OFERTA_COLORES.promos;
+  if(tipo==='combo')    return OFERTA_COLORES.combo;
+  if(tipo==='cervecero')return OFERTA_COLORES.cervecero;
+  if(tipo==='destacadas')return OFERTA_COLORES.destacadas;
+  if(tipo==='especiales')return OFERTA_COLORES.especiales;
+  // Relámpago y sus variantes → amarillo
+  return OFERTA_COLORES.relampago;
+}
+
+// Texto del badge según tipo exacto
+function getBadgeLabel(p){
+  const ov=_overrides[p.id];
+  if(ov) return ov.et||'OFERTA';
+  const tipo=getOfertaTipo(p);
+  // Relámpago NxM: "2x1", "3x2", "4x3", etc
+  if(tipo==='relampago_nxm'){
+    const o=ORS[String(p.rel)]; return o?o.nombre.toUpperCase():p.et;
+  }
+  if(tipo==='relampago_2da50') return '2DA 50%';
+  if(tipo==='relampago_pct'){
+    const o=ORS[String(p.rel)]; return o?'-'+o.descuento+'%':p.et;
+  }
+  if(tipo==='promos')    return 'PROMO';
+  if(tipo==='destacadas')return '-'+p.des+'% OFF';
+  if(tipo==='especiales')return '-10%';          // siempre -10% en especiales
+  if(tipo==='cervecero') return p.pct>0?'-'+p.pct+'%':'CERV.';
+  return p.et||'OFERTA';
+}
+
+const MODO_BADGE = {
+  relampago:  {emoji:'⚡', label:'RELÁMPAGO',   color:'#ccbf00', bg:'#fffde7'},
+  destacadas: {emoji:'🔥', label:'DESTACADAS',   color:'#FF7A00', bg:'#fff3e0'},
+  especiales: {emoji:'⭐', label:'ESPECIALES',   color:'#00b8cc', bg:'#e0fdff'},
+  promos:     {emoji:'🏷️', label:'PROMOS',      color:'#B000FF', bg:'#f5e6ff'},
+  combo:      {emoji:'🎯', label:'COMBOS',      color:'#2980b9', bg:'#e3f2fd'},
+  ultimas:    {emoji:'🚨', label:'ÚLTIMAS UNIDADES', color:'#d32f2f', bg:'#ffebee'},
+  cervecero:  {emoji:'🍺', label:'JUEVES CERV.', color:'#ccbf00', bg:'#fffde7'},
+  multicompra:{emoji:'📦', label:'MULTICOMPRA', color:'#9C27B0', bg:'#f3e5f5'},
+  combinado:  {emoji:'🌟', label:'COMBINADAS',   color:'#00cc52', bg:'#e6fff0'},
+  manual:     {emoji:'📋', label:'LISTA DE PRECIOS', color:'#2e7d32', bg:'#e8f5e9'},
+};
+
+const MODO_HDR = {
+  relampago:  {t:'⚡ OFERTA RELÁMPAGO',    s:'Solo por tiempo limitado'},
+  destacadas: {t:'🔥 DESTACADAS',           s:'Los favoritos de nuestros clientes'},
+  especiales: {t:'⭐ ESPECIALES',           s:'Precios especiales seleccionados'},
+  promos:     {t:'🏷️ PROMOS ACTIVAS',      s:'Precios rebajados seleccionados'},
+  combo:      {t:'🎯 COMBOS',               s:'Combos activos hoy'},
+  ultimas:    {t:'🚨 ÚLTIMAS UNIDADES',    s:'¡Quedan pocas! Aprovechá ahora antes que se agoten'},
+  cervecero:  {t:'🍺 JUEVES CERVECERO',    s:'Solo esta noche · Hasta agotar stock'},
+  multicompra:{t:'📦 MULTICOMPRA',         s:'Ofertas por cantidad'},
+  manual:     {t:'📋 LISTA DE PRECIOS',    s:'Almacén Copihue'},
+  normal:     {t:'📋 LISTA DE PRECIOS',    s:'Almacén Copihue'},
+  cotizacion: {t:'📋 COTIZACIÓN',          s:'Almacén Copihue'},
+  combinado:  {t:'🌟 OFERTAS DESTACADAS',     s:'Relámpago · Destacadas · Especiales'},
+};
+
+// v5.63: el subtítulo de "combinado" estaba fijo en "Relámpago · Destacadas ·
+// Especiales" aunque el usuario hubiera elegido otra combinación (ej. Promos +
+// Combos) — ahora arma el título/subtítulo según lo que esté realmente
+// tildado en _modos, en vez de un texto fijo.
+function getModoInfo(){
+  if(_modo==='combinado'){
+    const partes=[..._modos].map(m=>(MODO_BADGE[m]&&MODO_BADGE[m].label)||m.toUpperCase());
+    return {t:'🌟 OFERTAS COPIHUE', s:partes.join(' · ')};
+  }
+  return MODO_HDR[_modo]||MODO_HDR.manual;
+}
+
+// ── ESTADO ────────────────────────────────────────────────────────────────────
+let _emp   = {nombre:'Almacén Copihue',direccion:'',ciudad:'',web:'',telefono:''};
+let _prods = [];
+let _of    = {};
+let _cerv  = {};
+let _pools = {};
+let _poolMulticompra = new Map(); // id → {tipo,cantidad,precio,grupo} — desde action=getMulticompraTodas (flyer_multicompra.gs)
+let _mcDiag = {}; // info de la última carga, para el botón de diagnóstico en pantalla
+let _modo  = null;
+let _modos = new Set(); // multi-selección de modos — arranca vacío, elegís vos
+let _badgeCfg = {forma:'rect', color:'#B000FF', tam:'md', pos:'tr'}; // v5.64 — badge PROMO/COMBO configurable
+function leerBadgeCfg(){
+  _badgeCfg = {
+    forma: ($('cfgBadgeForma')||{}).value || 'rect',
+    color: ($('cfgBadgeColor')||{}).value || '#B000FF',
+    tam:   ($('cfgBadgeTam')||{}).value   || 'md',
+    pos:   ($('cfgBadgePos')||{}).value   || 'tr',
+  };
+}
+let _cand  = [];
+let _sel   = new Set();
+let _cvFin = null;   // canvas final (SCALE_OUT×) — página actualmente mostrada
+let _cvPaginas = [];  // todas las páginas generadas (canvases)
+let _pagActual = 0;   // índice de la página mostrada
+let _revSel = new Set(); // ids elegidos en el paso de "último filtro"
+let _revProds = []; // lista completa mostrada en el modal (para re-render tras ajustar huecos)
+const PROD_MAX_POR_PAGINA = 12; // valor por defecto (3x4) si el selector de grilla no está disponible
+
+// Tamaño de página elegido en "Grilla por página" (2x2=4, 3x3=9, 3x4=12)
+function tamGrilla(){
+  return parseInt(($('cfgGrilla')||{}).value)||PROD_MAX_POR_PAGINA;
+}
+
+// Reparte los productos en páginas de tamaño FIJO según la grilla elegida.
+// La última página puede quedar incompleta — para eso está calcularHuecosGrid(),
+// que sugiere sacar el sobrante para dejar todas las páginas completas.
+function calcularPaginas(prods){
+  const total=prods.length;
+  if(!total) return [];
+  const porPagina=tamGrilla();
+  const bloques=[];
+  for(let i=0;i<total;i+=porPagina) bloques.push(prods.slice(i,i+porPagina));
+  return bloques;
+}
+let _overrides = {};       // { [id]: {price, po, et, pct} } — edición manual
+let _cfgRaw    = {};       // copia de config_sistema para el log
+let _limites   = {relampago:3, destacadas:9, especiales:2, ultimas:3}; // desde config_sistema
+let _editingId = null;     // ID del producto abierto en el editor
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('es-AR');
+function ld(on,txt=''){$('ov').classList.toggle('on',on);if(txt)$('ov-lbl').textContent=txt;}
+
+// Colapsar/expandir secciones de configuración (Diseño, Exclusiones) para
+// darle más espacio a la lista de productos en pantallas chicas (v5.45).
+function toggleSeccion(id, headerEl){
+  const el=$(id);
+  if(!el) return;
+  const abierta = el.style.display !== 'none';
+  el.style.display = abierta ? 'none' : '';
+  const chev = headerEl.querySelector('.chev');
+  if(chev) chev.classList.toggle('abierto', !abierta);
+}
+
+function diagSet(rows){
+  $('diagRows').innerHTML = rows.map(r=>
+    `<div class="dr"><div class="dd ${r.cls}"></div><span>${r.lbl}</span>${r.cnt!=null?`<span class="dcnt">${r.cnt}</span>`:''}</div>`
+  ).join('');
+}
+
+// ── CARGA ─────────────────────────────────────────────────────────────────────
+async function gasGet(action){
+  const url = action ? GAS+'?action='+action+'&t='+Date.now() : GAS+'?cache='+Date.now();
+  const r = await fetch(url,{method:'GET',headers:{Accept:'application/json'},redirect:'follow'});
+  return r.json();
+}
+
+// Para acciones que ESCRIBEN en la planilla (mismo patrón que sendwa.html → _apiAction)
+async function gasAction(action,datos){
+  try{
+    const url=GAS+'?action='+action+'&data='+encodeURIComponent(JSON.stringify(datos))+'&t='+Date.now();
+    const r=await fetch(url,{method:'GET',redirect:'follow'});
+    return await r.json();
+  }catch(e){
+    console.error('gasAction error:',action,e);
+    return {success:false,mensaje:'Error de red'};
+  }
+}
+
+async function recargar(){
+  ld(true,'Conectando con la planilla...');
+  diagSet([{cls:'',lbl:'Cargando datos...'}]);
+  _prods=[]; _of={}; _cerv={}; _pools={};
+  try{
+    // 1. Config empresa
+    try{ const dc=await gasGet('getConfig'); if(dc.success&&dc.config)extraerEmpresa(dc.config); }
+    catch(e){ console.warn('config:',e); }
+
+    // 2. Productos — fetch sin action
+    ld(true,'Cargando productos...');
+    const rp = await gasGet(null);
+    const raw = rp.productos || rp;
+    _prods = normProds(Array.isArray(raw)?raw:[]);
+
+    // 3. Ofertas
+    ld(true,'Cargando ofertas activas...');
+    try{ const ro=await gasGet('getOfertas'); _of=ro.success?ro:{}; }
+    catch(e){ _of={}; }
+
+    // 3b. Multicompra (2x1, 3x2, etc.)
+    // Camino A: _of.multicompraActiva — así lo leen seba21.html/sendwa.html/index.html,
+    // viene incluido en la misma respuesta de "getOfertas" de arriba.
+    // Camino B (respaldo): action=getMulticompraTodas — endpoint aparte del módulo
+    // flyer_multicompra.gs, por si en este backend "getOfertas" no lo incluye todavía.
+    _poolMulticompra=new Map();
+    _mcDiag = {fuente:'', ok:null, total:0, matcheados:0, sinMatch:[], error:''};
+
+    const mcArrA = _of.multicompraActiva || [];
+    if(mcArrA.length>0){
+      _mcDiag.fuente = 'getOfertas (multicompraActiva)';
+      _mcDiag.ok = true;
+      _mcDiag.total = mcArrA.length;
+      mcArrA.forEach(p=>{
+        const local = _prods.find(x=>x.id===Number(p.id));
+        if(!local){ _mcDiag.sinMatch.push(p.name||p.nombre||('id '+p.id)); return; }
+        _mcDiag.matcheados++;
+        _poolMulticompra.set(local.id,{
+          tipo:     String(p.MULTICOMPRA_TIPO     || '').toUpperCase(),
+          cantidad: p.MULTICOMPRA_CANTIDAD || 0,
+          precio:   p.MULTICOMPRA_PRECIO   || 0, // igual que seba21/sendwa: puede ser unitario o total según cargue la planilla
+          grupo:    p.GRUPO_MULTICOMPRA    || ''
+        });
+      });
+    } else {
+      // Respaldo: endpoint dedicado del flyer
+      try{
+        const rm = await gasGet('getMulticompraTodas');
+        _mcDiag.fuente = 'getMulticompraTodas (respaldo)';
+        _mcDiag.ok = rm ? rm.ok : false;
+        _mcDiag.total = rm && rm.total || 0;
+        if(rm && rm.ok && Array.isArray(rm.items)){
+          rm.items.forEach(it=>{
+            let id = Number(it.id)||0;
+            if(!id){
+              // El id puede venir vacío en la fila — como respaldo, matcheamos por nombre exacto
+              const nombreQ = quitarAcentos(String(it.nombre||'').toLowerCase()).trim();
+              const match = _prods.find(p=>quitarAcentos(p.name.toLowerCase()).trim()===nombreQ);
+              if(match) id=match.id;
+            }
+            if(!id){ _mcDiag.sinMatch.push(it.nombre||'(sin nombre)'); return; }
+            _mcDiag.matcheados++;
+            _poolMulticompra.set(id,{
+              tipo:     String(it.tipo||'').toUpperCase(),
+              cantidad: it.cantidad||0,
+              precio:   it.precioPack||0, // precio TOTAL del pack (ej: 3 x $5.000 = $5.000 los 3)
+              grupo:    it.grupo||''
+            });
+          });
+        } else if(rm && rm.ok===false){
+          _mcDiag.error = rm.error||'(sin detalle)';
+          console.warn('⚠️ getMulticompraTodas devolvió error:', rm.error);
+        }
+      }catch(e){ _mcDiag.ok=false; _mcDiag.error = String(e); console.warn('⚠️ Error cargando multicompra:', e); }
+    }
+
+    // 4. Cervecero
+    try{ const rc=await gasGet('getJuevesCervecero'); _cerv=rc||{}; }
+    catch(e){ _cerv={}; }
+
+    construirPools();
+    actualizarDiag();
+    actualizarBadges();
+    if(_modos.size>0) poblarCandidatos(); else { _cand=[]; renderCandidatos(); }
+    $('btnGen').disabled = false;
+  }catch(e){
+    diagSet([{cls:'off',lbl:'Error cargando: '+e.message}]);
+    console.error(e);
+  }
+  ld(false);
+}
+
+function extraerEmpresa(cfg){
+  const nrm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const get=f=>{
+    const t=nrm(f);
+    const k=Object.keys(cfg).find(k=>{const n=nrm(k);return n.replace(/^general\|/,'')===t||n===t;});
+    return k?String(cfg[k]?.[0]||'').trim():'';
+  };
+  _emp.nombre    = get('nombre de la empresa')||_emp.nombre;
+  _emp.direccion = get('direccion');
+  _emp.ciudad    = get('ciudad');
+  _emp.web       = (get('title')||'').replace(/^CATALOGO\s*-\s*/i,'')||get('descripcion')||'';
+  _emp.telefono  = get('telefono');
+  $('badgeEmp').textContent      = _emp.nombre;
+  $('infoNombre').textContent    = _emp.nombre;
+  $('infoDireccion').textContent = [_emp.direccion,_emp.ciudad].filter(Boolean).join(', ')||'—';
+  $('infoWeb').textContent       = _emp.web||'—';
+}
+
+// ── SISTEMA DE OFERTAS (misma lógica que index.html) ─────────────────────────
+// Tabla idéntica a OFERTAS_RELAMPAGO_SISTEMA del catálogo
+const ORS = {
+  '1': {nombre:'2x1',   tipo:'nxm', cantidad:2, pagas:1,   eslogan:'Llevás 2, pagás 1'},
+  '2': {nombre:'3x2',   tipo:'nxm', cantidad:3, pagas:2,   eslogan:'Llevás 3, pagás 2'},
+  '3': {nombre:'4x3',   tipo:'nxm', cantidad:4, pagas:3,   eslogan:'Llevás 4, pagás 3'},
+  '4': {nombre:'5x4',   tipo:'nxm', cantidad:5, pagas:4,   eslogan:'Llevás 5, pagás 4'},
+  '5': {nombre:'6x5',   tipo:'nxm', cantidad:6, pagas:5,   eslogan:'Llevás 6, pagás 5'},
+  '6': {nombre:'7x6',   tipo:'nxm', cantidad:7, pagas:6,   eslogan:'Llevás 7, pagás 6'},
+  '10':{nombre:'2da50', tipo:'2da50',cantidad:2, pagas:1.5, eslogan:'2DA UNIDAD 50% OFF'},
+  '11':{nombre:'10off', tipo:'pct', descuento:10, eslogan:'10% DE DESCUENTO HOY'},
+  '12':{nombre:'15off', tipo:'pct', descuento:15, eslogan:'15% DE DESCUENTO HOY'},
+  '13':{nombre:'20off', tipo:'pct', descuento:20, eslogan:'20% DE DESCUENTO HOY'},
+  '14':{nombre:'25off', tipo:'pct', descuento:25, eslogan:'25% DE DESCUENTO HOY'},
+};
+
+// Calcula precio oferta y etiqueta badge para un producto relámpago
+// Idéntico al render del index.html
+function calcRel(p){
+  const codigo = String(p.rel);
+  const oferta = ORS[codigo];
+  if(!oferta) return {po:p.price, et:'OFERTA', pct:0, eslogan:''};
+
+  if(oferta.tipo==='pct'){
+    const po = Math.round(p.price*(1-oferta.descuento/100));
+    return {po, et:'-'+oferta.descuento+'%', pct:oferta.descuento, eslogan:oferta.eslogan};
+  }
+  if(oferta.tipo==='2da50'){
+    // AHORA = precio 1ra unidad (sin cambio)
+    // La promo está en la 2da: "2ª unidad: $X" — no mostramos promedio
+    const po = p.price;
+    return {po, et:'2DA 50%', pct:0, eslogan:oferta.eslogan, nxm:oferta};
+  }
+  // NxM: precio unitario sin cambio, el ahorro es por ciclo
+  const pct = Math.round((oferta.cantidad-oferta.pagas)/oferta.cantidad*100);
+  return {po:p.price, et:oferta.nombre.toUpperCase(), pct, eslogan:oferta.eslogan, nxm:oferta};
+}
+
+// Calcula badge para destacadas (p.des = % de descuento directo)
+function calcDes(p){
+  const pct = p.des; // % directo en la columna
+  const po  = Math.round(p.price*(1-pct/100));
+  return {po, et:pct+'% OFF', pct, eslogan:pct+'% OFF hoy'};
+}
+
+// Especiales: -10% por defecto (configurable si el GAS manda precio)
+function calcEsp(p){
+  // El GAS puede mandar el precio ya calculado en especialesActivas
+  // Si no, aplicamos -10% que es el valor por defecto del catálogo
+  const po  = Math.round(p.price*0.9);
+  const pct = 10;
+  return {po, et:'-10%', pct, eslogan:'Precio especial -10%'};
+}
+
+// ============================================================================
+// ⚠️ v5.60 — LEER ANTES DE TOCAR calcPro/calcCombo:
+//
+//   p.price  = columna B = precio ANTES (lista). Siempre correcto.
+//   p.normal = columna L si está cargada válida, si no columna K (fallback
+//              de Code.gs). K es un "precio técnico" para relámpago/destacada,
+//              NO un precio antes — nunca usar p.normal a ciegas acá.
+//   p.co     = columna J (categoriaOferta) = estado comercial ya validado en
+//              la planilla: "PROMO ACTIVA" / "COMBO ACTIVO" / "ERROR: ..." /
+//              "SIN OFERTA" / etc. Es la fuente de verdad de si L es válida.
+//   p.op     = Oferta Simple/Personalizada del día (Simple gana si ambas
+//              activas). PISA TODO cuando existe — se revisa primero.
+//
+//   Orden de prioridad:
+//     1) p.op activa           → ANTES=price, AHORA=op.precioFinal
+//     2) sin p.op, J="PROMO ACTIVA"/"COMBO ACTIVO" → ANTES=price, AHORA=normal (L)
+//     3) J con "ERROR"         → no se muestra PROMO/COMBO (pct=0, po=price)
+//     4) cualquier otro estado → comportamiento anterior (fallback normal/price)
+// ============================================================================
+function calcPro(p){
+  if(p.op && p.op.activa){
+    const po = Number(p.op.precioFinal)||p.price;
+    const pct = p.price>0 ? Math.round((1-po/p.price)*100) : 0;
+    return {po, et:'PROMO', pct, eslogan:'Precio rebajado'};
+  }
+  if(p.co==='PROMO ACTIVA'){
+    const po = p.normal;
+    const pct = p.price>0 ? Math.round((1-po/p.price)*100) : 0;
+    return {po, et:'PROMO', pct, eslogan:'Precio rebajado'};
+  }
+  if(p.co && p.co.indexOf('ERROR')!==-1){
+    return {po:p.price, et:'PROMO', pct:0, eslogan:'Precio rebajado'};
+  }
+  const pct = Math.round((1-p.price/Math.max(p.normal,1))*100);
+  return {po:p.price, et:'PROMO', pct, eslogan:'Precio rebajado'};
+}
+function calcCombo(p){
+  if(p.op && p.op.activa){
+    const po = Number(p.op.precioFinal)||p.price;
+    const pct = p.price>0 ? Math.round((1-po/p.price)*100) : 0;
+    return {po, et:'🎯 COMBO', pct, eslogan:'Combo del día'};
+  }
+  if(p.co==='COMBO ACTIVO'){
+    const po = p.normal;
+    const pct = p.price>0 ? Math.round((1-po/p.price)*100) : 0;
+    return {po, et:'🎯 COMBO', pct, eslogan:'Combo del día'};
+  }
+  if(p.co && p.co.indexOf('ERROR')!==-1){
+    return {po:p.price, et:'🎯 COMBO', pct:0, eslogan:'Combo del día'};
+  }
+  const pct = Math.round((1-p.price/Math.max(p.normal,1))*100);
+  return {po:p.price, et:'🎯 COMBO', pct, eslogan:'Combo del día'};
+}
+
+// Últimas unidades — precio y % vienen de Code.gs (planilla manda, igual que
+// seba21.html/sendwa.html: u.precioOferta / u.precio / u.pct son la fuente de
+// verdad). Solo si no vienen (ej. fallback local por stock bajo, sin dato de
+// backend) se recalcula acá con la misma regla que index.html:
+// diasVenc<=3 → -25%, sino usa código relámpago del producto.
+function calcUltimas(p, diasParaVencer, ofertaData){
+  const u = ofertaData || {};
+  let po, pct;
+  if(u.precioOferta!=null || u.pct!=null){
+    pct = u.pct!=null ? u.pct : (p.price>0 ? Math.round((1-u.precioOferta/p.price)*100) : 0);
+    po  = u.precioOferta!=null ? u.precioOferta : Math.round(p.price*(1-pct/100));
+  } else {
+    if(diasParaVencer!==null&&diasParaVencer!==undefined&&diasParaVencer<=3){
+      pct=25;
+    } else {
+      const cfg=ORS[String(p.rel)];
+      pct=(cfg&&cfg.tipo==='pct'&&cfg.descuento>0)?cfg.descuento:10;
+    }
+    po=Math.round(p.price*(1-pct/100));
+  }
+  const diasLabel=diasParaVencer!==null&&diasParaVencer!==undefined
+    ?(diasParaVencer===0?'⚠️ Vence hoy':'Vence en '+diasParaVencer+'d'):'';
+  return {po, et:'ÚLTIMAS -'+pct+'%', pct, diasLabel};
+}
+
+// Rotación local simple — usa fecha del día como índice
+// Replica el efecto de ROTACION_SISTEMA sin acceso al localStorage del catálogo
+function rotarPool(pool, n, tipo){
+  if(pool.length<=n) return pool.slice();
+  // Seed basado en fecha del día (cambia cada día como en el catálogo)
+  const hoy=new Date();
+  const seed=hoy.getFullYear()*10000+((hoy.getMonth()+1)*100)+hoy.getDate();
+  // Índice de inicio rotante
+  const inicio=(seed*(tipo==='especiales'?7:tipo==='relampago'?3:5))%pool.length;
+  const res=[];
+  for(let i=0;i<n&&i<pool.length;i++) res.push(pool[(inicio+i)%pool.length]);
+  return res;
+}
+
+function extraerLimites(cfg){
+  const nrm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const get=k=>{
+    const t=nrm(k);
+    const key=Object.keys(cfg).find(x=>nrm(x).replace(/^general\|/,'').includes(t)||nrm(x).includes(t));
+    const v=key&&cfg[key]?parseInt(cfg[key][0]):null;
+    return v&&v>0?v:null;
+  };
+  _limites.relampago  = get('maximo relampago')  || 3;
+  _limites.destacadas = get('maximo destacadas')  || 9;
+  _limites.especiales = get('maximo especiales')  || 2;
+  _limites.ultimas    = get('maximo ultimas')     || 3;
+}
+
+function normProds(arr){
+  return arr.map((p,i)=>{
+    const price=parseInt(p.price)||0;
+    const costo=parseInt(p.costo||p.cost||p.precioCosto)||0;
+    return {
+      id:     Number(p.id||i+1),
+      name:   String(p.name||p.nombre||'Producto '+i).trim(),
+      price,
+      normal: parseInt(p.normal)||price||0,
+      cat:    String(p.category||p.categoria||'').trim().toUpperCase(),
+      stock:  parseInt(p.stock)||parseInt(p.stockNumber)||0,
+      rel:    parseInt(p.relampago)||0,
+      des:    parseInt(p.destacada)||0,
+      esp:    parseInt(p.especial)||0,
+      op:     p.ofertaPersonalizada||null, // {activa,precioFinal,etiqueta,texto} — fuente de verdad: planilla
+      co:     String(p.categoriaOferta||'').trim().toUpperCase(), // columna J — estado comercial calculado en la planilla
+      // Grilla Normal (catálogo) — usados para ordenar por más vendidos / más ganancia
+      ventas:   parseInt(p.ventas||p.ventasUltimoMes||p.vendidos||p.unidadesVendidas)||0,
+      costo,
+      ganancia: costo>0 ? (price-costo) : (parseInt(p.ganancia||p.margen||p.utilidad)||0),
+    };
+  });
+}
+
+function construirPools(){
+  // ── Respuesta exacta de calcularOfertas() (GAS v8.3) ──
+  // _of.relampagoActivo       → N rotados activos (vacío si horario off)
+  // _of.relampagoPool         → todos los candidatos sin filtro horario
+  // _of.destacadasActivas     → N rotadas activas (vacío si horario off)
+  // _of.destacadasPool        → todos los candidatos
+  // _of.especialesActivas     → N rotadas activas (vacío si horario off)
+  // _of.ultimasSeleccionadas       → seleccionadas SOLO si horario on
+  // _of.ultimasSeleccionadasSiempre→ siempre, sin importar horario
+  // _of.horariosOferta        → {relampago,destacadas,especiales,ultimas} con .activo (boolean)
+  // _of.limites               → {relampago,especiales,destacadas} desde config_sistema
+
+  // Actualizar límites desde la respuesta del GAS (más preciso que config_sistema)
+  if(_of.limites){
+    if(_of.limites.relampago)  _limites.relampago  = _of.limites.relampago;
+    if(_of.limites.especiales) _limites.especiales = _of.limites.especiales;
+    if(_of.limites.destacadas) _limites.destacadas = _of.limites.destacadas;
+  }
+
+  const hor = _of.horariosOferta || {};
+
+  // ── RELÁMPAGO ─────────────────────────────────────────────────────────────
+  // relampagoActivo = ya rotados y filtrados por horario
+  // relampagoPool   = todos los candidatos (para el flyer aunque esté fuera de horario)
+  // Relámpago: activos del GAS (ya rotados y filtrados por horario)
+  // relampagoPool = todos los candidatos sin filtro horario (para referencia)
+  _pools._relActivos = (_of.relampagoActivo||[]).map(p=>normOfertaProducto(p,'relampago')).filter(p=>p.stock>0);
+  _pools._relTodos   = (_of.relampagoPool||_of.relampagoActivo||[]).map(p=>normOfertaProducto(p,'relampago')).filter(p=>p.stock>0);
+  // Pool del flyer = activos si los hay, pool completo si horario off pero hay candidatos
+  // (permite hacer flyer anticipado aunque el horario no haya arrancado)
+  _pools.relampago = _pools._relActivos.length > 0
+    ? _pools._relActivos
+    : _pools._relTodos;
+
+  // ── DESTACADAS ────────────────────────────────────────────────────────────
+  // Destacadas: activos del GAS
+  _pools._desActivos = (_of.destacadasActivas||[]).map(p=>normOfertaProducto(p,'destacadas')).filter(p=>p.stock>0);
+  _pools._desTodas   = (_of.destacadasPool||_of.destacadasActivas||[]).map(p=>normOfertaProducto(p,'destacadas')).filter(p=>p.stock>0);
+  _pools.destacadas  = _pools._desActivos.length > 0
+    ? _pools._desActivos
+    : _pools._desTodas;
+
+  // ── ESPECIALES ────────────────────────────────────────────────────────────
+  // El GAS ya hace la rotación — especialesActivas viene vacío si horario off
+  // Especiales: el GAS manda especialesActivas ya rotados
+  // Si viene vacío = ofertas off = pool vacío (NO fallback a planilla)
+  _pools._espActivos = (_of.especialesActivas||[]).length > 0
+    ? (_of.especialesActivas).map(p=>({...normOfertaProducto(p,'especiales'), esp:1})).filter(p=>p.stock>0)
+    : [];
+  // Pool del flyer = activos si hay, vacío si no hay
+  // (el usuario elige modo especiales sabiendo que están off)
+  _pools.especiales = _pools._espActivos;
+  // _espTodas = todos en planilla, solo para referencia en log/diag
+  _pools._espTodas = _prods.filter(p=>p.esp===1&&p.stock>0).map(p=>({...p,...calcEsp(p)}));
+
+  // ── PROMOS ────────────────────────────────────────────────────────────────
+  const promosOn = (() => {
+    if(!_cfgRaw) return true;
+    const nrm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const k=Object.keys(_cfgRaw).find(k=>nrm(k).replace(/^general\|/,'').includes('oferta promos')||nrm(k).includes('promos activas'));
+    const v=k?_cfgRaw[k]?.[0]:null;
+    return v!==0&&v!=='0'&&v!==false&&v!==null;
+  })();
+  _pools.promos = _prods.filter(p=>{
+    const cat=(p.cat||'').toString().toUpperCase().trim();
+    const esPromo = cat==='PROMOS'||cat==='PROMO'||cat.includes('PROMO')||
+                    (p.normal>0&&p.price>0&&p.normal>p.price&&p.pct>=5);
+    return esPromo && p.stock>0;
+  }).map(p=>({...p,...calcPro(p)}));
+  _pools._promosOn = promosOn;
+
+  // ── COMBOS ────────────────────────────────────────────────────────────────
+  // Categoría dedicada "COMBO"/"COMBOS" (sin el atajo de precio que usa Promos,
+  // para no contar dos veces el mismo producto). Puede estar en 0 si hoy no hay
+  // ningún combo activado — el botón queda igual, con el contador en 0.
+  _pools.combo = _prods.filter(p=>{
+    const cat=(p.cat||'').toString().toUpperCase().trim();
+    const esCombo = cat==='COMBO'||cat==='COMBOS'||cat.includes('COMBO');
+    return esCombo && p.stock>0;
+  }).map(p=>({...p,...calcCombo(p)}));
+
+  // ── ÚLTIMAS UNIDADES ─────────────────────────────────────────────────────
+  // ultimasSeleccionadasSiempre = siempre disponible para el flyer
+  // ultimasSeleccionadas        = solo si horario activo
+  //
+  // ⚠️ IMPORTANTE: los IDs de acá NO los calcula un algoritmo — los elige el
+  // vendedor A MANO desde un selector en el POS (seba21.html), que escribe
+  // directo en la celda "ultimas_seleccion" de la hoja config_sistema. Esa
+  // selección manual es la decisión FINAL. Si un producto no aparece o
+  // aparece uno que no debería, lo primero es mirar esa celda en
+  // config_sistema antes de sospechar del cálculo (_leerUltimasConDias_ en
+  // Code.gs), porque ahí es donde suele estar el error real.
+  console.log('🔍 Últimas: _of.ultimasSeleccionadasSiempre =', _of.ultimasSeleccionadasSiempre);
+  console.log('🔍 Últimas: _of.ultimasSeleccionadas =', _of.ultimasSeleccionadas);
+
+  const ultSrc = _of.ultimasSeleccionadasSiempre || _of.ultimasSeleccionadas || [];
+  if(ultSrc.length > 0 && _prods.length > 0){
+    _pools.ultimas = ultSrc.map(u=>{
+      const p = _prods.find(x=>x.id===Number(u.id));
+      if(!p||p.stock<=0) {
+        console.warn('⚠️ Últimas: producto no encontrado o sin stock para id', u.id);
+        return null;
+      }
+      const calc = calcUltimas(p, u.diasParaVencer, u);
+      return {...p, ...calc};
+    }).filter(Boolean);
+  } else if(_of.ultimasSeleccionConfigurada){
+    // Hay selección manual del vendedor, pero hoy da 0 (los productos
+    // elegidos se vendieron o vencieron). Esto NO es "no eligieron nada" —
+    // es la decisión final del vendedor sin stock hoy. No sustituir con
+    // fallback algorítmico: mostrar vacío, así se nota que hay que
+    // actualizar la selección en vez de ver productos que nadie eligió.
+    console.log('🔍 Últimas: hay selección manual pero da 0 hoy (sin stock/vencidos) — no uso fallback');
+    _pools.ultimas = [];
+  } else {
+    console.log('🔍 Últimas: usando fallback por stock bajo');
+    // Fallback: nunca se configuró nada a mano — productos con stock bajo
+    _pools.ultimas = _prods
+      .filter(p=>p.rel>0&&p.stock>0&&p.stock<5)
+      .map(p=>({...p,...calcUltimas(p,null)}));
+  }
+  console.log('✅ Últimas resultante:', _pools.ultimas.length, 'productos');
+
+  // ── CERVECERO ────────────────────────────────────────────────────────────
+  // OJO: si p.id viene vacío/repetido para varios productos, el deduplicado por id
+  // que hace poblarCandidatos() los colapsa a uno solo (aunque el badge cuente bien,
+  // porque el badge sí ve el array completo). Por eso acá garantizamos id único.
+  const _idsCervVistos = new Set();
+  _pools.cervecero = (_cerv.productos||[]).map((p,i)=>{
+    const precio=parseInt(p.precio||p.price)||0;
+    const promoP=parseInt(p.precioPromo)||0;
+    const po=promoP>0?promoP:precio;
+    const pct=precio>0&&promoP>0?Math.round((1-promoP/precio)*100):0;
+    let idReal=Number(p.id||p.productoId||p.idProducto||p.codigo||0);
+    if(!idReal || _idsCervVistos.has(idReal)) idReal = 9000000+i; // evita colisión
+    _idsCervVistos.add(idReal);
+    return {id:idReal, name:String(p.nombre||p.name||''),
+      price:precio, normal:precio, stock:99, rel:0, des:0, esp:0, cat:'CERVEZAS',
+      po, et:pct>0?'-'+pct+'%':'CERV.', pct, _activo:true};
+  });
+  if((_cerv.productos||[]).length>1 && new Set((_cerv.productos||[]).map(p=>p.id)).size<=1){
+    console.warn('⚠️ Cervecero: los productos no traen un "id" único (todos vienen igual).',
+      '\nEjemplo del primer producto crudo:', (_cerv.productos||[])[0],
+      '\nUsé un id generado para que no se pisen entre sí, pero si tienen otro campo con el id real (ej. productoId, codigo), pasámelo y lo uso ese en vez del generado.');
+  }
+
+  // ── MULTICOMPRA (2x1, 3x2, etc.) ────────────────────────────────────────────
+  // _poolMulticompra viene de action=getMulticompraTodas (flyer_multicompra.gs).
+  // mc.precio = precio TOTAL del pack (no unitario) — se muestra con la estrella
+  // "estallido" en vez del badge normal (ver drawCard/drawStarburst).
+  // GRUPAL (mc.grupo): combina entre productos distintos — misma lectura que
+  // seba21.html/sendwa.html ("📦 Combinable AT x $AU"), NO es "llevá AT de este
+  // mismo producto". INDIVIDUAL (sin grupo): "AT x $precio" o "2da unidad" según tipo.
+  console.log('🔍 Multicompra: _poolMulticompra.size =', _poolMulticompra.size);
+  console.log('🔍 Multicompra: _prods.length =', _prods.length);
+  _pools.multicompra = [];
+  if (_poolMulticompra.size > 0 && _prods.length > 0) {
+    _pools.multicompra = [..._poolMulticompra.keys()].map(id=>{
+      const p=_prods.find(x=>x.id===id);
+      if(!p||p.stock<=0) {
+        console.warn('⚠️ Multicompra: producto no encontrado o sin stock para id', id);
+        return null;
+      }
+      const mc=_poolMulticompra.get(id);
+      const etiqueta = mc.grupo
+        ? `📦 Combinable ${mc.cantidad}x $${fmt(mc.precio)}`
+        : mc.tipo==='2DA_UNIDAD'
+          ? `📦 2da unidad a $${fmt(mc.precio)}`
+          : `📦 ${mc.cantidad}x $${fmt(mc.precio)}`;
+      return {...p, po:p.price, et:etiqueta, pct:0, mc:{...mc, etiqueta}};
+    }).filter(Boolean);
+  }
+  console.log('✅ Multicompra resultante:', _pools.multicompra.length, 'productos');
+
+  // ── MANUAL — todas las ofertas sin filtro horario ─────────────────────────
+  const seen=new Set(); _pools.manual=[];
+  [..._pools.multicompra,
+   ..._pools.combo,
+   ..._pools._relTodos.map(p=>normOfertaProducto(p,'relampago')),
+   ..._pools._desTodas.map(p=>normOfertaProducto(p,'destacadas')),
+   ..._pools._espTodas,
+   ..._pools.promos,
+   ...(_of.ultimasSeleccionadasSiempre||[]).map(u=>{
+     const p=_prods.find(x=>x.id===Number(u.id));
+     return p?{...p,...calcUltimas(p,u.diasParaVencer,u)}:null;
+   }).filter(Boolean),
+   ..._pools.cervecero]
+    .forEach(p=>{if(p&&!seen.has(p.id)){seen.add(p.id);_pools.manual.push(p);}});
+
+  // ── PERSONALIZADA — ofertas manuales creadas para productos fuera de lo automático ──
+  // Fuente de verdad: columna oferta_personalizada de la planilla (vía GAS), igual que sendwa.html
+  _pools.personalizada = _prods
+    .filter(p=>p.op && p.op.activa && p.stock>0)
+    .map(p=>{
+      const price=p.price, po=Number(p.op.precioFinal)||price;
+      const pct=price>0?Math.round((1-po/price)*100):0;
+      return {id:p.id, name:p.name, price, normal:p.normal||price, stock:p.stock,
+        po, et:p.op.etiqueta||('🎉 '+(p.op.texto||'')), pct, _tipoOferta:'personalizada'};
+    });
+  _pools.personalizada.forEach(p=>{if(!seen.has(p.id)){seen.add(p.id);_pools.manual.push(p);}});
+
+  // ── SIN OFERTA — elegibles para crear una oferta manual nueva ──────────────
+  // Cualquier producto con stock que no tenga ya alguna oferta (automática o personalizada)
+  const idsConOferta = new Set(_pools.manual.map(p=>p.id));
+  _pools.sinoferta = _prods
+    .filter(p=>p.stock>0 && !idsConOferta.has(p.id))
+    .map(p=>({id:p.id, name:p.name, price:p.price, normal:p.normal||p.price, stock:p.stock,
+      po:p.price, et:'', pct:0}));
+
+  poblarCategoriasNormal();
+  actualizarPoolNormal();
+
+  // ── COTIZACIÓN RÁPIDA — todos los productos disponibles para buscar y armar un
+  // presupuesto puntual para un cliente. Si el producto tiene oferta activa (manual)
+  // se usa ese precio/etiqueta; si no, precio normal sin badge.
+  const _manualById = new Map(_pools.manual.map(p=>[p.id,p]));
+  _pools.cotizacion = _prods.map(p=>
+    _manualById.get(p.id) || {id:p.id, name:p.name, price:p.price, normal:p.normal||p.price, stock:p.stock,
+      po:p.price, et:'', pct:0});
+}
+
+// ── GRILLA NORMAL (catálogo) — helpers ──────────────────────────────────────────
+function quitarAcentos(s){
+  return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+// ── COTIZACIÓN RÁPIDA — buscador ────────────────────────────────────────────────
+// No toca _sel: lo ya elegido en búsquedas anteriores se mantiene aunque el texto
+// actual no lo muestre, así se puede armar la cotización con varias búsquedas.
+function filtrarCotizacion(){
+  const q=quitarAcentos((($('cotizBuscar')||{}).value||'').trim().toLowerCase());
+  const base=_pools.cotizacion||[];
+  _cand = q ? base.filter(p=>quitarAcentos(p.name.toLowerCase()).includes(q)) : [];
+  renderCandidatos();
+}
+
+// Vacía de un toque toda la cotización armada hasta ahora (sin tener que
+// destildar producto por producto). Pide confirmación si hay algo elegido
+// para evitar que un toque accidental borre una lista larga.
+function vaciarCotizacion(){
+  if(_sel.size===0) return;
+  if(!confirm('¿Vaciar los '+_sel.size+' producto(s) de la cotización?')) return;
+  _sel.clear();
+  if($('cotizBuscar')) $('cotizBuscar').value='';
+  _cand=[];
+  renderCandidatos();
+  actualizarContadorCotizacion();
+}
+
+function actualizarContadorCotizacion(){
+  const el=$('cnt-sel-cotiz');
+  if(el) el.textContent = _sel.size>0 ? ' ('+_sel.size+')' : '';
+}
+
+// Enter en el buscador: busca, cierra el teclado del celular (que tapa media pantalla
+// y no deja ver las fotos) y baja la vista a la lista de resultados.
+function enterBuscarCotizacion(ev){
+  if(ev.key!=='Enter') return;
+  ev.preventDefault();
+  filtrarCotizacion();
+  ev.target.blur();
+  setTimeout(()=>{
+    const sec=$('secProd');
+    if(sec && sec.style.display!=='none') sec.scrollIntoView({behavior:'smooth', block:'start'});
+  },150);
+}
+
+function poblarCategoriasNormal(){
+  const sel=$('nrmCategoria');
+  if(!sel) return;
+  const actual=sel.value;
+  const cats=[...new Set(_prods.map(p=>p.cat).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">(Todas)</option>'+cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+  if(cats.includes(actual)) sel.value=actual;
+}
+
+// Recalcula _pools.normal según los filtros elegidos (origen, orden, categoría, exclusiones).
+// Solo aplica al modo "normal" — Manual y Sin Oferta usan aplicarOrdenCategoria()
+// directo sobre su propio pool en poblarCandidatos() (v5.51).
+function actualizarPoolNormal(){
+  const elOrigen=$('nrmOrigen'), elOrden=$('nrmOrden'), elCat=$('nrmCategoria');
+  if(!elOrigen) return; // el panel todavía no está en el DOM en la primera carga
+
+  const origen = elOrigen.value||'con';
+
+  // "Con ofertas" respeta el mismo orden/prioridad de contenedores que ya usa Selección
+  // manual (Relámpago→Destacadas→Especiales→Promos→Últimas→Cervecero, sin duplicados).
+  // "Sin ofertas" = productos sin ninguna oferta activa (automática ni personalizada).
+  const base = origen==='sin' ? (_pools.sinoferta||[]) : (_pools.manual||[]);
+
+  _pools.normal = aplicarOrdenCategoria(base);
+  actualizarBadges();
+  if(_modo==='normal') poblarCandidatos();
+}
+
+// Filtro + orden compartido por Grilla Normal, Selección Manual y Sin Oferta (v5.51)
+// — mismo criterio en los tres, así "Más vendidos" + una categoría puntual ordena
+// SOLO dentro de esa categoría (el filtro de categoría se aplica antes del sort).
+function aplicarOrdenCategoria(lista){
+  const elOrden=$('nrmOrden'), elCat=$('nrmCategoria');
+  const orden = (elOrden&&elOrden.value)||'vendidos';
+  const catSel= (elCat&&elCat.value)||'';
+
+  // Enriquecer con datos crudos de _prods (ventas, ganancia, categoría) por si el pool
+  // transformado no los trae ya.
+  let out = lista.map(p=>{
+    const raw=_prods.find(x=>x.id===p.id);
+    return {...p,
+      cat:      p.cat || (raw?raw.cat:''),
+      ventas:   raw?raw.ventas:0,
+      ganancia: raw?raw.ganancia:0,
+      stock:    (p.stock!=null?p.stock:(raw?raw.stock:0))};
+  });
+
+  if(catSel) out = out.filter(p=>p.cat===catSel); // filtro de categoría SIEMPRE antes del orden
+
+  if(orden==='vendidos')       out.sort((a,b)=>b.ventas-a.ventas);
+  else if(orden==='stock')     out.sort((a,b)=>b.stock-a.stock);
+  else if(orden==='ganancia')  out.sort((a,b)=>b.ganancia-a.ganancia);
+  else if(orden==='categoria') out.sort((a,b)=>(a.cat||'').localeCompare(b.cat||''));
+
+  return out;
+}
+
+// Dispatcher de los selects de Orden/Categoría — arriba de "normal" (que recalcula
+// _pools.normal completo), Manual y Sin Oferta solo necesitan repoblar candidatos:
+// aplicarOrdenCategoria() se aplica ahí mismo, dentro de poblarCandidatos() (v5.51).
+function actualizarFiltroActivo(){
+  if(_modo==='normal'){ actualizarPoolNormal(); return; }
+  if(_modo==='manual'||_modo==='sinoferta'){ poblarCandidatos(); return; }
+}
+
+// Elegir criterio de orden/selección rápida (unificado con "Ordenar por" en v5.54):
+// mueve el select oculto "nrmOrden" y dispara el mismo recálculo que antes
+// hacía el dropdown — así la lista visible queda reordenada Y los botones de
+// cantidad (25/50/75/100) usan el mismo criterio, sin dos fuentes de verdad.
+function elegirCriterioIA(criterio,btn){
+  document.querySelectorAll('.ia-crit').forEach(b=>b.classList.toggle('act', b===btn));
+  const sel=$('nrmOrden');
+  if(sel){ sel.value=criterio; }
+  actualizarFiltroActivo();
+}
+
+// Preselecciona los N productos con más ventas/ganancia/stock de la lista actual
+// (ya filtrada por categoría vía aplicarOrdenCategoria) — punto de partida rápido,
+// después se afina destildando de a uno (v5.51).
+function seleccionRapidaIA(n){
+  if(!_cand.length) return;
+  const orden = ($('nrmOrden')&&$('nrmOrden').value)||'vendidos';
+
+  // "Categoría (A-Z)" no es un valor numérico a rankear — _cand ya viene
+  // ordenado alfabéticamente por aplicarOrdenCategoria(), así que tomamos
+  // los primeros N tal cual están.
+  if(orden==='categoria'){
+    _sel.clear();
+    _cand.slice(0,n).forEach(p=>_sel.add(p.id));
+    renderCandidatos();
+    return;
+  }
+
+  const campo = orden==='ganancia'?'ganancia':orden==='stock'?'stock':'ventas';
+  const valores = _cand.map(p=>p[campo]||0);
+  const distintos = new Set(valores).size;
+  console.log('🔍 Selección rápida: criterio =', orden, '| campo =', campo, '| candidatos =', _cand.length);
+  console.log('🔍 Selección rápida: valores de "'+campo+'" — min =', Math.min(...valores), '| max =', Math.max(...valores), '| distintos =', distintos, 'de', _cand.length);
+  if(distintos<=1){
+    console.warn('⚠️ Todos los candidatos tienen el mismo valor de "'+campo+'" — por eso el orden no cambia. Revisar si el backend está mandando ese campo.');
+    console.log('  → primer candidato crudo:', JSON.stringify(_cand[0]));
+  }
+  const ordenados=[..._cand].sort((a,b)=>(b[campo]||0)-(a[campo]||0));
+  _sel.clear();
+  ordenados.slice(0,n).forEach(p=>_sel.add(p.id));
+  renderCandidatos();
+}
+
+// Normaliza un producto que viene del GAS (tiene .nombre/.precio) al formato del flyer
+function normOfertaProducto(gasP, tipo){
+  // El GAS (_ofertaBuildProducto_) devuelve: id, name, price, relampago, destacada, especial, stock
+  // NO incluye 'normal' — cruzar con _prods para obtener precio original real
+  const id    = Number(gasP.id||0);
+  const name  = String(gasP.nombre||gasP.name||'').trim();
+  const price = parseInt(gasP.precio||gasP.price)||0;
+  const stock = parseInt(gasP.stock)||0;
+  const rel   = parseInt(gasP.relampago)||0;
+  const des   = parseInt(gasP.destacada)||0;
+  const esp   = parseInt(gasP.especial)||parseInt(gasP.esp)||0;
+  const cat   = String(gasP.categoria||gasP.category||'').trim().toUpperCase();
+
+  // Buscar en _prods para obtener precio normal (col L/K de la planilla)
+  // _prods viene del fetch sin action que sí incluye .normal
+  const prodLocal = _prods.find(x=>x.id===id);
+  // normal: prioridad → GAS si lo manda → _prods.normal → price (fallback)
+  const normal = parseInt(gasP.normal)||
+                 (prodLocal && prodLocal.normal > 0 ? prodLocal.normal : 0)||
+                 price;
+
+  const base  = {id, name, price, normal, stock, rel, des, esp, cat};
+
+  if(tipo==='relampago') return {...base,...calcRel(base)};
+  if(tipo==='destacadas')return {...base,...calcDes(base)};
+  if(tipo==='especiales')return {...base,...calcEsp(base)};
+  return base;
+}
+
+function actualizarDiag(){
+  const hor      = _of.horariosOferta||{};
+  const relOn    = hor.relampago  ? hor.relampago.activo  : false;
+  const desOn    = hor.destacadas ? hor.destacadas.activo : false;
+  const espOn    = hor.especiales ? hor.especiales.activo : false;
+  const ultOn    = hor.ultimas    ? hor.ultimas.activo    : false;
+  const nRelAct  = (_pools._relActivos||[]).length;
+  const nRelTot  = (_pools._relTodos||[]).length;
+  const nDesAct  = (_pools._desActivos||[]).length;
+  const nDesTot  = (_pools._desTodas||[]).length;
+  const nEspAct  = (_pools._espActivos||[]).length;
+  const nEspTot  = (_pools._espTodas||[]).length;
+  const promosOn = _pools._promosOn!==false;
+  const cervModo = _cerv.modoActivo||'A';
+
+  diagSet([
+    {cls:_prods.length>0?'ok':'off',
+      lbl:'Productos cargados', cnt:_prods.length},
+    {cls:(relOn&&nRelAct>0)?'ok':nRelTot>0?'warn':'off',
+      lbl:'⚡ Relámpago '+(relOn?'(ACTIVO)':'(fuera de horario)'),
+      cnt:nRelAct+' activos / '+nRelTot+' en planilla'},
+    {cls:(desOn&&nDesAct>0)?'ok':nDesTot>0?'warn':'off',
+      lbl:'🔥 Destacadas '+(desOn?'(ACTIVO)':'(fuera de horario)'),
+      cnt:nDesAct+' activos / '+nDesTot+' en planilla'},
+    {cls:(espOn&&nEspAct>0)?'ok':nEspTot>0?'warn':'off',
+      lbl:'⭐ Especiales '+(espOn?'(ACTIVO)':'(fuera de horario)'),
+      cnt:nEspAct+' activos / '+nEspTot+' en planilla'},
+    {cls:(promosOn&&_pools.promos.length>0)?'ok':_pools.promos.length>0?'warn':'off',
+      lbl:'🏷️ Promos '+(promosOn?'(ON)':'(OFF — config)'),
+      cnt:_pools.promos.length},
+    {cls:_pools.ultimas.length>0?'ok':'warn',
+      lbl:'🎯 Últimas '+(ultOn?'(ACTIVO)':'(sin horario activo)'),
+      cnt:_pools.ultimas.length},
+    {cls:_pools.cervecero.length>0?'ok':'warn',
+      lbl:'🍺 Cervecero '+(cervModo==='1'?'FORZADO':cervModo==='0'?'APAGADO':'auto'),
+      cnt:_pools.cervecero.length},
+    {cls:'ok',
+      lbl:'✏️ Manual (todas)', cnt:_pools.manual.length},
+  ]);
+  generarLog();
+}
+
+// ── LOG DETALLADO — idéntico al index.html ────────────────────────────────────
+let _logHtml = '';
+
+function logLine(ico, txt, tag='', tagCls='ll-info'){
+  _logHtml += `<div class="ll"><span class="ll-ico">${ico}</span><span class="ll-txt">${txt}</span>${tag?`<span class="ll-tag ${tagCls}">${tag}</span>`:''}</div>`;
+}
+function logSep(){ _logHtml += '<div class="ll-sep"></div>'; }
+
+function generarLog(){
+  _logHtml = '';
+  const nrm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const cfg = _cfgRaw||{};
+
+  // ── Día actual ──
+  const DIAS_JS = [1,2,3,4,5,6,0]; // Lun-Dom
+  const diaIdx  = DIAS_JS.indexOf(new Date().getDay());
+  const diaNom  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date().getDay()];
+  const ahora   = new Date();
+  const horaStr = ahora.getHours().toString().padStart(2,'0')+':'+ahora.getMinutes().toString().padStart(2,'0');
+
+  logLine('📅', `<b>${diaNom}</b> col ${diaIdx} · ahora <b>${horaStr}</b>`);
+  logSep();
+
+  // ── Horario local ──
+  const fkCfg = k => { const t=nrm(k); return Object.keys(cfg).find(x=>nrm(x).replace(/^.*\|/,'')===t||nrm(x)===t)||null; };
+  const getVal = k => { const key=fkCfg(k); return key&&cfg[key]?cfg[key][diaIdx]:'—'; };
+
+  const apertura = getVal('horario apertura local');
+  const cierre   = getVal('horario cierre local');
+  logLine('🏪', `Horario local: <b>${apertura}</b> → <b>${cierre}</b>`);
+  logSep();
+
+  // ── Ofertas con horario — exactamente como index.html ──
+  const tiposOferta = [
+    { id:'relampago',  lbl:'Relámpago ⚡',  kDias:'Dias ofertas RELAMPAGO',         kIni:'hora inicio relampago',        kCie:'hora cierre relampago',       pool:_pools._relActivos||[], todos:_pools._relTodos||[]},
+    { id:'destacadas', lbl:'Destacadas 🔥', kDias:'Dias ofertas DESTACADAS',        kIni:'hora inicio destacadas',       kCie:'hora cierre destacadas',      pool:_pools._desActivos||[],todos:_pools._desTodas||[]},
+    { id:'especiales', lbl:'Especiales ⭐', kDias:'Dias ofertas ESPECIALES',        kIni:'hora inicio especiales',       kCie:'hora cierre especiales',      pool:_pools._espActivos||[],todos:_pools.especiales||[]},
+    { id:'ultimas',    lbl:'Últimas 🎯',    kDias:'Dias ofertas ULTIMAS UNIDADES',  kIni:'hora inicio ultimas unidades', kCie:'hora cierre ultimas unidades', pool:_pools.ultimas||[],    todos:_pools.ultimas||[]},
+  ];
+
+  tiposOferta.forEach(t => {
+    const kDiasKey = fkCfg(t.kDias);
+    const kIniKey  = fkCfg(t.kIni);
+    const kCieKey  = fkCfg(t.kCie);
+    const diasRow  = kDiasKey&&cfg[kDiasKey] ? cfg[kDiasKey] : null;
+    const val      = diasRow ? diasRow[diaIdx] : null;
+    const ini      = kIniKey&&cfg[kIniKey] ? _parseHoraLog(cfg[kIniKey][diaIdx]) : '—';
+    const cie      = kCieKey&&cfg[kCieKey] ? _parseHoraLog(cfg[kCieKey][diaIdx]) : '—';
+
+    // Determinar modo (misma lógica que index.html)
+    let modo, activo;
+    if(val===1||val==='1'||val===true)        { activo=true;  modo='forzado ON'; }
+    else if(val===0||val==='0'||val===false)   { activo=false; modo='forzado OFF'; }
+    else if(diasRow===null)                    { activo=false; modo='sin config'; }
+    else {
+      // Auto: verificar horario
+      const {enHorario} = _checkHorario(cfg, t.id, diaIdx);
+      activo = enHorario;
+      modo   = 'auto · '+ini+'→'+cie;
+    }
+
+    const ico       = activo ? '🟢' : '🔴';
+    const tag       = activo ? 'ACTIVO' : 'INACTIVO';
+    const tagCls    = activo ? 'll-ok' : 'll-off';
+    const nAct      = t.pool.length;
+    const nTot      = t.todos.length;
+    const cuentaStr = nAct===nTot ? nAct+' productos' : nAct+' activos / '+nTot+' total';
+    logLine(ico, `<b>${t.lbl}</b> · ${modo}`, tag, tagCls);
+    logLine('',  `horario: ${ini} → ${cie} · ${cuentaStr}`, '', '');
+    logSep();
+  });
+
+  // ── Promos ──
+  const pk = fkCfg('oferta promos')||fkCfg('promos activas');
+  const pv = pk&&cfg[pk] ? cfg[pk][0] : null;
+  const pon= pv!==0&&pv!=='0'&&pv!==false&&pv!==null;
+  logLine(pon?'🟢':'🔴', `<b>Promos</b> · ${pon?'activas':'inactivas'}`, pon?'ACTIVO':'INACT.', pon?'ll-ok':'ll-off');
+  logLine('', _pools.promos.length+' productos con promo activa','','');
+  logSep();
+
+  // ── Cervecero ──
+  const modoC = _cerv.modoActivo||'A';
+  const cIni  = _cerv.horaInicio||'18:00';
+  const cCie  = _cerv.horaCierre||'22:00';
+  const cIco  = modoC==='1'?'🟢':modoC==='0'?'🔴':'🟡';
+  const cTag  = modoC==='1'?'FORZADO':modoC==='0'?'APAGADO':'AUTO';
+  const cCls  = modoC==='1'?'ll-ok':modoC==='0'?'ll-off':'ll-warn';
+  logLine(cIco, `<b>Cervecero 🍺</b> · ${cTag}`, cTag, cCls);
+  logLine('', `horario: ${cIni} → ${cCie} · ${_pools.cervecero.length} productos`,'','');
+  logSep();
+
+  // ── Límites ──
+  const lims = [
+    {k:'maximo relampago',  def:3},
+    {k:'maximo destacadas', def:9},
+    {k:'maximo especiales', def:2},
+    {k:'maximo ultimas',    def:3},
+  ];
+  const limsStr = lims.map(l=>{
+    const key=fkCfg(l.k);
+    const v=key&&cfg[key]?cfg[key][0]:l.def;
+    return l.k.replace('maximo ','')+':'+v;
+  }).join(' | ');
+  logLine('📏', 'Límites: '+limsStr);
+  logSep();
+
+  // ── Timestamp ──
+  logLine('🕐', 'Leído: '+ahora.toLocaleTimeString('es-AR'));
+
+  // Inyectar en el DOM
+  const el = document.getElementById('logLines');
+  if(el) el.innerHTML = _logHtml;
+}
+
+// Parsea valor de hora del GAS a string HH:MM (igual que _parsearValorHora del index)
+function _parseHoraLog(v){
+  if(v===null||v===undefined||v==='') return '—';
+  const s=String(v).trim();
+  if(s.includes('T')&&s.includes('Z')){const d=new Date(s);if(!isNaN(d))return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
+  if(/^0\.\d+$/.test(s)){const m=Math.round(parseFloat(s)*1440);return Math.floor(m/60).toString().padStart(2,'0')+':'+(m%60).toString().padStart(2,'0');}
+  if(/^\d{1,2}:\d{2}$/.test(s)) return s.length===4?'0'+s:s;
+  if(/^\d{1,2}$/.test(s)) return s.padStart(2,'0')+':00';
+  return s;
+}
+
+// Verifica si estamos dentro del horario para un tipo de oferta (igual que _dentroDeHorarioIndex)
+function _checkHorario(cfg, tipo, diaIdx){
+  try{
+    const nrm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const mapas={
+      relampago: {ini:'hora inicio relampago',       cie:'hora cierre relampago'},
+      destacadas:{ini:'hora inicio destacadas',      cie:'hora cierre destacadas'},
+      especiales:{ini:'hora inicio especiales',      cie:'hora cierre especiales'},
+      ultimas:   {ini:'hora inicio ultimas unidades',cie:'hora cierre ultimas unidades'},
+    };
+    const m=mapas[tipo]; if(!m) return {enHorario:false};
+    const fk=k=>Object.keys(cfg).find(x=>nrm(x).replace(/^.*\|/,'')===nrm(k)||nrm(x)===nrm(k));
+    const kI=fk(m.ini), kC=fk(m.cie);
+    if(!kI||!kC) return {enHorario:false};
+    const vI=cfg[kI]?.[diaIdx], vC=cfg[kC]?.[diaIdx];
+    const ph=_horaAMin(_parseHoraLog(vI)), pc=_horaAMin(_parseHoraLog(vC));
+    if(!ph||!pc) return {enHorario:false};
+    const ahora=new Date();
+    const haMin=ahora.getHours()*60+ahora.getMinutes();
+    const enHorario=haMin>=ph&&haMin<pc;
+    return {enHorario};
+  }catch(e){return {enHorario:false};}
+}
+
+function _horaAMin(str){
+  if(!str||str==='—') return null;
+  const p=str.split(':');
+  if(p.length<2) return null;
+  return parseInt(p[0])*60+parseInt(p[1]);
+}
+
+function toggleLog(){
+  const p=document.getElementById('logPanel');
+  const ico=document.getElementById('logToggleIco');
+  const open=p.style.display==='none';
+  p.style.display=open?'block':'none';
+  ico.textContent=open?'▲ log':'▼ log';
+}
+
+// Exclusiones generales (mínimo $1.500 / Electrónica y Tecnología) — aplican a
+// TODOS los modos. Centralizada acá para que el conteo de cada botón (badge) y la
+// lista real de candidatos usen siempre el mismo criterio y no queden desincronizados.
+// Tildado = excluir, en los dos checkboxes por igual (v5.50 — antes el de
+// Electrónica estaba al revés: "Incluir" tildado = mostrar).
+// opts.skipElectro=true: no aplica el filtro de Electrónica/Tecnología aunque el
+// checkbox esté tildado. Se usa en Destacadas (v5.43) — esa exclusión se pensó
+// para "Grilla Normal / productos más vendidos", no para Destacados.
+function aplicarExclusionesGenerales(arr, opts){
+  opts = opts || {};
+  const exclMin     = $('cfgExclMin') && $('cfgExclMin').checked;
+  const exclElectro = !opts.skipElectro && !!($('cfgExclElectro') && $('cfgExclElectro').checked);
+  let out = arr;
+  if(exclMin) out = out.filter(p=>p.price>=1500);
+  if(exclElectro){
+    out = out.filter(p=>{
+      const raw=_prods.find(x=>x.id===p.id);
+      const c=quitarAcentos(p.cat||(raw?raw.cat:'')).toUpperCase();
+      return !(c.includes('ELECTRONICA') || c.includes('TECNOLOGIA'));
+    });
+  }
+  return out;
+}
+
+// Quita duplicados por id — un mismo producto puede aparecer repetido en el pool
+// crudo (ej. varias filas de "últimas unidades" para el mismo id); la lista real
+// ya los combina en uno solo vía poblarCandidatos(), así que el conteo del botón
+// tiene que hacer lo mismo para no mostrar un número más alto que lo que se ve.
+function dedupPorId(arr){
+  const vistos=new Set(), out=[];
+  arr.forEach(p=>{ if(p && !vistos.has(p.id)){ vistos.add(p.id); out.push(p); } });
+  return out;
+}
+
+function actualizarBadges(){
+  Object.entries(_pools).forEach(([m,pool])=>{
+    if(m.startsWith('_')) return; // ignorar pools internos _relTodos, _desTodas
+    const el=$('cnt-'+m); const btn=document.querySelector(`[data-modo="${m}"]`);
+    if(!el||!btn) return;
+    const deduped = dedupPorId(pool);
+    // Destacadas no usa el filtro de Electrónica/Tecnología — ver nota en
+    // aplicarExclusionesGenerales (v5.43).
+    const n = aplicarExclusionesGenerales(deduped, {skipElectro: m==='destacadas'}).length;
+    el.textContent=n;
+    btn.classList.toggle('hp',n>0);
+  });
+}
+
+// ── MODO ──────────────────────────────────────────────────────────────────────
+// ── MODO ──────────────────────────────────────────────────────────────────────
+// Modos seleccionados (multi-select) — declarado en línea 519
+function setModo(modo,btn){
+  // manual, sinoferta, normal y cotizacion son exclusivos — limpian los demás
+  const exclusivos = new Set(['manual','sinoferta','normal','cotizacion']);
+
+  if(exclusivos.has(modo)){
+    // Si ya era el único modo activo, tocarlo de nuevo lo desactiva (vuelve a "sin selección")
+    if(_modos.size===1 && _modos.has(modo)) _modos.clear();
+    else { _modos.clear(); _modos.add(modo); }
+  } else {
+    // Si había un exclusivo activo, lo quitamos
+    exclusivos.forEach(e=>_modos.delete(e));
+    // Toggle del modo clickeado — si era el único activo, queda en "sin selección"
+    if(_modos.has(modo)) _modos.delete(modo);
+    else _modos.add(modo);
+  }
+
+  // Actualizar visual de botones
+  document.querySelectorAll('.mb').forEach(b=>{
+    const m=b.getAttribute('data-modo');
+    b.classList.toggle('act', _modos.has(m));
+  });
+
+  // Compatibilidad con código que usa _modo (string) — null = nada elegido todavía
+  _modo = _modos.size===0 ? null : (_modos.size===1 ? [..._modos][0] : 'combinado');
+
+  // En modo "sin oferta" no se genera flyer — se crea una oferta manual con lo seleccionado
+  const esSinOferta = _modo==='sinoferta';
+  $('btnGen').style.display = esSinOferta?'none':'block';
+  $('btnOfertaManual').style.display = esSinOferta?'block':'none';
+
+  // Panel de filtros (Origen/Orden/Categoría) y Selección rápida IA — antes solo
+  // en "normal", ahora también en Manual y Sin Oferta (v5.51). El selector de
+  // Origen no aplica a esos dos (el modo ya define con/sin ofertas), se oculta.
+  const esNormal = _modo==='normal';
+  const usaFiltros = esNormal || _modo==='manual' || _modo==='sinoferta';
+  $('secFiltros').style.display = usaFiltros?'block':'none';
+  $('secIA').style.display      = usaFiltros?'block':'none';
+  $('filaOrigen').style.display = esNormal?'flex':'none';
+  if(esNormal) actualizarPoolNormal();
+
+  // En modo "cotización rápida" se muestra el buscador — no se autoselecciona nada
+  const esCotiz = _modo==='cotizacion';
+  $('secCotiz').style.display = esCotiz?'block':'none';
+  if(esCotiz) $('cotizBuscar').value='';
+
+  _sel.clear(); _filtroActivo=new Set();
+  $('cv').style.display='none'; $('ph').style.display='flex';
+  $('botonesAcc').style.display='none'; _cvFin=null;
+  _cvPaginas=[]; _pagActual=0; $('pagNav').style.display='none';
+
+  if(_modo===null){ _cand=[]; renderCandidatos(); return; } // sin modo elegido — nada que mostrar
+  if(esCotiz){ _cand=[]; renderCandidatos(); return; } // se puebla al escribir en el buscador
+  if(_prods.length>0) poblarCandidatos();
+}
+
+function poblarCandidatos(){
+  const max=parseInt($('cfgMax').value)||50;
+
+  // Combinar pools de todos los modos activos (sin duplicados).
+  // Exclusiones por modo — Destacadas no filtra Electrónica/Tecnología (v5.43,
+  // ver nota en aplicarExclusionesGenerales), los demás sí.
+  // Manual y Sin Oferta además pasan por aplicarOrdenCategoria() — mismo
+  // Orden/Categoría que Grilla Normal (v5.51).
+  const visto = new Set();
+  _cand = [];
+  _modos.forEach(m=>{
+    let pool = _pools[m]||[];
+    if(m==='manual'||m==='sinoferta') pool = aplicarOrdenCategoria(pool);
+    const filtrado = aplicarExclusionesGenerales(pool, {skipElectro: m==='destacadas'});
+    filtrado.forEach(p=>{
+      if(!visto.has(p.id)){ visto.add(p.id); _cand.push(p); }
+    });
+  });
+
+  _sel.clear();
+  _cand.slice(0,max).forEach(p=>_sel.add(p.id));
+  renderCandidatos();
+}
+
+// ── FILTROS ───────────────────────────────────────────────────────────────────
+let _filtroActivo = new Set(); // keys activos, vacío = todos
+
+function _getTipoFiltro(p){
+  const t = getOfertaTipo(p);
+  if(t === 'relampago_nxm' && ORS[String(p.rel)]) return 'nxm_'+p.rel;  // e.g. nxm_1, nxm_2, nxm_3
+  if(t === 'relampago_2da50') return '2da50';
+  if(t.startsWith('relampago_pct')) return 'pct_'+p.pct;
+  if(t === 'relampago') return 'relampago';
+  if(t === 'destacadas') return 'destacadas_'+p.des; // des = % descuento
+  if(t === 'especiales') return 'especiales';
+  if(t === 'promos')     return 'promos';
+  if(t === 'cervecero')  return 'cervecero';
+  if(t === 'multicompra')return 'multicompra';
+  return 'otros';
+}
+
+function _labelFiltro(key, p){
+  if(key === '2da50')     return '2da 50%';
+  if(key === 'relampago') return '⚡ Relámpago';
+  if(key === 'especiales')return '⭐ Especiales';
+  if(key === 'promos')    return '🏷️ Promos';
+  if(key === 'cervecero') return '🍺 Cervecero';
+  if(key === 'multicompra')return '📦 Multicompra';
+  if(key.startsWith('nxm_')){
+    const rel = key.replace('nxm_','');
+    const o = ORS[String(rel)];
+    return o ? o.nombre.toUpperCase() : 'NxM';
+  }
+  if(key.startsWith('pct_'))     return '-'+key.replace('pct_','')+'%';
+  if(key.startsWith('destacadas_')) return '🔥 Des. -'+key.replace('destacadas_','')+'%';
+  return key;
+}
+
+function _colorFiltro(key){
+  if(key.startsWith('nxm_')||key==='relampago'||key==='2da50'||key.startsWith('pct_'))
+    return {bg:'#FFF200',txt:'#1a1a00',bdr:'#ccbf00'};
+  if(key.startsWith('destacadas_')) return {bg:'#FF7A00',txt:'#fff',bdr:'#cc6200'};
+  if(key==='especiales') return {bg:'#00E5FF',txt:'#003a40',bdr:'#00b8cc'};
+  if(key==='promos')     return {bg:'#B000FF',txt:'#fff',bdr:'#8a00cc'};
+  if(key==='cervecero')  return {bg:'#FFF200',txt:'#1a1a00',bdr:'#ccbf00'};
+  if(key==='multicompra')return {bg:'#9C27B0',txt:'#fff',bdr:'#7b1fa2'};
+  return {bg:'var(--p)',txt:'#fff',bdr:'var(--pd)'};
+}
+
+function construirFiltros(){
+  const wrap = $('filtroTipos');
+  if(!wrap) return;
+  // Recolectar tipos únicos del pool actual
+  const tipos = new Map(); // key → label
+  _cand.forEach(p => {
+    const key = _getTipoFiltro(p);
+    if(!tipos.has(key)) tipos.set(key, _labelFiltro(key, p));
+  });
+  if(tipos.size <= 1){ wrap.style.display='none'; return; }
+  wrap.style.display='flex';
+  wrap.innerHTML = '';
+  // "Todos" chip
+  const todosBtn = document.createElement('button');
+  todosBtn.className = 'fchip' + (_filtroActivo.size===0?' on':'');
+  todosBtn.textContent = 'Todos';
+  if(_filtroActivo.size===0) todosBtn.style.cssText='background:var(--p);border-color:var(--pd);color:#fff';
+  todosBtn.addEventListener('click', ()=>{
+    _filtroActivo.clear(); _filtroActivo=new Set();
+    renderCandidatos();
+  });
+  wrap.appendChild(todosBtn);
+  // Un chip por tipo
+  tipos.forEach((lbl, key) => {
+    const c = _colorFiltro(key);
+    const btn = document.createElement('button');
+    const isOn = _filtroActivo.has(key);
+    btn.className = 'fchip' + (isOn?' on':'');
+    btn.textContent = lbl;
+    if(isOn) btn.style.cssText=`background:${c.bg};border-color:${c.bdr};color:${c.txt}`;
+    btn.addEventListener('click', ()=>{
+      if(_filtroActivo.has(key)) _filtroActivo.delete(key);
+      else _filtroActivo.add(key);
+      renderCandidatos();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function renderCandidatos(){
+  const sec=$('secProd'),lista=$('listaCand'),lbl=$('lblCand');
+  if(!_cand.length){
+    sec.style.display=_sel.size?'block':'none';
+    if(lista) lista.innerHTML = _sel.size ? '<div style="text-align:center;padding:14px;color:var(--ts);font-size:.7rem;">Buscá otro producto para agregarlo a la cotización</div>' : '';
+    actualizarFooterSeleccion();
+    if(lbl) lbl.textContent='';
+    return;
+  }
+  sec.style.display='block';
+
+  // Filtrar por tipo si hay filtros activos
+  const visible = _filtroActivo.size > 0
+    ? _cand.filter(p => _filtroActivo.has(_getTipoFiltro(p)))
+    : _cand;
+
+  lbl.textContent='('+visible.length+' de '+_cand.length+' disponibles)';
+  $('warnMax').style.display=_sel.size>(parseInt(($('cfgMax')||{}).value)||50)?'block':'none';
+
+  // Rebuild filter chips
+  construirFiltros();
+
+  lista.innerHTML=visible.map(p=>{
+    const ov=_overrides[p.id];
+    const displayP=ov?ov.price:p.price, displayPo=ov?ov.po:p.po;
+    const displayEt=ov?ov.et:getBadgeLabel(p);
+    const s=_sel.has(p.id), edited=!!ov;
+    const tipo=getOfertaTipo(p);
+    const oc=OFERTA_COLORES[tipo.split('_')[0]]||OFERTA_COLORES.relampago;
+    const otCls=tipo.startsWith('relampago')||tipo==='cervecero'?'ot-rel':
+                tipo==='destacadas'?'ot-des':tipo==='especiales'?'ot-esp':
+                tipo==='promos'?'ot-pro':'ot-rel';
+    const _tipo_lista = getOfertaTipo(p);
+    const _is2da_lista = _tipo_lista==='relampago_2da50' && !_overrides[p.id];
+    const _isNxM_lista = _tipo_lista==='relampago_nxm'  && !_overrides[p.id];
+    let prLabel;
+    if(_is2da_lista){
+      const p2da = Math.round(displayP*0.50);
+      prLabel = `<b style="color:var(--p)">$${fmt(displayP)}</b> · <span style="color:#2e7d32;font-size:.7em">2ª ud: $${fmt(p2da)}</span>`;
+    } else if(_isNxM_lista && ORS[String(p.rel)]){
+      const o=ORS[String(p.rel)];
+      const etNxM = o.cantidad===2&&o.pagas===1
+        ? 'Llevás 2, pagás 1'
+        : o.nombre.toUpperCase()+' · '+(o.cantidad-o.pagas)+' gratis';
+      prLabel = `<b style="color:var(--p)">$${fmt(displayP)}</b> · <span style="color:#2e7d32;font-size:.7em">${etNxM}</span>`;
+    } else if(displayPo<displayP){
+      prLabel = `<s style="opacity:.45">$${fmt(displayP)}</s> <b>$${fmt(displayPo)}</b>`;
+    } else {
+      prLabel = `<b>$${fmt(displayP)}</b>`;
+    }
+    const badgeBg=oc.hex, badgeTxt=oc.txt, badgeBdr=oc.bdr;
+    const sinDescuentoReal = !edited && !_is2da_lista && !_isNxM_lista && !p.mc && displayPo>=displayP;
+    const badgeHtml = sinDescuentoReal ? '' :
+      `<span class="pi-badge" style="background:${badgeBg};color:${badgeTxt};border:1px solid ${badgeBdr}">${displayEt}</span>`;
+    return `<div class="pi${s?' sel':''}${edited?' edited':''} ${otCls}" onclick="clickProd(${p.id},this,event)">
+      <img class="pi-img" src="${imgSrc(p.name)}" loading="lazy" onerror="this.style.opacity='.2'">
+      <div class="pi-info">
+        <div class="pi-nom">${p.name}</div>
+        <div class="pi-pr" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+          ${prLabel}
+          ${badgeHtml}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+        <span style="font-size:.85rem;cursor:pointer;opacity:.55" title="Editar precio"
+          onclick="abrirEditor(${p.id},event)">✏️</span>
+        <div class="pi-chk">${s?'✓':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Contador de seleccionados al pie
+  actualizarFooterSeleccion();
+}
+
+function actualizarFooterSeleccion(){
+  const lista=$('listaCand');
+  const selCount = _sel.size;
+  const footerId = 'sel-count-footer';
+  let footer = document.getElementById(footerId);
+  if(!footer){ footer=document.createElement('div'); footer.id=footerId; lista.parentNode.appendChild(footer); }
+  footer.style.cssText='margin-top:8px;padding:8px 12px;background:var(--p);color:#fff;border-radius:10px;text-align:center;font-size:.82rem;font-weight:700;display:'+(selCount?'block':'none');
+  footer.textContent = selCount ? `✅ ${selCount} producto${selCount!==1?'s':''} seleccionado${selCount!==1?'s':''}` : '';
+  actualizarContadorCotizacion();
+}
+
+function clickProd(id,el,ev){
+  if(ev.target.closest('span[title="Editar precio"]')) return;
+  id=Number(id);
+  if(_sel.has(id)){_sel.delete(id);el.classList.remove('sel');el.querySelector('.pi-chk').textContent='';}
+  else            {_sel.add(id);   el.classList.add('sel');   el.querySelector('.pi-chk').textContent='✓';}
+  $('warnMax').style.display=_sel.size>(parseInt(($('cfgMax')||{}).value)||50)?'block':'none';
+  // Actualizar contador al pie
+  const footer=document.getElementById('sel-count-footer');
+  if(footer){
+    const n=_sel.size;
+    footer.style.display=n?'block':'none';
+    footer.textContent=n?`✅ ${n} producto${n!==1?'s':''} seleccionado${n!==1?'s':''}. Tocá GENERAR cuando estés listo.`:'';
+  }
+}
+
+// ── EDITOR DE PRECIO ──────────────────────────────────────────────────────────
+function abrirEditor(id,ev){
+  if(ev) ev.stopPropagation();
+  id=Number(id);
+  _editingId=id;
+  const p=_cand.find(x=>x.id===id); if(!p) return;
+  const ov=_overrides[id];
+  $('epNomCorto').textContent=p.name.split(' ').slice(0,3).join(' ');
+  $('epPrecioBase').value=ov?ov.price:p.price;
+  $('epPrecioOfer').value=ov?ov.po:p.po;
+  $('epEtiqueta').value=ov?ov.et:p.et;
+  $('epHint').textContent='';
+  document.querySelectorAll('.pst').forEach(b=>b.classList.remove('act'));
+  if(ov&&ov.tipo){const bp=document.querySelector(`.pst[data-tipo="${ov.tipo}"]`);if(bp)bp.classList.add('act');}
+  $('editorPrecio').classList.add('open');
+  $('epPrecioBase').oninput=()=>recalcEditor();
+}
+
+function recalcEditor(){
+  const base=parseInt($('epPrecioBase').value)||0;
+  const activo=document.querySelector('.pst.act');
+  if(!activo||!base) return;
+  const {po,et}=calcPreset(activo.dataset.tipo,base);
+  if(po!=null){$('epPrecioOfer').value=po;$('epEtiqueta').value=et;}
+  $('epHint').textContent=po?'-'+Math.round((1-po/base)*100)+'%':'';
+}
+
+function calcPreset(tipo,base){
+  const m={
+    '2x1':  {po:Math.round(base/2),      et:'2x1'},
+    '3x2':  {po:Math.round(base*2/3),    et:'3x2'},
+    '2da50':{po:Math.round(base*.5),      et:'2da 50%'},
+    'pct10':{po:Math.round(base*.90),     et:'-10%'},
+    'pct15':{po:Math.round(base*.85),     et:'-15%'},
+    'pct20':{po:Math.round(base*.80),     et:'-20%'},
+    'pct25':{po:Math.round(base*.75),     et:'-25%'},
+    'pct30':{po:Math.round(base*.70),     et:'-30%'},
+    'pct50':{po:Math.round(base*.50),     et:'-50%'},
+    'manual':{po:null,                    et:''},
+  };
+  return m[tipo]||{po:null,et:''};
+}
+
+function aplicarPreset(btn,tipo){
+  document.querySelectorAll('.pst').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  const base=parseInt($('epPrecioBase').value)||0;
+  if(!base){$('epHint').textContent='Ingresá precio normal primero';return;}
+  const {po,et}=calcPreset(tipo,base);
+  if(po!=null){$('epPrecioOfer').value=po;$('epEtiqueta').value=et;}
+  $('epHint').textContent=po?'-'+Math.round((1-po/base)*100)+'%':'Ingresá precio oferta manualmente';
+}
+
+function aplicarOverride(){
+  if(_editingId===null) return;
+  const base=parseInt($('epPrecioBase').value)||0;
+  const po=parseInt($('epPrecioOfer').value)||0;
+  const et=$('epEtiqueta').value.trim()||'OFERTA';
+  const activo=document.querySelector('.pst.act');
+  if(!base||!po){alert('Ingresa precio normal y precio oferta');return;}
+  _overrides[_editingId]={price:base,po,et,pct:Math.round((1-po/Math.max(base,1))*100),tipo:activo?activo.dataset.tipo:'manual'};
+  cerrarEditor();
+  renderCandidatos();
+}
+
+function quitarOverride(){
+  if(_editingId===null) return;
+  delete _overrides[_editingId];
+  cerrarEditor();
+  renderCandidatos();
+}
+
+function cerrarEditor(){
+  $('editorPrecio').classList.remove('open');
+  _editingId=null;
+  document.querySelectorAll('.pst').forEach(b=>b.classList.remove('act'));
+}
+
+
+// ── CANVAS HELPERS ─────────────────────────────────────────────────────────────
+// mkCv crea un canvas en ESCALA COMPLETA (alta calidad para exportar)
+// El elemento visual en pantalla se achica via CSS al 50%
+function mkCv(w,h){
+  const cv=document.createElement('canvas');
+  cv.width=w*SCALE_OUT; cv.height=h*SCALE_OUT;
+  const ctx=cv.getContext('2d');
+  ctx.scale(SCALE_OUT,SCALE_OUT);
+  return{cv,ctx,W:w,H:h};
+}
+function rr(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+// Estrella "estallido" para Multicompra (2x1, 3x2, etc.) — mismo estilo que sendwa.html,
+// para ofertas por cantidad que no tienen un precio unitario fijo para mostrar abajo.
+function drawStarburst(ctx,cx,cy,rOuter,rInner,points,color){
+  ctx.save();
+  ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;
+  ctx.beginPath();
+  const step=Math.PI/points;
+  for(let i=0;i<points*2;i++){
+    const r=i%2===0?rOuter:rInner;
+    const a=i*step-Math.PI/2;
+    const px=cx+r*Math.cos(a),py=cy+r*Math.sin(a);
+    if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+  ctx.fillStyle=color;
+  ctx.fill();
+  ctx.restore();
+}
+function splitEtiquetaEstrella(etiqueta){
+  const t=etiqueta.replace(/^[^\wÁÉÍÓÚÑáéíóúñ0-9]+/,'').trim();
+  const dIdx=t.indexOf('$');
+  if(dIdx>0) return [t.slice(0,dIdx).trim(), t.slice(dIdx).trim()];
+  const words=t.split(' ');
+  if(words.length<=1) return [t,''];
+  const mid=Math.ceil(words.length/2);
+  return [words.slice(0,mid).join(' '), words.slice(mid).join(' ')];
+}
+
+function hexContraste(hex){
+  const h=(hex||'#B000FF').replace('#','');
+  const r=parseInt(h.substr(0,2),16)||0, g=parseInt(h.substr(2,2),16)||0, b=parseInt(h.substr(4,2),16)||0;
+  const lum=(0.299*r+0.587*g+0.114*b)/255;
+  return lum>0.6?'#1a1a1a':'#ffffff';
+}
+
+// v5.65: ahora el badge de Promo/Combo (cuando forma!=='ninguno') muestra el
+// PRECIO DE VENTA en vez de solo el texto — el usuario prefiere que el precio
+// "salga de donde está normal" (el bloque bajo la foto) y viva en el badge.
+// 2 líneas: etiqueta chica arriba (PROMO/COMBO) + precio grande abajo.
+// También se corrigió el anclaje: antes se insertaba completo DENTRO de la
+// foto, alejándose del borde a medida que crecía el tamaño; ahora el borde
+// exterior queda siempre pegado a la esquina de la foto (se solapa un poco
+// hacia afuera, como un sticker), sin importar el tamaño elegido.
+function drawOfertaBadge(ctx, area, label, cfg, precioTxt){
+  const txtColor = hexContraste(cfg.color);
+  const escala = {sm:0.78, md:1, lg:1.3}[cfg.tam]||1;
+  ctx.save();
+  if(cfg.forma==='explosivo'){
+    const rOuter = Math.max(20, Math.min(area.w,area.h)*0.26)*escala;
+    const rInner = rOuter*0.58;
+    const pad = rOuter*0.62; // <rOuter → el sticker se solapa hacia afuera del borde, pegado
+    const cx2 = cfg.pos.indexOf('l')!==-1 ? area.x+pad : area.x+area.w-pad;
+    const cy2 = cfg.pos.indexOf('t')!==-1 ? area.y+pad : area.y+area.h-pad;
+    drawStarburst(ctx,cx2,cy2,rOuter,rInner,10,cfg.color);
+    ctx.fillStyle=txtColor; ctx.textAlign='center';
+    let fs1=Math.max(rOuter*0.20,8);
+    ctx.font=`700 ${fs1}px "DM Sans",sans-serif`;
+    while(ctx.measureText(label).width>rOuter*1.2 && fs1>6){fs1--;ctx.font=`700 ${fs1}px "DM Sans",sans-serif`;}
+    let fs2=Math.max(rOuter*0.34,10);
+    ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+    while(ctx.measureText(precioTxt).width>rOuter*1.3 && fs2>7){fs2--;ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;}
+    ctx.font=`700 ${fs1}px "DM Sans",sans-serif`;
+    ctx.fillText(label, cx2, cy2-fs2*0.35);
+    ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+    ctx.fillText(precioTxt, cx2, cy2+fs2*0.55);
+  } else if(cfg.forma==='circulo'){
+    let fs2=Math.max(11*escala,8);
+    ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+    while(ctx.measureText(precioTxt).width> (34*escala) && fs2>7){fs2--;ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;}
+    const fs1=Math.max(fs2*0.5,7);
+    const diam=Math.max(ctx.measureText(precioTxt).width+16, 44*escala, fs1*6);
+    const r=diam/2, pad=r*0.62;
+    const cx2 = cfg.pos.indexOf('l')!==-1 ? area.x+pad : area.x+area.w-pad;
+    const cy2 = cfg.pos.indexOf('t')!==-1 ? area.y+pad : area.y+area.h-pad;
+    ctx.beginPath(); ctx.arc(cx2,cy2,r,0,Math.PI*2); ctx.fillStyle=cfg.color; ctx.fill();
+    ctx.fillStyle=txtColor; ctx.textAlign='center';
+    ctx.font=`700 ${fs1}px "DM Sans",sans-serif`;
+    ctx.fillText(label, cx2, cy2-fs2*0.32);
+    ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+    ctx.fillText(precioTxt, cx2, cy2+fs2*0.55);
+  } else { // rect
+    let fs2=Math.max(12*escala,8);
+    ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+    const fs1=Math.max(fs2*0.48,7);
+    const bw=Math.max(ctx.measureText(precioTxt).width+14, 40*escala);
+    const bh=(fs1+fs2+8)*escala;
+    const bx = cfg.pos.indexOf('l')!==-1 ? area.x+2 : area.x+area.w-bw-2;
+    const by = cfg.pos.indexOf('t')!==-1 ? area.y+2 : area.y+area.h-bh-2;
+    rr(ctx,bx,by,bw,bh,6); ctx.fillStyle=cfg.color; ctx.fill();
+    ctx.fillStyle=txtColor; ctx.textAlign='center';
+    ctx.font=`700 ${fs1}px "DM Sans",sans-serif`;
+    ctx.fillText(label, bx+bw/2, by+fs1+4);
+    ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+    ctx.fillText(precioTxt, bx+bw/2, by+bh-6);
+  }
+  ctx.restore();
+}
+
+function wrap(ctx,text,x,y,maxW,lh,maxL){
+  const words=text.split(' ');let line='',lines=[];
+  for(const w of words){
+    const t=line?line+' '+w:w;
+    if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w;}else line=t;
+  }
+  if(line)lines.push(line);
+  if(maxL)lines=lines.slice(0,maxL);
+  lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lh));
+}
+
+// Cache de imágenes para el canvas (resolución completa)
+// crossOrigin='anonymous' es OBLIGATORIO para que toDataURL/toBlob no fallen por CORS
+const _imgCache={};
+function loadImg(nombre){
+  const src=imgSrc(nombre);
+  if(_imgCache[src]) return _imgCache[src];
+  _imgCache[src]=new Promise(res=>{
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>res(img);
+    img.onerror=()=>{
+      // Reintento sin crossOrigin (para casos donde el server no manda header CORS)
+      // En ese caso el canvas quedará tainted pero al menos se ve la imagen
+      const img2=new Image();
+      img2.onload=()=>res(img2);
+      img2.onerror=()=>res(null);
+      img2.src=src+'?nc='+Date.now(); // cache bust para evitar versión sin CORS del cache
+    };
+    img.src=src;
+  });
+  return _imgCache[src];
+}
+
+function drawBg(ctx,W,H,pk){
+  const maps={copihue:['#f4faf4','#e0ede0'],crema:['#f5f0e0','#ede5cc'],
+    oscuro:['#1a1a1a','#0d0d0d'],naranja:['#fff8f2','#ffe8d0']};
+  const [c1,c2]=maps[pk]||maps.copihue;
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,c1);g.addColorStop(1,c2);
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+}
+function drawHdr(ctx,W,info,P,y0=0,prods){
+  // Franja superior del color del modo
+  const badge = MODO_BADGE[_modo]||MODO_BADGE.manual;
+  ctx.fillStyle=badge.color; ctx.fillRect(0,y0,W,5);
+
+  // Título fijo: "OFERTAS" grande + nombre empresa pequeño
+  ctx.textAlign='center';
+  ctx.font='bold 28px "Syne",sans-serif';
+  // Sombra suave detrás del título
+  ctx.save();
+  ctx.shadowColor='rgba(0,0,0,0.12)';
+  ctx.shadowBlur=4;
+  ctx.shadowOffsetX=1; ctx.shadowOffsetY=1;
+  ctx.fillStyle=badge.color;
+  const _tituloHdr = _modo==='cotizacion' ? 'COTIZACIÓN' : (_modo==='manual'||_modo==='normal') ? 'LISTA DE PRECIOS' : 'OFERTAS COPIHUE';
+  ctx.fillText(_tituloHdr, W/2, y0+40);
+  ctx.restore();
+
+  ctx.font='11px "DM Sans",sans-serif';
+  ctx.fillStyle=P.sub;
+  ctx.fillText(_emp.nombre+' · '+(_emp.ciudad||_emp.direccion||''), W/2, y0+56);
+
+  // Badges de categorías presentes en los productos del flyer
+  // Cuenta cuántos de cada tipo hay en prods
+  const catCounts = {};
+  if(prods){
+    prods.forEach(p=>{
+      // getOfertaTipo devuelve 'relampago_nxm', 'relampago_pct', etc
+      // Para el badge del header agrupamos al tipo padre
+      const full=getOfertaTipo(p);
+      const cat=full.startsWith('relampago')?'relampago':full;
+      catCounts[cat]=(catCounts[cat]||0)+1;
+    });
+  } else {
+    catCounts[_modo]=1;
+  }
+
+  // Dibujar badges horizontales centrados — pero si el único "tipo" detectado es el
+  // genérico "manual" (sin oferta real), no lo mostramos: ya lo dice el título arriba.
+  const clavesCat = Object.keys(catCounts);
+  const soloGenerico = clavesCat.length===1 && clavesCat[0]==='manual';
+  const cats = soloGenerico ? [] : clavesCat.filter(c=>MODO_BADGE[c]);
+  if(cats.length>0){
+    const PAD_B=10, GAP_B=6, H_B=20, R_B=10;
+    // Medir ancho total
+    ctx.font='bold 10px "DM Sans",sans-serif';
+    const widths = cats.map(c=>{
+      const b=MODO_BADGE[c];
+      return ctx.measureText(b.emoji+' '+b.label+(catCounts[c]>1?' ('+catCounts[c]+')':'')).width+PAD_B*2;
+    });
+    const totalW = widths.reduce((a,b)=>a+b,0)+GAP_B*(cats.length-1);
+    let bx = (W-totalW)/2;
+    const by = y0+64;
+
+    cats.forEach((c,i)=>{
+      const b=MODO_BADGE[c];
+      // Usar colores oficiales del manual para los badges del header
+      const oc=OFERTA_COLORES[c]||{hex:b.bg,txt:b.color,bdr:b.color+'88'};
+      const bw=widths[i];
+      const lbl=b.emoji+' '+b.label;
+      ctx.fillStyle=oc.hex;
+      ctx.beginPath(); ctx.roundRect(bx,by,bw,H_B,R_B); ctx.fill();
+      ctx.strokeStyle=oc.bdr; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.roundRect(bx,by,bw,H_B,R_B); ctx.stroke();
+      ctx.fillStyle=oc.txt;
+      ctx.font='bold 9px "DM Sans",sans-serif'; ctx.textAlign='center';
+      ctx.fillText(lbl, bx+bw/2, by+13);
+      bx+=bw+GAP_B;
+    });
+  }
+
+  // Línea separadora
+  const lineY = y0+(cats.length>0?91:70);
+  ctx.strokeStyle=P.ln; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(14,lineY); ctx.lineTo(W-14,lineY); ctx.stroke();
+  return lineY+8; // startY contenido
+}
+function drawFtr(ctx,W,H,P){
+  const fy=H-46;
+  ctx.strokeStyle=P.ln;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(16,fy);ctx.lineTo(W-16,fy);ctx.stroke();
+  ctx.fillStyle=P.txt;ctx.font='bold 13px "DM Sans",sans-serif';ctx.textAlign='center';
+  ctx.fillText([_emp.nombre,_emp.direccion,_emp.ciudad].filter(Boolean).join(' · '),W/2,fy+18);
+  ctx.fillStyle=P.sub;ctx.font='11px "DM Sans",sans-serif';
+  ctx.fillText(_emp.web||'Almacén Copihue',W/2,fy+34);
+  ctx.fillStyle=P.ac;ctx.fillRect(0,H-5,W,5);
+}
+
+// ── PUBLICIDAD INTERNA (v5.44) ──────────────────────────────────────────────
+// Cuando una página de la grilla queda con menos productos que espacios
+// (ej. última página con 7 de 12), los espacios vacíos se llenan con una
+// pieza publicitaria de Copihue en vez de quedar en blanco. Solo aplica al
+// formato "grid" (dibujarGrid) — es el único formato con celdas de tamaño
+// fijo donde puede sobrar espacio; Lista/Story/Banner dibujan exactamente
+// la cantidad de productos que reciben, sin huecos que rellenar.
+const PUBLICIDAD_FLYER = {
+  activa: true,
+  modo: 'AUTO', // 'AUTO' o el nombre fijo de una pieza: ver claves de "piezas"
+  piezas: {
+    INSTITUCIONAL: { kicker:'ALMACÉN', frase:'Todo lo que necesitás, cerca tuyo.' },
+    PROMOCIONAL:   { kicker:'OFERTAS', frase:'¿Ya conocés nuestras ofertas? Todos los días tenemos algo especial para vos.' },
+    GRACIAS:       { kicker:'GRACIAS', frase:'Gracias por elegirnos. Tu compra ayuda a que nuestro almacén siga creciendo.' },
+    MINIMALISTA:   { kicker:'ALMACÉN', frase:'Lo bueno está cerca.' }
+  }
+};
+
+// AUTO: 1 hueco → Minimalista (discreta); 2 → Promocional + Minimalista;
+// 3+ → rotación completa. Modo fijo: siempre la misma pieza.
+function elegirPiezaPublicidad(faltan, indice){
+  const fijo = PUBLICIDAD_FLYER.modo!=='AUTO' ? PUBLICIDAD_FLYER.piezas[PUBLICIDAD_FLYER.modo] : null;
+  if(fijo) return fijo;
+  const orden = faltan<=1 ? ['MINIMALISTA']
+              : faltan===2 ? ['PROMOCIONAL','MINIMALISTA']
+              : ['INSTITUCIONAL','PROMOCIONAL','GRACIAS','MINIMALISTA'];
+  return PUBLICIDAD_FLYER.piezas[orden[indice % orden.length]];
+}
+
+// Tarjeta publicitaria — mismas dimensiones/radio/borde que drawCard para que
+// ocupe exactamente el lugar de una tarjeta de producto sin alterar el grid.
+function drawCardAd(ctx,cx,cy,CW,CH,FH,P,pieza){
+  // Shell — mismas proporciones que una tarjeta de producto
+  ctx.fillStyle=P.card; rr(ctx,cx,cy,CW,CH,10); ctx.fill();
+  ctx.strokeStyle=P.bdr; ctx.lineWidth=1; rr(ctx,cx,cy,CW,CH,10); ctx.stroke();
+
+  // "Zona foto" → placa de color sólido con anillos decorativos (motivo tipo
+  // sello editorial), en vez de fondo tenue con texto plano encima. Da
+  // sensación de pauta publicitaria diseñada, no de espacio relleno (v5.49).
+  ctx.save();
+  rr(ctx,cx+5,cy+5,CW-10,FH-2,7); ctx.clip();
+  ctx.fillStyle=P.ac; ctx.fillRect(cx+5,cy+5,CW-10,FH-2);
+  const ringCx=cx+CW/2, ringCy=cy+5+(FH-2)/2, ringBase=Math.min(CW,FH-2);
+  ctx.strokeStyle='rgba(255,255,255,0.16)'; ctx.lineWidth=Math.max(ringBase*0.035,2);
+  [0.86,0.60].forEach(f=>{ ctx.beginPath(); ctx.arc(ringCx,ringCy,ringBase*f*0.42,0,Math.PI*2); ctx.stroke(); });
+
+  const sz = CW<85?'xs':CW<110?'sm':'md';
+  let logoFs = {xs:14,sm:16,md:19}[sz];
+  const kickFs = {xs:7, sm:8, md:9}[sz];
+  const logoTxt = (_emp.nombre||'COPIHUE').toUpperCase();
+  const maxLogoW = CW-18;
+  ctx.font=`900 ${logoFs}px "Syne",sans-serif`;
+  while(ctx.measureText(logoTxt).width>maxLogoW && logoFs>8){ logoFs--; ctx.font=`900 ${logoFs}px "Syne",sans-serif`; }
+  ctx.textAlign='center'; ctx.fillStyle='#fff';
+  ctx.fillText(logoTxt, ringCx, ringCy+2);
+  ctx.strokeStyle='rgba(255,255,255,0.85)'; ctx.lineWidth=1.4;
+  ctx.beginPath();ctx.moveTo(cx+CW*0.32,ringCy+10);ctx.lineTo(cx+CW*0.68,ringCy+10);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.92)';
+  let kFs=kickFs;
+  const kickTxt=pieza.kicker.toUpperCase();
+  ctx.font=`bold ${kFs}px "DM Sans",sans-serif`;
+  while(ctx.measureText(kickTxt).width>maxLogoW && kFs>6){ kFs--; ctx.font=`bold ${kFs}px "DM Sans",sans-serif`; }
+  ctx.fillText(kickTxt, ringCx, ringCy+22);
+  ctx.restore();
+
+  // Etiqueta "PUBLICIDAD" discreta en la esquina — transparencia editorial,
+  // igual que las revistas marcan sus pautas pagas, sin ambigüedad con un producto.
+  const tagW=Math.min(CW*0.56,80), tagH=13;
+  ctx.fillStyle=P.card; rr(ctx,cx+CW-tagW-4,cy+9,tagW,tagH,tagH/2); ctx.fill();
+  ctx.fillStyle=P.ac; ctx.textAlign='center';
+  ctx.font=`800 ${Math.max(CW*0.026,7)}px "DM Sans",sans-serif`;
+  ctx.fillText('PUBLICIDAD', cx+CW-tagW/2-4, cy+9+tagH/2+3);
+
+  // Zona de texto — frase centrada abajo, con acento de color en la línea divisoria
+  const tzY=cy+FH+3;
+  ctx.strokeStyle=P.ac2; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx+CW/2-10,tzY); ctx.lineTo(cx+CW/2+10,tzY); ctx.stroke();
+  const fraseFs = {xs:8,sm:9,md:10}[sz];
+  ctx.fillStyle=P.txt; ctx.textAlign='center';
+  ctx.font=`bold ${fraseFs}px "DM Sans",sans-serif`;
+  wrap(ctx, pieza.frase, cx+CW/2, tzY+fraseFs+7, CW-10, fraseFs+3, 3);
+}
+
+async function drawCard(ctx,p,cx,cy,CW,CH,FH,P,pk,soloUno=false){
+  // Aplicar override manual si existe
+  const ov=_overrides[p.id];
+  const price = ov ? ov.price : p.price;
+  const po    = ov ? ov.po    : p.po;
+  const et    = ov ? ov.et    : p.et;
+  const pct   = ov ? ov.pct   : p.pct;
+
+  // Card bg
+  ctx.fillStyle=P.card;rr(ctx,cx,cy,CW,CH,10);ctx.fill();
+  ctx.strokeStyle=P.bdr;ctx.lineWidth=1;rr(ctx,cx,cy,CW,CH,10);ctx.stroke();
+
+  // Imagen full resolution
+  const img=await loadImg(p.name);
+  if(img){
+    ctx.save();rr(ctx,cx+5,cy+5,CW-10,FH-2,7);ctx.clip();
+    const iw=img.naturalWidth||img.width, ih=img.naturalHeight||img.height;
+    const areaW=CW-10, areaH=FH-2;
+    let sc;
+    if(soloUno){
+      // Una sola tarjeta (1x1) — foto completa, sin recortar, con aire alrededor
+      const scContainAire=Math.min(areaW/iw, areaH/ih)*0.90;
+      sc=scContainAire;
+    } else {
+      // Contain — foto completa siempre visible, nunca recortada (v5.46).
+      // Antes: fotos "casi cuadradas" usaban cover (llenar el marco recortando
+      // lo que sobra), lo que cortaba tapas de botellas, verduras y carteles
+      // dentro de la imagen. Ahora todas las fotos entran completas, con un
+      // margen chico de aire (6%) para que no queden pegadas al borde.
+      sc = Math.min(areaW/iw, areaH/ih) * 0.94;
+    }
+    const dx=cx+5+(areaW-iw*sc)/2;
+    const dy=cy+5+(areaH-ih*sc)/2;
+    ctx.drawImage(img,dx,dy,iw*sc,ih*sc);
+    ctx.restore();
+  } else {
+    ctx.fillStyle=P.card2;rr(ctx,cx+5,cy+5,CW-10,FH-2,7);ctx.fill();
+    ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('🛒',cx+CW/2,cy+FH/2+8);
+  }
+
+  // Badge con color oficial — 2da50 en 2 líneas para más impacto
+  const _badgeC   = getBadgeColor(p);
+  const _badgeLbl = getBadgeLabel(p);
+  const _tipo2    = getOfertaTipo(p);
+  const _is2daBdg = _tipo2==='relampago_2da50' && !_overrides[p.id];
+  const _isNxMBdg = _tipo2==='relampago_nxm'   && !_overrides[p.id];
+  const _hasDiscBdg = po<price || _is2daBdg || _isNxMBdg;
+
+  if(p.mc){
+    // Multicompra (2x1, 3x2, etc.) — estrella "estallido" en la esquina inferior
+    // derecha de la foto, en vez del badge normal (no hay precio unitario).
+    // Clampeada para que siempre quede DENTRO del área de la foto (no invade el texto).
+    const rOuter=Math.min(CW*0.20, FH*0.40), rInner=rOuter*0.60;
+    const scx=cx+CW-rOuter-6, scy=cy+FH-rOuter-6;
+    drawStarburst(ctx,scx,scy,rOuter,rInner,10,getBadgeColor(p).hex);
+    const [l1,l2]=splitEtiquetaEstrella(p.mc.etiqueta||et||'');
+    ctx.textAlign='center'; ctx.fillStyle='#fff';
+    // En tarjeta única (soloUno) la estrella es grande y el texto quedaba un
+    // poco bajo dentro de las puntas — se sube un poco (v5.47).
+    const lift = soloUno ? rOuter*0.14 : 0;
+    let fs1=Math.max(rOuter*0.32,9);
+    ctx.font=`900 ${fs1}px "DM Sans",sans-serif`;
+    while(ctx.measureText(l1.toUpperCase()).width>rOuter*1.3 && fs1>7){fs1--;ctx.font=`900 ${fs1}px "DM Sans",sans-serif`;}
+    if(l2){
+      ctx.fillText(l1.toUpperCase(),scx,scy-2-lift);
+      let fs2=Math.max(rOuter*0.28,8);
+      ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;
+      while(ctx.measureText(l2).width>rOuter*1.3 && fs2>7){fs2--;ctx.font=`900 ${fs2}px "DM Sans",sans-serif`;}
+      ctx.fillText(l2,scx,scy-2+fs1*0.85+fs2*0.55-lift);
+    } else {
+      ctx.fillText(l1.toUpperCase(),scx,scy+fs1*0.32-lift);
+    }
+  } else if(_badgeLbl && _hasDiscBdg){
+    if((_tipo2==='promos' || _tipo2==='combo') && _badgeCfg.forma!=='ninguno'){
+      drawOfertaBadge(ctx, {x:cx,y:cy,w:CW,h:FH}, _badgeLbl, _badgeCfg, '$'+fmt(po));
+    } else if(_tipo2==='promos' || _tipo2==='combo'){
+      // forma==='ninguno' → sin badge, el precio sigue su camino normal más abajo
+    } else if(_is2daBdg){
+      // Badge 2 líneas: "2DA" arriba, "50%" grande abajo
+      const bw=36, bh=30, bx=cx+CW-bw-4, by=cy+5;
+      rr(ctx,bx,by,bw,bh,5); ctx.fillStyle=_badgeC.hex; ctx.fill();
+      ctx.strokeStyle=_badgeC.bdr; ctx.lineWidth=1; rr(ctx,bx,by,bw,bh,5); ctx.stroke();
+      ctx.fillStyle=_badgeC.txt; ctx.textAlign='center';
+      ctx.font='bold 8px "DM Sans",sans-serif';
+      ctx.fillText('2DA', bx+bw/2, by+10);
+      ctx.font='bold 13px "DM Sans",sans-serif';
+      ctx.fillText('50%', bx+bw/2, by+24);
+    } else {
+      ctx.font='bold 10px "DM Sans",sans-serif';
+      const bw=Math.min(Math.max(ctx.measureText(_badgeLbl).width+14,32),CW-8);
+      const bx=cx+CW-bw-4, by=cy+6;
+      rr(ctx,bx,by,bw,20,5); ctx.fillStyle=_badgeC.hex; ctx.fill();
+      ctx.strokeStyle=_badgeC.bdr; ctx.lineWidth=1; rr(ctx,bx,by,bw,20,5); ctx.stroke();
+      ctx.fillStyle=_badgeC.txt;
+      ctx.font='bold 9.5px "DM Sans",sans-serif'; ctx.textAlign='center';
+      ctx.fillText(_badgeLbl, bx+bw/2, by+13.5);
+    }
+  }
+
+  // ── Zona de texto ─────────────────────────────────────────────────────────
+  const tzY  = cy+FH+3;
+  const tzH  = CH-FH-3;
+  const tipo2 = getOfertaTipo(p);
+  const is2da = tipo2==='relampago_2da50' && !_overrides[p.id];
+  const isNxM = tipo2==='relampago_nxm'  && !_overrides[p.id];
+  const hasDisc = po < price || is2da || isNxM;
+  // v5.65: cuando el badge de Promo/Combo está mostrando el precio (forma
+  // != 'ninguno'), el bloque de abajo deja de repetir el AHORA — queda solo
+  // el ANTES tachado, centrado.
+  const _badgeMuestraPrecio = (tipo2==='promos'||tipo2==='combo') && _badgeCfg.forma!=='ninguno' && po<price;
+
+  // Tamaños relativos según ancho de card
+  const sz    = CW<85?'xs':CW<110?'sm':'md';
+  const nomFs = {xs:8, sm:10, md:11}[sz];
+  const ahoFs = {xs:13,sm:15, md:17}[sz];      // AHORA  — 100%
+  const antFs = Math.round(ahoFs*0.62);          // ANTES  — 62% (tenue, no compite)
+  const proFs = Math.round(ahoFs*0.70);          // promo  — 70% (visible, secundario)
+
+  // Altura total del bloque de precios
+  const promoLines = (is2da||isNxM) ? 1 : 0;
+  const blkH = _badgeMuestraPrecio
+    ? antFs+2
+    : (po < price)
+    ? antFs+2 + ahoFs+1 + (promoLines ? proFs+2 : 0)
+    : ahoFs+1 + (promoLines ? proFs+2 : 0);
+  const PAD_BOT = 6;
+  const blkBot  = cy+CH-PAD_BOT;
+  const blkY    = blkBot-blkH;        // bloque siempre anclado al fondo
+
+  // ── 1. NOMBRE — arriba de la línea, margen claro ─────────────────────────
+  // Calcular cuánto espacio tiene el nombre ANTES de la línea
+  const nomMaxY = blkY - 8;           // 8px de aire sobre la línea
+  ctx.fillStyle=P.txt; ctx.textAlign='center';
+  ctx.font='bold '+nomFs+'px "DM Sans",sans-serif';
+  const nomLines2 = nomMaxY - (tzY+nomFs) > nomFs+2 ? 2 : 1; // 2 líneas si cabe
+  // v5.61: corto() truncaba SIEMPRE al ancho de 1 línea, aunque hubiera
+  // espacio real para 2 (wrap() ya sabe partir en 2 líneas). Nombres largos
+  // como combos ("COMBO X + GASEOSA Y") quedaban cortados a la mitad con
+  // un "+" colgando. Si hay 2 líneas disponibles, se le da ~85% más de
+  // presupuesto de caracteres antes de truncar.
+  const charBase = sz==='xs'?14:sz==='sm'?20:26;
+  const charBudget = nomLines2===2 ? Math.round(charBase*1.85) : charBase;
+  wrap(ctx, corto(p.name, charBudget),
+       cx+CW/2, tzY+nomFs+1, CW-8, nomFs+2, nomLines2);
+
+  // ── 2. LÍNEA DIVISORIA — entre nombre y precios, nunca sobre el texto ────
+  ctx.strokeStyle='rgba(160,200,160,0.5)'; ctx.lineWidth=0.8;
+  ctx.beginPath();ctx.moveTo(cx+6,blkY-4);ctx.lineTo(cx+CW-6,blkY-4);ctx.stroke();
+
+  // ── 3. BLOQUE DE PRECIOS ─────────────────────────────────────────────────
+  if(_badgeMuestraPrecio){
+    // El AHORA ya se muestra en el badge sobre la foto — acá solo el ANTES,
+    // tachado y centrado (v5.65).
+    const antColor='#7a9a7a';
+    ctx.fillStyle=antColor;
+    ctx.font=antFs+'px "DM Mono",sans-serif';
+    ctx.textAlign='center';
+    const antTxt='$'+fmt(price);
+    const antY=blkY+antFs;
+    ctx.fillText(antTxt, cx+CW/2, antY);
+    const antW=ctx.measureText(antTxt).width;
+    ctx.strokeStyle=antColor; ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(cx+CW/2-antW/2, antY-Math.round(antFs*0.4));
+    ctx.lineTo(cx+CW/2+antW/2, antY-Math.round(antFs*0.4));
+    ctx.stroke();
+  } else if(po < price){
+    // ANTES — 62% tamaño, gris-verde tenue, tachado fino
+    // Solo color y tachado lo distinguen, NO el tamaño
+    const antColor='#7a9a7a';         // más tenue — presente pero no grita
+    ctx.fillStyle=antColor;
+    ctx.font=antFs+'px "DM Mono",sans-serif';
+    ctx.textAlign='left';
+    const antTxt='$'+fmt(price);
+    const antX=cx+5, antY=blkY+antFs;
+    ctx.fillText(antTxt, antX, antY);
+    // Tachado 1px
+    const antW=ctx.measureText(antTxt).width;
+    ctx.strokeStyle=antColor; ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(antX, antY-Math.round(antFs*0.4));
+    ctx.lineTo(antX+antW, antY-Math.round(antFs*0.4));
+    ctx.stroke();
+
+    // AHORA — "AHORA" en 600, precio en bold más grande (distintos pesos)
+    const ahoY = blkY+antFs+2+ahoFs;
+    ctx.fillStyle=P.ac;
+    // "AHORA " — semibold, mismo tamaño que ANTES para no pesar doble
+    ctx.font='600 '+antFs+'px "DM Sans",sans-serif';
+    ctx.textAlign='left';
+    const ahoLbl='AHORA ';
+    ctx.fillText(ahoLbl, cx+5, ahoY);
+    // Número — extrabold, ahoFs (el grande)
+    const lblW=ctx.measureText(ahoLbl).width;
+    ctx.font='bold '+ahoFs+'px "DM Sans",sans-serif';
+    ctx.fillText('$'+fmt(po), cx+5+lblW, ahoY);
+
+    // PROMO — verde medio, 70%, semibold
+    // Estructura comercial correcta: mostrar beneficio real, no promedio
+    if(promoLines){
+      ctx.fillStyle='#2e7d32';
+      ctx.textAlign='left';
+      if(is2da){
+        // 2DA 50%: mostrar precio exacto de la 2da unidad
+        // "2da unidad: $1.000" — clarísimo, sin cálculos mentales
+        const precio2da = Math.round(p.price * 0.5); // mitad exacta
+        ctx.font='600 '+proFs+'px "DM Sans",sans-serif';
+        ctx.fillText('2da unidad: $'+fmt(precio2da), cx+5, ahoY+proFs+2);
+
+      } else if(isNxM && ORS[String(p.rel)]){
+        const o=ORS[String(p.rel)];
+        if(o.cantidad===2 && o.pagas===1){
+          // 2x1: "2x1 — pagás 1" — concepto claro
+          ctx.font='600 '+proFs+'px "DM Sans",sans-serif';
+          ctx.fillText('2x1 — llevás 2, pagás 1', cx+5, ahoY+proFs+2);
+        } else if(o.cantidad===3 && o.pagas===2){
+          // 3x2: "3x2 — pagás 2"
+          ctx.font='600 '+proFs+'px "DM Sans",sans-serif';
+          ctx.fillText('3x2 — llevás 3, pagás 2', cx+5, ahoY+proFs+2);
+        } else {
+          // Otros NxM
+          ctx.font='600 '+proFs+'px "DM Sans",sans-serif';
+          ctx.fillText(o.nombre.toUpperCase()+' — pagás '+o.pagas, cx+5, ahoY+proFs+2);
+        }
+      }
+    }
+
+  } else if(is2da || isNxM){
+    // 2DA 50% o NxM: precio grande directo — sin "AHORA" (el precio 1ra unidad no cambió)
+    // El badge ya comunica el tipo de oferta — no necesita etiqueta
+    const ahoY2 = blkY+ahoFs;
+    ctx.fillStyle=P.ac;
+    ctx.font='bold '+ahoFs+'px "DM Sans",sans-serif';
+    ctx.textAlign='left';
+    ctx.fillText('$'+fmt(po), cx+5, ahoY2);
+
+    // Promo line
+    ctx.fillStyle='#2e7d32';
+    ctx.font='600 '+proFs+'px "DM Sans",sans-serif';
+    ctx.textAlign='left';
+    if(is2da){
+      const precio2da=Math.round(p.price*0.5);
+      ctx.fillText('2da unidad: $'+fmt(precio2da), cx+5, ahoY2+proFs+2);
+    } else if(isNxM && ORS[String(p.rel)]){
+      const o=ORS[String(p.rel)];
+      if(o.cantidad===2&&o.pagas===1) ctx.fillText('2x1 — llevás 2, pagás 1', cx+5, ahoY2+proFs+2);
+      else if(o.cantidad===3&&o.pagas===2) ctx.fillText('3x2 — llevás 3, pagás 2', cx+5, ahoY2+proFs+2);
+      else ctx.fillText(o.nombre.toUpperCase()+' — pagás '+o.pagas, cx+5, ahoY2+proFs+2);
+    }
+
+  } else {
+    // Sin descuento — precio centrado
+    ctx.fillStyle=P.ac;
+    ctx.font='bold '+ahoFs+'px "DM Sans",sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('$'+fmt(po), cx+CW/2, blkY+ahoFs);
+  }
+
+  // ── 4. IMAGEN — ajustar encuadre vertical para eliminar espacio vacío ─────
+  // Ya está renderizada arriba — el clip ya cubre toda la zona FH
+  // No hay acción adicional aquí (el fit ya es contain)
+}
+
+// ── FORMATOS ──────────────────────────────────────────────────────────────────
+async function dibujarGrid(prods,pk){
+  const P=PAL[pk],W=600;
+  const COLS=prods.length<=1?1:prods.length<=4?2:3;
+  const ROWS=Math.ceil(prods.length/COLS);
+  const PAD=12,GAP=7;
+  const CW=Math.floor((W-PAD*2-GAP*(COLS-1))/COLS);
+  const soloUno=COLS===1;
+  const FH=soloUno?Math.min(CW,340):(COLS===3?88:COLS===2?106:130); // 1x1: foto grande y con aire, no achatada
+  const CH=FH+64;
+  const H=82+ROWS*CH+(ROWS-1)*GAP+PAD+52;
+  const{cv,ctx}=mkCv(W,H);
+  drawBg(ctx,W,H,pk);
+  const sy=drawHdr(ctx,W,getModoInfo(),P,0,prods);
+  await Promise.all(prods.map((p,i)=>{
+    const col=i%COLS,row=Math.floor(i/COLS);
+    return drawCard(ctx,p,PAD+col*(CW+GAP),sy+row*(CH+GAP),CW,CH,FH,P,pk,soloUno);
+  }));
+  // Publicidad interna Copihue — llena los espacios vacíos de la última fila
+  // en vez de dejarlos en blanco (v5.44). capacidad = COLS*ROWS ya reservado
+  // por el cálculo de H de arriba, así que rellenar acá no cambia el tamaño
+  // de página ni el de las demás tarjetas.
+  if(PUBLICIDAD_FLYER.activa && !soloUno){
+    const capacidad=COLS*ROWS, faltan=capacidad-prods.length;
+    for(let i=prods.length;i<capacidad;i++){
+      const col=i%COLS,row=Math.floor(i/COLS);
+      const pieza=elegirPiezaPublicidad(faltan, i-prods.length);
+      drawCardAd(ctx,PAD+col*(CW+GAP),sy+row*(CH+GAP),CW,CH,FH,P,pieza);
+    }
+  }
+  drawFtr(ctx,W,H,P);return cv;
+}
+
+async function dibujarLista(prods,pk){
+  const P=PAL[pk],W=480;
+  const ROW=72,HDR=76,FTR=50,PAD=10;
+  const H=HDR+prods.length*ROW+PAD+FTR;
+  const{cv,ctx}=mkCv(W,H);
+  drawBg(ctx,W,H,pk);
+  const info=getModoInfo();
+  const _listaSy = drawHdr(ctx,W,info,P,0,prods);
+  const HDR2=_listaSy;
+  await Promise.all(prods.map(async(p,i)=>{
+    const ov=_overrides[p.id],price=ov?ov.price:p.price,po=ov?ov.po:p.po,pct=ov?ov.pct:p.pct,et=ov?ov.et:p.et;
+    const y=HDR2+i*ROW;
+    ctx.fillStyle=i%2===0?'rgba(0,0,0,.02)':'rgba(0,0,0,0)';ctx.fillRect(0,y,W,ROW);
+    ctx.fillStyle=P.ac;ctx.fillRect(0,y,4,ROW);
+    const FOTO=50;
+    const img=await loadImg(p.name);
+    if(img){
+      ctx.save();rr(ctx,8,y+11,FOTO,FOTO,7);ctx.clip();
+      const iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height,sc=Math.min(FOTO/iw,FOTO/ih);
+      ctx.drawImage(img,8+(FOTO-iw*sc)/2,y+11+(FOTO-ih*sc)/2,iw*sc,ih*sc);ctx.restore();
+    } else {
+      ctx.fillStyle=P.card2;rr(ctx,8,y+11,FOTO,FOTO,7);ctx.fill();
+      ctx.font='18px sans-serif';ctx.textAlign='center';ctx.fillText('🛒',8+FOTO/2,y+42);
+    }
+    const _tipoL=getOfertaTipo(p);
+    if((_tipoL==='promos'||_tipoL==='combo') && po<price && _badgeCfg.forma!=='ninguno'){
+      drawOfertaBadge(ctx, {x:8,y:y+11,w:FOTO,h:FOTO}, getBadgeLabel(p), _badgeCfg, '$'+fmt(po));
+    }
+    ctx.fillStyle=P.txt;ctx.textAlign='left';ctx.font='bold 12px "DM Sans",sans-serif';
+    wrap(ctx,p.name,66,y+23,W-160,14,2);
+    ctx.fillStyle=P.ac;ctx.font='bold 18px "DM Sans",sans-serif';ctx.textAlign='right';
+    ctx.fillText('$'+fmt(po),W-PAD-38,y+34);
+    if(po<price){
+      ctx.fillStyle=P.ten;ctx.font='10px "DM Mono",sans-serif';
+      const t='$'+fmt(price),tw=ctx.measureText(t).width;
+      ctx.fillText(t,W-PAD-38,y+50);
+      ctx.strokeStyle=P.ten;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(W-PAD-38-tw,y+47);ctx.lineTo(W-PAD-38,y+47);ctx.stroke();
+    }
+    // v5.63: se sacó el badge de "-X%" acá (el usuario no lo quiere más — con
+    // precios cargados a mano el % calculado no es fiable). Queda solo el
+    // antes tachado (arriba) + el precio ahora, igual que en las tarjetas
+    // grandes.
+    ctx.strokeStyle=P.bdr;ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(10,y+ROW);ctx.lineTo(W-10,y+ROW);ctx.stroke();
+  }));
+  drawFtr(ctx,W,H,P);return cv;
+}
+
+async function dibujarStory(prods,pk){
+  const P=PAL[pk],W=540,H=960;
+  const{cv,ctx}=mkCv(W,H);
+  drawBg(ctx,W,H,pk);
+  const info=getModoInfo();
+  ctx.fillStyle=P.ac;ctx.fillRect(0,0,W,5);
+  ctx.fillStyle=P.ac;ctx.font='bold 14px "DM Sans",sans-serif';ctx.textAlign='center';
+  ctx.fillText(_emp.nombre.toUpperCase(),W/2,36);
+  ctx.strokeStyle=P.ln;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(40,46);ctx.lineTo(W-40,46);ctx.stroke();
+  ctx.fillStyle=P.ac;ctx.font='bold 28px "Syne",sans-serif';ctx.fillText(info.t,W/2,84);
+  ctx.fillStyle=P.sub;ctx.font='13px "DM Sans",sans-serif';ctx.fillText(info.s,W/2,104);
+  const pS=prods.slice(0,4),COLS=pS.length<=2?1:2,ROWS=Math.ceil(pS.length/COLS);
+  const PAD=14,GAP=7,CW=Math.floor((W-PAD*2-GAP*(COLS-1))/COLS);
+  const FH=128,CH=FH+64,sy=118;
+  await Promise.all(pS.map((p,i)=>drawCard(ctx,p,PAD+(i%COLS)*(CW+GAP),sy+Math.floor(i/COLS)*(CH+GAP),CW,CH,FH,P,pk)));
+  if(prods.length>4){ctx.fillStyle=P.sub;ctx.font='bold 12px "DM Sans",sans-serif';ctx.textAlign='center';ctx.fillText(`+ ${prods.length-4} más`,W/2,sy+ROWS*(CH+GAP)+18);}
+  const fy=H-74;
+  ctx.strokeStyle=P.ln;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(40,fy);ctx.lineTo(W-40,fy);ctx.stroke();
+  ctx.fillStyle=P.txt;ctx.font='bold 13px "DM Sans",sans-serif';ctx.textAlign='center';
+  ctx.fillText([_emp.nombre,_emp.direccion].filter(Boolean).join(' · '),W/2,fy+20);
+  ctx.fillStyle=P.sub;ctx.font='11px "DM Sans",sans-serif';ctx.fillText(_emp.web||'',W/2,fy+38);
+  ctx.fillStyle=P.ac;ctx.fillRect(0,H-5,W,5);return cv;
+}
+
+async function dibujarBanner(prods,pk){
+  const P=PAL[pk],maxB=Math.min(prods.length,4),pB=prods.slice(0,maxB);
+  const W=820,H=356;const{cv,ctx}=mkCv(W,H);
+  drawBg(ctx,W,H,pk);
+  const info=getModoInfo();
+  const HDR=46;ctx.fillStyle=P.ac;ctx.fillRect(0,0,W,HDR);
+  ctx.fillStyle='#fff';ctx.font='bold 18px "Syne",sans-serif';ctx.textAlign='center';
+  ctx.fillText(_emp.nombre.toUpperCase()+'  ·  '+info.t.replace(/^[^\s]+\s/,''),W/2,32);
+  const PAD=10,GAP=6,CW=Math.floor((W-PAD*2-GAP*(maxB-1))/maxB);
+  const sy=HDR+PAD,CH=H-HDR-PAD*2-26,FH=Math.min(Math.floor(CH*.54),108);
+  await Promise.all(pB.map((p,i)=>drawCard(ctx,p,PAD+i*(CW+GAP),sy,CW,CH,FH,P,pk)));
+  ctx.fillStyle=P.sub;ctx.font='10px "DM Sans",sans-serif';ctx.textAlign='center';
+  ctx.fillText([_emp.nombre,_emp.direccion,_emp.ciudad,_emp.web].filter(Boolean).join(' · '),W/2,H-8);
+  ctx.fillStyle=P.ac;ctx.fillRect(0,H-4,W,4);return cv;
+}
+
+// ── OFERTA MANUAL para productos fuera de las ofertas automáticas ──────────────
+// Mismo sistema que sendwa.html: escribe en la columna oferta_personalizada de la
+// planilla vía GAS (acciones: ofertaPersonalizada / resetOfertaPersonalizadaTotal).
+const PERSONAL_PCTS=[10,20,30,40,50,60];
+const PCT_OFF=-1;
+let _opProds=[];         // productos elegidos (desde _sel, pool "sin oferta")
+let _opTipo=new Map();   // id → tipo (1-6) o 0 = off
+let _opBulkPct=20;
+
+function abrirOfertaManual(){
+  const prods=_cand.filter(p=>_sel.has(p.id));
+  if(!prods.length){alert('Seleccioná al menos un producto de la lista primero');return;}
+  _opProds=prods;
+  const tipoDefault=PERSONAL_PCTS.indexOf(_opBulkPct)+1;
+  _opTipo=new Map(prods.map(p=>[p.id,tipoDefault]));
+  $('opTexto').value='';
+  renderOpBulkRow();
+  renderOpItems();
+  $('opOv').classList.add('on');
+}
+function renderOpBulkRow(){
+  const row=$('opBulkRow');
+  row.innerHTML = PERSONAL_PCTS.map(pct=>
+    `<button class="pct-btn" data-pct="${pct}" onclick="setOpBulkPct(${pct})">≈${pct}%</button>`
+  ).join('') + `<button class="pct-btn off" data-pct="${PCT_OFF}" onclick="setOpBulkPct(${PCT_OFF})">⛔ off</button>`;
+}
+function setOpBulkPct(pct){
+  _opBulkPct=pct;
+  const tipo = pct===PCT_OFF ? 0 : PERSONAL_PCTS.indexOf(pct)+1;
+  for(const id of _opTipo.keys()) _opTipo.set(id,tipo);
+  renderOpItems();
+}
+function renderOpItems(){
+  const list=$('opList');
+  list.innerHTML=_opProds.map(p=>{
+    const id=p.id, tipo=_opTipo.get(id)||0, isOff=tipo===0;
+    const pills = PERSONAL_PCTS.map((pct,i)=>{
+      const active=(i+1)===tipo;
+      return `<button class="pct-btn${active?' active':''}" data-id="${id}" data-pct="${pct}" onclick="setOpItemPct(${id},${pct})">≈${pct}%</button>`;
+    }).join('') + `<button class="pct-btn off${isOff?' active':''}" data-id="${id}" data-pct="${PCT_OFF}" onclick="setOpItemPct(${id},${PCT_OFF})">⛔ off</button>`;
+    return `<div class="op-item${isOff?' off':''}">
+      <div class="op-item-hdr">
+        <img class="pi-img" src="${imgSrc(p.name)}" loading="lazy" onerror="this.style.opacity='.2'">
+        <div class="pi-nom">${p.name}</div>
+      </div>
+      <div class="pct-row">${pills}</div>
+    </div>`;
+  }).join('');
+  actualizarSubOp();
+}
+function setOpItemPct(id,pct){
+  const tipo = pct===PCT_OFF ? 0 : PERSONAL_PCTS.indexOf(pct)+1;
+  _opTipo.set(Number(id),tipo);
+  renderOpItems();
+}
+function actualizarSubOp(){
+  const total=_opProds.length;
+  const off=[..._opTipo.values()].filter(t=>t===0).length;
+  const activos=total-off;
+  $('opSub').textContent = `📌 ${activos} activo${activos!==1?'s':''} de ${total}`+(off>0?` · ⛔ ${off} en off`:'');
+}
+function cerrarOfertaManual(){ $('opOv').classList.remove('on'); }
+
+function aplicarOfertaManual(){
+  const texto=($('opTexto').value||'').trim();
+  if(!texto){alert('Escribí un texto para la oferta (ej: "Liquidación de invierno")');return;}
+  const items=[..._opTipo.entries()].map(([id,tipo])=>({id,tipo}));
+  const itemsConOferta=items.filter(it=>it.tipo>0);
+  if(!itemsConOferta.length){alert('Todos los productos están en "off" — no hay nada para aplicar');return;}
+
+  if(!confirm(`⚠️ Esto va a escribir en la planilla y va a afectar ${itemsConOferta.length} producto${itemsConOferta.length!==1?'s':''} en vivo.\n\nSolo continuá si sabés lo que estás haciendo.\n\n¿Confirmás?`)) return;
+
+  const btn=$('opBtnOk');
+  btn.disabled=true; btn.textContent='⏳ Guardando...';
+  gasAction('ofertaPersonalizada',{items,texto}).then(res=>{
+    btn.disabled=false; btn.textContent='✓ Aplicar';
+    if(res && res.success){
+      $('opOv').classList.remove('on');
+      alert('🏷️ '+(res.mensaje||'Oferta aplicada correctamente'));
+      // Recargar datos y volver a "Selección manual" para que los productos
+      // recién marcados ya aparezcan disponibles para el flyer
+      recargar().then(()=>{
+        const btnManual=document.querySelector('[data-modo="manual"]');
+        if(btnManual) setModo('manual',btnManual);
+      });
+    } else {
+      alert('❌ '+(res&&res.mensaje?res.mensaje:'No se pudo guardar la oferta'));
+    }
+  }).catch(()=>{
+    btn.disabled=false; btn.textContent='✓ Aplicar';
+    alert('❌ Error de conexión al guardar');
+  });
+}
+
+// Entrada directa para cargar una plantilla ya guardada, sin necesitar productos
+// seleccionados de antemano (a diferencia de abrirOfertaManual) — el archivo
+// mismo trae qué productos y porcentajes usar (v5.56).
+function abrirCargaPlantillaOP(){
+  _opProds=[]; _opTipo=new Map();
+  $('opTexto').value='';
+  renderOpBulkRow();
+  renderOpItems();
+  $('opOv').classList.add('on');
+  $('opCargarFile').click();
+}
+
+function contarOfertasPersonalizadasActivas(){ return (_pools.personalizada||[]).length; }
+
+// ── GUARDAR / CARGAR PLANTILLA DE OFERTA PERSONALIZADA (JSON) ──────────────────
+// Permite armar una campaña con anticipación (ej. Día del Niño) y guardarla como
+// archivo, sin escribir nada en la planilla todavía. Después se carga el mismo
+// archivo el día que corresponda y se aplica con "✓ Aplicar" como siempre (v5.56).
+function guardarPlantillaOP(){
+  if(!_opProds.length){ alert('No hay productos cargados para guardar. Elegí productos y abrí "Oferta manual" primero.'); return; }
+  const items = _opProds.map(p=>{
+    const tipo = _opTipo.get(p.id)||0;
+    const pct = tipo>0 ? PERSONAL_PCTS[tipo-1] : 0; // 0 = off
+    return {id:p.id, name:p.name, pct};
+  });
+  const data = {
+    tipo:'copihue-oferta-personalizada', version:1,
+    texto: ($('opTexto').value||'').trim(),
+    guardado: new Date().toISOString(),
+    items
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const nombreArchivo = (data.texto || 'oferta-personalizada').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'oferta';
+  const a = document.createElement('a');
+  a.href=url; a.download='copihue-oferta-'+nombreArchivo+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 3000);
+}
+
+function cargarPlantillaOP(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    let data;
+    try { data = JSON.parse(e.target.result); }
+    catch(err){ alert('❌ El archivo no es un JSON válido'); return; }
+    if(!data || !Array.isArray(data.items)){ alert('❌ El archivo no tiene el formato esperado (una plantilla de oferta personalizada de Copihue)'); return; }
+
+    // Re-matchear contra la planilla ACTUAL por id — si un producto se borró o
+    // cambió de id desde que se guardó la plantilla, se avisa y se omite en vez
+    // de aplicar algo a ciegas.
+    const encontrados=[], noEncontrados=[];
+    data.items.forEach(it=>{
+      const p = _prods.find(x=>x.id===Number(it.id));
+      if(p) encontrados.push({p, pct:Number(it.pct)||0});
+      else noEncontrados.push(it.name||('id '+it.id));
+    });
+
+    if(!encontrados.length){
+      alert('❌ Ninguno de los productos de esta plantilla existe hoy en la planilla (¿se borraron o cambiaron de id?)');
+      return;
+    }
+
+    _opProds = encontrados.map(x=>x.p);
+    _opTipo = new Map(encontrados.map(x=>{
+      if(x.pct===0) return [x.p.id, 0];
+      let idx = PERSONAL_PCTS.indexOf(x.pct);
+      if(idx===-1){ // % no estándar guardado — usar el preset más cercano
+        let mejor=0, dist=Infinity;
+        PERSONAL_PCTS.forEach((v,i)=>{ const d=Math.abs(v-x.pct); if(d<dist){dist=d;mejor=i;} });
+        idx=mejor;
+      }
+      return [x.p.id, idx+1];
+    }));
+    $('opTexto').value = data.texto||'';
+    renderOpBulkRow();
+    renderOpItems();
+    $('opOv').classList.add('on');
+
+    let msg = `📂 Plantilla cargada: ${encontrados.length} producto${encontrados.length!==1?'s':''} listos para revisar.`;
+    if(noEncontrados.length) msg += `\n\n⚠️ ${noEncontrados.length} no se encontraron hoy en la planilla y se omitieron:\n- `+noEncontrados.slice(0,8).join('\n- ')+(noEncontrados.length>8?'\n...':'');
+    alert(msg);
+  };
+  reader.onerror = ()=>alert('❌ No se pudo leer el archivo');
+  reader.readAsText(file);
+  $('opCargarFile').value=''; // permite volver a elegir el mismo archivo después
+}
+
+// Diagnóstico de Multicompra directo en pantalla (sin necesitar la consola del navegador).
+function diagnosticoMulticompra(){
+  let msg = `📦 Diagnóstico Multicompra\n\n`;
+  msg += `Fuente probada: ${_mcDiag.fuente || '(ninguna todavía)'}\n\n`;
+  if(_mcDiag.ok===null){
+    msg += 'Todavía no se cargó — tocá "↺ Recargar datos" primero.';
+  } else if(_mcDiag.ok===false){
+    msg += `❌ Error:\n${_mcDiag.error}\n\nSi la fuente fue "getMulticompraTodas", revisá que flyer_multicompra.gs esté agregado al proyecto y que el doGet tenga esa línea.`;
+  } else {
+    msg += `Total de filas activas: ${_mcDiag.total}\n`;
+    msg += `Matcheadas con un producto del catálogo: ${_mcDiag.matcheados}\n`;
+    if(_mcDiag.sinMatch.length){
+      msg += `\n⚠️ No se pudieron relacionar con ningún producto (id vacío y el nombre no coincide exacto):\n${_mcDiag.sinMatch.join('\n')}`;
+    } else if(_mcDiag.total>0){
+      msg += `\n✅ Todas matcheadas correctamente.`;
+    } else {
+      msg += `\nNi "getOfertas" ni "getMulticompraTodas" tienen ninguna fila activa (MULTICOMPRA_ACTIVA = "SI") en este momento.`;
+    }
+  }
+  alert(msg);
+}
+
+function confirmarResetPersonalizadas(){
+  const n=contarOfertasPersonalizadasActivas();
+  if(n>0){
+    if(!confirm(`🧹 Hay ${n} producto${n!==1?'s':''} con oferta personalizada activa en la planilla.\n\nAl resetear se borran TODAS — incluyendo campañas viejas fuera de pantalla.\n\n¿Resetear igual?`)) return;
+  } else {
+    if(!confirm('No hay ofertas personalizadas activas.\n¿Resetear igual para asegurarte de que la columna esté limpia?')) return;
+  }
+  _ejecutarResetPersonalizadas();
+}
+function _ejecutarResetPersonalizadas(){
+  gasAction('resetOfertaPersonalizadaTotal',{}).then(res=>{
+    if(res && res.success){
+      alert('✅ '+(res.mensaje||'Reseteado correctamente'));
+      recargar();
+    } else {
+      alert('❌ '+(res&&res.mensaje?res.mensaje:'No se pudo resetear'));
+    }
+  }).catch(()=>alert('❌ Error de conexión al resetear'));
+}
+
+// Botón de emergencia — resetea TODA la columna "oferta_simple" (col. AK) de la
+// planilla, no solo lo seleccionado en este flyer. Mismo endpoint que ya usa
+// sendwa.html (resetOfertaSimpleTotal). Pensado para el caso de "metí un precio
+// mal y necesito arreglarlo YA desde el celular" (v5.58).
+function confirmarResetOfertaSimple(){
+  if(!confirm('🧹 ¿Resetear TODA la Oferta Simple de la planilla?\n\nEsto borra el precio "Hoy" de TODOS los productos, estén o no en este flyer. No se puede deshacer.')) return;
+  gasAction('resetOfertaSimpleTotal',{}).then(res=>{
+    if(res && res.success){
+      alert('✅ '+(res.mensaje||'Oferta Simple reseteada en toda la planilla'));
+      recargar();
+    } else {
+      alert('❌ '+(res&&res.mensaje?res.mensaje:'No se pudo resetear'));
+    }
+  }).catch(()=>alert('❌ Error de conexión al resetear'));
+}
+
+// ── ÚLTIMO FILTRO (revisión antes de generar) ──────────────────────────────────
+function abrirRevision(){
+  if(_modo===null){ alert('⚠️ Primero elegí qué querés usar para el flyer (Relámpago, Destacadas, Selección manual, etc.) ahí arriba.'); return; }
+  // En "cotización rápida" lo elegido puede venir de varias búsquedas distintas —
+  // hay que buscarlo en el pool completo, no solo en lo que el buscador muestra ahora.
+  const prods=fuenteActual().filter(p=>_sel.has(p.id));
+  if(!prods.length){alert('Seleccioná al menos un producto');return;}
+  _revSel = new Set(prods.map(p=>p.id));
+  _revProds = prods;
+  renderRevision(prods);
+  $('revOv').classList.add('on');
+}
+function renderRevision(prods){
+  const lista=$('revList');
+  lista.innerHTML = prods.map(p=>{
+    const s=_revSel.has(p.id);
+    return `<div class="rev-item${s?'':' off'}" onclick="toggleRevision(${p.id},this)">
+      <img class="pi-img" src="${imgSrc(p.name)}" loading="lazy" onerror="this.style.opacity='.2'">
+      <div class="pi-info"><div class="pi-nom">${p.name}</div></div>
+      <div class="pi-chk" style="${s?'border-color:var(--p);background:var(--p);color:#fff':''}">${s?'✓':''}</div>
+    </div>`;
+  }).join('');
+  actualizarSubRevision();
+}
+function toggleRevision(id,el){
+  id=Number(id);
+  if(_revSel.has(id)) _revSel.delete(id); else _revSel.add(id);
+  el.classList.toggle('off');
+  const s=_revSel.has(id), chk=el.querySelector('.pi-chk');
+  chk.textContent=s?'✓':'';
+  chk.style.cssText=s?'border-color:var(--p);background:var(--p);color:#fff':'';
+  actualizarSubRevision();
+}
+// Fuente completa de productos según el modo activo — en "cotización rápida" hay que
+// buscar en TODO el pool, no solo en lo que el buscador muestra en este momento.
+function fuenteActual(){
+  return _modo==='cotizacion' ? (_pools.cotizacion||[]) : _cand;
+}
+
+function actualizarSubRevision(){
+  const n=_revSel.size, tam=tamGrilla(), paginas=n?Math.ceil(n/tam):0;
+  $('revSub').textContent = n
+    ? `${n} producto${n!==1?'s':''} seleccionado${n!==1?'s':''} → ${paginas} página${paginas!==1?'s':''} de ${tam}`
+    : 'No queda ningún producto seleccionado';
+  $('revBtnOk').disabled = n===0;
+
+  // Sugerencia: si el total no es múltiplo del tamaño de grilla elegido, la última
+  // página queda incompleta — ofrecer sacar el sobrante para dejarlas todas completas.
+  const cont=$('revHuecos');
+  const prodsRev=fuenteActual().filter(p=>_revSel.has(p.id));
+  const {sobran}=calcularHuecosGrid(prodsRev);
+  if(sobran>0){
+    cont.innerHTML = `Sobran ${sobran} producto${sobran!==1?'s':''} para completar la grilla. `+
+      `<a href="javascript:void(0)" onclick="ajustarHuecosGrid()" style="color:#a02020;font-weight:800;text-decoration:underline;">`+
+      `Volver a la lista y sacarlos</a>`;
+    cont.style.display='block';
+  } else {
+    cont.style.display='none';
+  }
+}
+
+// Si el total elegido no es múltiplo del tamaño de grilla (2x2/3x3/3x4), sobra un
+// resto que dejaría la última página incompleta. Devuelve cuántos sobran y cuáles son
+// (los últimos de la lista) para poder sacarlos y que todas las páginas queden completas.
+function calcularHuecosGrid(prods){
+  if((($('cfgFormato')||{}).value)!=='grid' || !prods.length) return {sobran:0, sobrantesIds:[]};
+  const tam=tamGrilla(), total=prods.length, sobran=total%tam;
+  if(sobran===0 || total<=tam) return {sobran:0, sobrantesIds:[]};
+  return {sobran, sobrantesIds:prods.slice(total-sobran).map(p=>p.id)};
+}
+
+function ajustarHuecosGrid(){
+  const prodsRev=fuenteActual().filter(p=>_revSel.has(p.id));
+  const {sobrantesIds}=calcularHuecosGrid(prodsRev);
+  sobrantesIds.forEach(id=>_revSel.delete(id));
+  renderRevision(_revProds);
+}
+function cerrarRevision(){ $('revOv').classList.remove('on'); }
+function confirmarRevision(){
+  const prods=fuenteActual().filter(p=>_revSel.has(p.id));
+  if(!prods.length){alert('Seleccioná al menos un producto');return;}
+  $('revOv').classList.remove('on');
+  generarFlyer(prods);
+}
+
+// ── GENERAR (con paginado automático cada 9 productos) ─────────────────────────
+async function generarFlyer(prodsIn){
+  const prods = prodsIn || _cand.filter(p=>_sel.has(p.id));
+  if(!prods.length){alert('Seleccioná al menos un producto');return;}
+  const pk=$('cfgFondo').value, fmt=$('cfgFormato').value;
+  leerBadgeCfg();
+  ld(true,'Generando flyer (cargando imágenes)...');
+  try{
+    const fns={lista:dibujarLista,story:dibujarStory,banner:dibujarBanner};
+    const fn=fns[fmt]||dibujarGrid;
+    const bloques=calcularPaginas(prods);
+
+    _cvPaginas=[];
+    for(let i=0;i<bloques.length;i++){
+      const cv=await fn(bloques[i],pk);
+      if(bloques.length>1) dibujarBadgePagina(cv,i+1,bloques.length);
+      _cvPaginas.push(cv);
+    }
+    mostrarPagina(0);
+    $('ph').style.display='none';
+    $('botonesAcc').style.display='flex';
+    $('pagNav').style.display=_cvPaginas.length>1?'flex':'none';
+    $('btnDlAll').style.display=_cvPaginas.length>1?'flex':'none';
+  }catch(e){alert('❌ Error al generar: '+e.message);console.error(e);}
+  ld(false);
+}
+
+function dibujarBadgePagina(cv,n,total){
+  const ctx=cv.getContext('2d'); // misma instancia que ya tiene el scale(SCALE_OUT) aplicado
+  const W=cv.width/SCALE_OUT; // ancho lógico
+  const txt=`Página ${n}/${total}`;
+  ctx.save();
+  ctx.font='bold 12px "DM Sans",sans-serif';
+  ctx.textAlign='center';
+  const tw=ctx.measureText(txt).width, padX=8, w=tw+padX*2, h=20, x=W-w-10, y=10;
+  ctx.fillStyle='rgba(23,37,23,.72)';
+  ctx.beginPath();ctx.roundRect(x,y,w,h,6);ctx.fill();
+  ctx.fillStyle='#fff';
+  ctx.fillText(txt,x+w/2,y+14);
+  ctx.restore();
+}
+
+function mostrarPagina(idx){
+  if(!_cvPaginas.length) return;
+  _pagActual=Math.max(0,Math.min(idx,_cvPaginas.length-1));
+  _cvFin=_cvPaginas[_pagActual];
+  const c=$('cv');
+  const visW=Math.round(_cvFin.width/SCALE_OUT/2); // 50% del tamaño lógico
+  const visH=Math.round(_cvFin.height/SCALE_OUT/2);
+  c.width=_cvFin.width; c.height=_cvFin.height;
+  c.style.width=visW+'px'; c.style.height=visH+'px';
+  c.getContext('2d').drawImage(_cvFin,0,0);
+  c.style.display='block';
+  const lbl=$('pagLbl');
+  if(lbl) lbl.textContent=`Página ${_pagActual+1} / ${_cvPaginas.length}`;
+  const pv=$('pagPrev'), nx=$('pagNext');
+  if(pv) pv.disabled = _pagActual===0;
+  if(nx) nx.disabled = _pagActual===_cvPaginas.length-1;
+}
+function pagAnterior(){ mostrarPagina(_pagActual-1); }
+function pagSiguiente(){ mostrarPagina(_pagActual+1); }
+
+async function descargarTodas(){
+  if(!_cvPaginas.length) return;
+  for(let i=0;i<_cvPaginas.length;i++){
+    await new Promise(res=>{
+      _cvPaginas[i].toBlob(blob=>{
+        if(!blob){res();return;}
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=url;
+        a.download='copihue-flyer-'+_modo+'-pag'+(i+1)+'de'+_cvPaginas.length+'-'+Date.now()+'.jpg';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(url),3000);
+        setTimeout(res,350);
+      },'image/jpeg',.93);
+    });
+  }
+}
+
+// ── EXPORTAR ───────────────────────────────────────────────────────────────────
+function descargar(){
+  if(!_cvFin){alert('Generá el flyer primero');return;}
+  // toBlob + createObjectURL funciona en móvil; toDataURL puede fallar en canvas grandes
+  _cvFin.toBlob(blob=>{
+    if(!blob){alert('No se pudo generar el archivo');return;}
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    const sufPag=_cvPaginas.length>1?'-pag'+(_pagActual+1)+'de'+_cvPaginas.length:'';
+    a.download='copihue-flyer-'+_modo+sufPag+'-'+Date.now()+'.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),3000);
+  },'image/jpeg',.93);
+}
+
+async function compartirWA(){
+  if(!_cvFin){alert('Generá el flyer primero');return;}
+
+  // Si hay varias páginas, preguntar cuáles enviar en vez de mandar solo
+  // la que se está mirando en pantalla (v5.49).
+  let canvasAEnviar=[_cvFin];
+  if(_cvPaginas.length>1){
+    const todas=confirm(
+      `Este flyer tiene ${_cvPaginas.length} páginas.\n\n`+
+      `Aceptar = enviar las ${_cvPaginas.length} páginas\n`+
+      `Cancelar = enviar solo la página ${_pagActual+1} (la que estás viendo)`
+    );
+    if(todas) canvasAEnviar=_cvPaginas;
+  }
+
+  ld(true,'Preparando imagen'+(canvasAEnviar.length>1?'es...':'...'));
+  try{
+    const blobs=await Promise.all(canvasAEnviar.map(cv=>new Promise((res,rej)=>
+      cv.toBlob(b=>b?res(b):rej(new Error('toBlob falló')),'image/jpeg',.93))));
+    ld(false);
+    const files=blobs.map((b,i)=>new File([b],
+      canvasAEnviar.length>1?`copihue-flyer-pag${i+1}de${canvasAEnviar.length}.jpg`:'copihue-flyer.jpg',
+      {type:'image/jpeg'}));
+
+    // Web Share API (Android Chrome, Safari iOS 15+) — soporta múltiples archivos
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files})){
+      await navigator.share({
+        files,
+        title:'Flyer '+_emp.nombre,
+        text:'🏷️ ¡Ofertas en '+_emp.nombre+'!\n'+(_emp.web?'🛒 '+_emp.web:'')
+      });
+      return;
+    }
+
+    // Fallback: descargar todas + abrir WhatsApp web (el usuario las pega a mano)
+    for(let i=0;i<blobs.length;i++){
+      const url=URL.createObjectURL(blobs[i]);
+      const a=document.createElement('a');
+      a.href=url; a.download=files[i].name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),3000);
+      await new Promise(r=>setTimeout(r,300));
+    }
+    // Abrir WhatsApp para que peguen la(s) imagen(es) manualmente
+    const waUrl=_emp.telefono
+      ?'https://wa.me/'+_emp.telefono
+      :'https://web.whatsapp.com/';
+    setTimeout(()=>window.open(waUrl,'_blank'),800);
+  }catch(e){
+    ld(false);
+    // Si compartir fue cancelado por el usuario no es error real
+    if(e.name!=='AbortError') alert('No se pudo compartir: '+e.message);
+  }
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
+$('cfgMax').addEventListener('change',()=>{ if(_prods.length>0) poblarCandidatos(); });
+$('cfgFormato').addEventListener('change',()=>{ /* solo afecta al generar */ });
+// Mostrar versión
+const _vEl=document.getElementById('badgeVer');
+if(_vEl)_vEl.textContent=APP_VERSION;
+const _tEl=document.getElementById('pageTitle');
+if(_tEl)_tEl.textContent='🖼️ Flyer · Copihue '+APP_VERSION;
+recargar();
+</script>
+</body>
+</html>
