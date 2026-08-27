@@ -8,6 +8,7 @@ import { Leaderboard } from '@/components/leaderboard'
 import { RecordModal } from '@/components/record-modal'
 import { TimerBar } from '@/components/timer-bar'
 import {
+  APP_VERSION,
   CORRECT_BONUS_MS,
   FAST_ANSWER_MS,
   FIRE_STREAK,
@@ -23,7 +24,7 @@ import {
  * de bonificación se haya acumulado. Sin esto, alguien muy rápido y preciso
  * puede sumar más tiempo del que gasta y la partida nunca termina sola.
  */
-const MAX_SESSION_MS = 2 * 60 * 1000
+const MAX_SESSION_MS = 60 * 1000
 import {
   calcularPuntaje,
   formatearDetalle,
@@ -212,6 +213,10 @@ export function ReflexMultiply() {
       className="relative flex min-h-dvh flex-col items-center justify-center px-5 py-10"
       onPointerDown={() => status === 'playing' && focusInput()}
     >
+      <span className="pointer-events-none fixed right-3 top-2 z-30 font-mono text-[0.65rem] tracking-wider text-muted-foreground/40">
+        {APP_VERSION}
+      </span>
+
       <div className="relative z-20 w-full max-w-md">
         {status === 'over' ? (
           <>

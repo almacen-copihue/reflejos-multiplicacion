@@ -21,6 +21,8 @@ export const FAST_ANSWER_MS = 1_500
 export const FIRE_STREAK = 3
 /** Bajo este tiempo restante el reloj entra en zona critica. */
 export const CRITICAL_TIME_MS = 5_000
+/** Versión visible del juego, se incrementa en cada cambio entregado. */
+export const APP_VERSION = 'v1.1'
 
 function rand(min: number, max: number) {
   return min + Math.floor(Math.random() * (max - min + 1))
