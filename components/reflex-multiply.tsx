@@ -158,7 +158,7 @@ export function ReflexMultiply() {
       }
 
       showNext()
-      focusInput()
+      inputRef.current?.focus()
     },
     [applyDelta, fastStreak, fire, focusInput, problem.answer, showNext],
   )
@@ -306,7 +306,13 @@ export function ReflexMultiply() {
                 />
               </div>
 
-              <div className="flex h-6 items-center justify-center" aria-live="polite">
+              <div className="flex h-6 items-center justify-center gap-2" aria-live="polite">
+                {delta && delta.ms < 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="inline-block h-2 w-2 shrink-0 rounded-full bg-destructive"
+                  />
+                )}
                 {delta && (
                   <span
                     key={delta.id}
