@@ -22,7 +22,7 @@ export const FIRE_STREAK = 3
 /** Bajo este tiempo restante el reloj entra en zona critica. */
 export const CRITICAL_TIME_MS = 5_000
 /** Versión visible del juego, se incrementa en cada cambio entregado. */
-export const APP_VERSION = 'v1.1'
+export const APP_VERSION = 'v1.2'
 
 function rand(min: number, max: number) {
   return min + Math.floor(Math.random() * (max - min + 1))
@@ -32,6 +32,29 @@ function createProblem(): Problem {
   const a = rand(2, 12)
   const b = rand(2, 12)
   return { a, b, answer: a * b }
+}
+
+/** Cantidad de dígitos de la respuesta (12x12=144 tiene 3, 2x2=4 tiene 1). */
+export function answerDigits(problem: Problem): number {
+  return String(problem.answer).length
+}
+
+/**
+ * Bonus de tiempo por acierto, con extra cuando la respuesta es de 3 cifras
+ * (ej 12x12=144): pensar y tipear un dígito más lleva más tiempo real, así
+ * que el premio también debería ser mayor.
+ */
+export function bonusForProblem(problem: Problem): number {
+  return answerDigits(problem) >= 3 ? CORRECT_BONUS_MS + 1_000 : CORRECT_BONUS_MS
+}
+
+/**
+ * Umbral de "respuesta rapida" ajustado: con 3 cifras se necesita un dígito
+ * extra para tipear, así que el umbral se relaja para no perder rachas de
+ * Modo Fuego injustamente.
+ */
+export function fastThresholdForProblem(problem: Problem): number {
+  return answerDigits(problem) >= 3 ? FAST_ANSWER_MS + 600 : FAST_ANSWER_MS
 }
 
 /** Genera una multiplicacion evitando repetir el mismo par que la anterior. */

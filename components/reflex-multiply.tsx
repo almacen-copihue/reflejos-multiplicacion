@@ -9,13 +9,13 @@ import { RecordModal } from '@/components/record-modal'
 import { TimerBar } from '@/components/timer-bar'
 import {
   APP_VERSION,
-  CORRECT_BONUS_MS,
-  FAST_ANSWER_MS,
   FIRE_STREAK,
   type Problem,
   START_TIME_MS,
   WRONG_PENALTY_MS,
   accuracyPercent,
+  bonusForProblem,
+  fastThresholdForProblem,
   generateProblem,
 } from '@/lib/game'
 
@@ -50,7 +50,7 @@ export function ReflexMultiply() {
   const [fastStreak, setFastStreak] = useState(0)
   const [fire, setFire] = useState(false)
   const [fireCount, setFireCount] = useState(0)
-  const [delta, setDelta] = useState<{ ms: number; id: number } | null>(null)
+  const [delta, setDelta] = useState<{ ms: number; id: number; fire: boolean } | null>(null)
 
   const [records, setRecords] = useState<GameRecord[]>([])
   const [showRecordModal, setShowRecordModal] = useState(false)
@@ -118,10 +118,10 @@ export function ReflexMultiply() {
     return () => cancelAnimationFrame(frame)
   }, [status])
 
-  const applyDelta = useCallback((ms: number) => {
+  const applyDelta = useCallback((ms: number, fire: boolean) => {
     clock.current = Math.max(0, Math.min(START_TIME_MS * 3, clock.current + ms))
     setRemaining(clock.current)
-    setDelta({ ms, id: Date.now() })
+    setDelta({ ms, id: Date.now(), fire })
   }, [])
 
   const submit = useCallback(
@@ -137,9 +137,10 @@ export function ReflexMultiply() {
         setSolved((s) => s + 1)
 
         const wasFire = fire
-        applyDelta(wasFire ? CORRECT_BONUS_MS * 2 : CORRECT_BONUS_MS)
+        const bonus = bonusForProblem(problem)
+        applyDelta(wasFire ? bonus * 2 : bonus, wasFire)
 
-        if (elapsed < FAST_ANSWER_MS) {
+        if (elapsed < fastThresholdForProblem(problem)) {
           const next = fastStreak + 1
           setFastStreak(next)
           if (!wasFire && next >= FIRE_STREAK) {
@@ -152,7 +153,7 @@ export function ReflexMultiply() {
         }
       } else {
         registrarError(problem.a, problem.b, problem.answer, raw)
-        applyDelta(-WRONG_PENALTY_MS)
+        applyDelta(-WRONG_PENALTY_MS, false)
         setFastStreak(0)
         setFire(false)
       }
@@ -323,7 +324,7 @@ export function ReflexMultiply() {
                   >
                     {delta.ms > 0 ? '+' : '−'}
                     {Math.abs(delta.ms / 1000).toFixed(0)}s
-                    {delta.ms > CORRECT_BONUS_MS ? ' · fuego' : ''}
+                    {delta.fire ? ' · fuego' : ''}
                   </span>
                 )}
               </div>
